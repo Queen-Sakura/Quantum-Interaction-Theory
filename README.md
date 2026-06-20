@@ -21,4 +21,6 @@ SHA-256: `32d43221ade671dba2dddcf9516b90999ef4c17f9afcafb73404aebd0c1750c4`
 
 ## License
 
+Version: 2026-06-20 (snapshot)
+
 CC BY 4.0
