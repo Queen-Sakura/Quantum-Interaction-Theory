@@ -108,6 +108,16 @@ MathJax = {
     background: linear-gradient(to top, rgba(139,105,20,0.02) 0%, transparent 100%);
   }
   .finale .char { font-size: 5em; color: var(--head); font-weight: 300; }
+  .finale .ring {
+    position:relative; display:inline-block;
+    width:340px; height:340px; margin:0 auto;
+  }
+  .finale .ring::before {
+    content:''; position:absolute; top:10%; left:10%; right:10%; bottom:10%;
+    border-radius:50%; border:1px solid rgba(139,105,20,0.12);
+    box-shadow: 0 0 80px rgba(139,105,20,0.04), inset 0 0 80px rgba(139,105,20,0.02);
+  }
+  @media (max-width:400px) { .finale .ring { width:260px; height:260px; } }
   .finale p { margin: 6px 0; color: var(--muted); font-size: 0.9em; }
   footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.82em; border-top: 1px solid var(--border); opacity: 0.5; }
   @media (max-width: 640px) {
@@ -523,7 +533,21 @@ MathJax = {
 </div>
 
 <div class="finale">
-  <div class="char">光</div>
+  <div class="ring">
+    <span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:3em;color:var(--head);font-weight:300;z-index:2;">光</span>
+    <span style="position:absolute;top:10%;left:50%;transform:translate(-50%,-50%);font-size:1.1em;color:#6b5e3e;opacity:0.7;">φως</span>
+    <span style="position:absolute;top:25%;right:8%;font-size:1em;color:#2d6b5e;opacity:0.65;">свет</span>
+    <span style="position:absolute;top:45%;right:2%;font-size:1.05em;color:#3a5a7a;opacity:0.6;">Licht</span>
+    <span style="position:absolute;top:70%;right:8%;font-size:0.95em;color:#5a4a6a;opacity:0.65;">lumière</span>
+    <span style="position:absolute;top:82%;left:50%;transform:translate(-50%,-50%);font-size:1em;color:#8b5a3e;opacity:0.7;">luce</span>
+    <span style="position:absolute;top:70%;left:8%;font-size:1.05em;color:#6b5e3e;opacity:0.6;">luz</span>
+    <span style="position:absolute;top:45%;left:2%;font-size:0.95em;color:#2d6b5e;opacity:0.65;">light</span>
+    <span style="position:absolute;top:25%;left:8%;font-size:1em;color:#3a5a7a;opacity:0.6;">אור</span>
+    <span style="position:absolute;top:16%;left:25%;font-size:0.9em;color:#5a4a6a;opacity:0.55;">نور</span>
+    <span style="position:absolute;top:16%;right:25%;font-size:0.9em;color:#8b5a3e;opacity:0.55;">ヒカリ</span>
+    <span style="position:absolute;top:82%;left:25%;font-size:0.85em;color:#6b5e3e;opacity:0.5;">ljus</span>
+    <span style="position:absolute;top:82%;right:25%;font-size:0.85em;color:#3a5a7a;opacity:0.5;">světlo</span>
+  </div>
   <p>一个方程 · 一张膜 · 一切粒子</p>
 </div>
 
