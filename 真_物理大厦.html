@@ -128,10 +128,10 @@ MathJax = {
 <body>
 
 <nav class="toc">
-  <a href="#toc">目录</a> <a href="#s0">0.总论</a> <a href="#s1">1.膜</a> <a href="#s2">2.量子化</a> <a href="#s3">3.概率</a>
-  <a href="#s4">4.芝诺</a> <a href="#s5">5.同步</a> <a href="#s6">6.相对论</a>
-  <a href="#s7">7.Q耦合</a> <a href="#s8">8.ε₀</a> <a href="#s9">9.粒子</a>
-  <a href="#s10">10.翻译</a> <a href="#s11">11.总结</a>
+  <a href="#toc">目录</a> <a href="#s0">0</a> <a href="#s1">1</a> <a href="#s2">2</a> <a href="#s3">3</a>
+  <a href="#s3b">4</a> <a href="#s4">5</a> <a href="#s5">6</a> <a href="#s6">7</a>
+  <a href="#s7">8</a> <a href="#s8">9</a> <a href="#s9">10</a>
+  <a href="#s10">11</a> <a href="#s11">12</a>
 </nav>
 
 <div class="hero">
@@ -208,7 +208,8 @@ MathJax = {
     <tr><td style="border:none;padding:5px 0;"><a href="#s0" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#6b5e3e;margin-right:10px;vertical-align:middle;"></span>总论 · 物理学需要一次彻底的审计</a></td></tr>
     <tr><td style="border:none;padding:5px 0;"><a href="#s1" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#2d6b5e;margin-right:10px;vertical-align:middle;"></span>为什么存在真空零点能？真空为什么不是空的？</a></td></tr>
     <tr><td style="border:none;padding:5px 0;"><a href="#s2" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#2d6b5e;margin-right:10px;vertical-align:middle;"></span>为什么能量是一份一份的？光电效应到底发生了什么？</a></td></tr>
-    <tr><td style="border:none;padding:5px 0;"><a href="#s3" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#2d6b5e;margin-right:10px;vertical-align:middle;"></span>量子力学的概率从何而来？|ψ|² 到底是什么？</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s3" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#2d6b5e;margin-right:10px;vertical-align:middle;"></span>一个东西怎么能同时处于两个状态？薛定谔的猫到底死没死？</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s3b" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#2d6b5e;margin-right:10px;vertical-align:middle;"></span>量子力学的概率从何而来？|ψ|² 到底是什么？</a></td></tr>
     <tr><td style="border:none;padding:5px 0;"><a href="#s4" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#3a5a7a;margin-right:10px;vertical-align:middle;"></span>量子世界和经典世界那条线画在哪？</a></td></tr>
     <tr><td style="border:none;padding:5px 0;"><a href="#s5" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#3a5a7a;margin-right:10px;vertical-align:middle;"></span>纠缠为什么超距？两个粒子不通信怎么知道对方被测量了？</a></td></tr>
     <tr><td style="border:none;padding:5px 0;"><a href="#s6" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#5a4a6a;margin-right:10px;vertical-align:middle;"></span>时空到底是什么？为什么光速不变？为什么不能超光速？</a></td></tr>
@@ -265,9 +266,33 @@ MathJax = {
   </div>
 </section>
 
-<!-- 3. PROBABILITY -->
+<!-- 3. SUPERPOSITION -->
 <section id="s3" class="s-s1">
-  <h2>3. 量子力学的概率从何而来？|ψ|² 到底是什么？</h2>
+  <h2>3. 一个东西怎么能同时处于两个状态？薛定谔的猫到底死没死？</h2>
+
+  <p>标准量子力学：量子态 = 本征态的线性叠加。一个电子可以同时处于自旋↑和自旋↓。观测时"坍缩"到其中一个。至于观测前它到底是什么——哥本哈根解释：不准问。</p>
+
+  <p>膜框架——叠加态不是玄学。是<strong>能量守恒 + 有限边界条件下的必然。</strong></p>
+
+  <p>膜上有限边界 → 本征模分立：L = nλ/2。一张膜上有无穷多个本征模同时在线。一个电子涡旋是膜上的一组相邻旋量本征模叠加成的干涉峰。电子不是"选择"某个自旋——它的涡旋在没有外部磁场时天然在两个自旋方向上都振：</p>
+
+  <div class="eq">$$|\psi\rangle = \alpha|\!\uparrow\rangle + \beta|\!\downarrow\rangle,\quad |\alpha|^2 + |\beta|^2 = 1$$</div>
+
+  <p><strong>不是"它不知道选哪个"。是"在没有磁场打破对称性时，两个方向是一样的——没有理由只振一个。"</strong></p>
+
+  <p>和光的偏振完全同构：一束自然光——电场在所有方向上同时振动。不是因为光子"不知道选哪个偏振方向"——是因为<strong>没有偏振片来打破对称性</strong>——所以全部方向都在振。你把偏振片架上去 → 只让一个方向的光通过 → 光"坍缩"到那个方向。电子+磁场同理：Stern-Gerlach 磁铁打破对称 → 涡旋被拉到 ↑ 或 ↓。</p>
+
+  <div class="box">
+    <strong>结论：</strong> 叠加态 ≠ 神秘。叠加态 = 膜上本征模在没有外部对称性破坏时的自然相干共存。观测 = 引入不对称的耦合接口 → 打破了共存 → 只提取了一个态。猫不会"同时死和活"——猫有 ~10²⁷ 个原子和环境完全耦合（Q→−1）→ 叠加态全部锁死。薛定谔的猫在物理上从来不在叠加态——它是经典物体——Q 已经到 −1 了。
+  </div>
+  <div class="box-img">
+    <strong>物理图像：</strong> 一根吉他弦——弹一下——不是只有一个频率在振。基频、二次谐波、三次谐波……<strong>所有本征模同时在线。</strong>你听不出哪个"单独在振"——因为它们全都叠加在一起。量子叠加同理——一个电子涡旋在同一张膜上天然同时携带所有允许的本征模。不是"它选了所有可能性"——是<strong>膜的振动就是全模同时在振。</strong>
+  </div>
+</section>
+
+<!-- 3b. PROBABILITY -->
+<section id="s3b" class="s-s1">
+  <h2>4. 量子力学的概率从何而来？|ψ|² 到底是什么？</h2>
 
   <p>玻恩规则（1926）：|ψ|² 是概率密度。玻恩将此设为公设——未推导。</p>
 
@@ -287,7 +312,7 @@ MathJax = {
 
 <!-- 4. ZENO -->
 <section id="s4" class="s-s2">
-  <h2>4. 量子世界和经典世界之间那条线画在哪？为什么桌子不叠加，电子却叠加？</h2>
+  <h2>5. 量子世界和经典世界之间那条线画在哪？为什么桌子不叠加，电子却叠加？</h2>
 
   <p>量子系统与宏观系统的分界——标准量子力学以"观测"模糊带过。膜框架给出连续标度：</p>
 
@@ -331,7 +356,7 @@ MathJax = {
 
 <!-- 5. SYNCHRONICITY -->
 <section id="s5" class="s-s2">
-  <h2>5. 纠缠为什么超距？两个粒子不通信怎么知道对方被测量了？</h2>
+  <h2>6. 纠缠为什么超距？两个粒子不通信怎么知道对方被测量了？</h2>
 
   <p>EPR 佯谬（1935）：两个粒子纠缠——测 A 得 ↑ → B 必 ↓。贝尔不等式实验（Aspect 1982）排除局域隐变量。量子力学标准解释：非局域关联——无经典机制。</p>
 
@@ -353,7 +378,7 @@ MathJax = {
 
 <!-- 6. RELATIVITY -->
 <section id="s6" class="s-s3">
-  <h2>6. 时空到底是什么？为什么光速不变？为什么不能超光速？</h2>
+  <h2>7. 时空到底是什么？为什么光速不变？为什么不能超光速？</h2>
 
   <p>爱因斯坦广义相对论：引力 = 时空弯曲。场方程精确。但"时空弯曲"是物理实体的陈述还是数学坐标系的描述——未区分。</p>
 
@@ -380,7 +405,7 @@ MathJax = {
 
 <!-- 7. Q -->
 <section id="s7" class="s-s3">
-  <h2>7. 物理世界为什么不需要"观察者"？观测到底改变了什么？</h2>
+  <h2>8. 物理世界为什么不需要"观察者"？观测到底改变了什么？</h2>
 
   <p>膜上两个节点的本征模之间发生互投影 → 一次 Q 耦合事件。Q 耦合 = 膜上所有事件的本体论基础。观测只是 Q 耦合的一个子类。</p>
 
@@ -406,7 +431,7 @@ MathJax = {
 
 <!-- 8. ε₀ -->
 <section id="s8" class="s-s4">
-  <h2>8. 真空的介电常数和磁导率从哪来？为什么是这个值？</h2>
+  <h2>9. 真空的介电常数和磁导率从哪来？为什么是这个值？</h2>
 
   <p>经典电磁学：真空介电常数 ε₀ ≈ 8.854×10⁻¹² F/m，真空磁导率 μ₀ = 4π×10⁻⁷ H/m。视为自由空间固有属性。为何是此值——无第一性解释。</p>
 
@@ -427,7 +452,7 @@ MathJax = {
 
 <!-- 9. PARTICLES -->
 <section id="s9" class="s-s1">
-  <h2>9. 电子到底是什么？为什么所有粒子看起来像"基本"的——它们真的是基本粒子吗？</h2>
+  <h2>10. 电子到底是什么？粒子真的是基本粒子吗？</h2>
 
   <p>麦克斯韦方程在膜上的一般形式：</p>
   <div class="eq">$$\partial_\mu F^{\mu\nu} = Q(\varepsilon) \cdot \varepsilon^{\mu\nu\rho\sigma} \partial_\rho F_{\sigma\nu}$$</div>
@@ -481,7 +506,7 @@ MathJax = {
 
 <!-- 10. TRANSLATION -->
 <section id="s10" class="s-s0">
-  <h2>10. 旧物理术语的翻译、废弃与保留。</h2>
+  <h2>11. 旧物理术语的翻译、废弃与保留</h2>
 
   <table>
     <tr><th>旧术语</th><th>处置</th><th>膜框架的重解释</th></tr>
@@ -509,7 +534,7 @@ MathJax = {
 
 <!-- 11. SUMMARY -->
 <section id="s11" class="s-s4">
-  <h2>11. 总结 · 物理学回家了。</h2>
+  <h2>12. 总结 · 物理学回家了</h2>
 
   <p>两朵乌云下了一个世纪的暴雨。暴雨中，物理学失去了物理直觉——被数学接管——被不准问封口——被弦论和多重宇宙带进了玄学的荒野。</p>
 
