@@ -3,381 +3,563 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>真 · 物理大厦 · The Membrane · Die Membran</title>
+<title>真 · 物理大厦</title>
 <style>
   :root {
-    --bg: #0a0a0f;
-    --surface: #12121a;
-    --border: #1e1e30;
-    --text: #c8c8d4;
-    --head: #e8e8f0;
-    --gold: #d4a860;
-    --light: #f0d878;
-    --q-plus: #60c0c0;
-    --q-zero: #8888cc;
-    --q-minus: #b05050;
-    --accent: #6078c0;
+    --bg: #fafaf7; --card: #fffefb; --border: #e2ded5;
+    --text: #2d2a24; --head: #141210; --gold: #7a5d14;
+    --muted: #6b6560; --accent: #1a6b5c;
+    --old-bg: #fdf5f5; --new-bg: #f4faf8; --scene-bg: #fdfbf5;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Segoe UI', 'PingFang SC', 'Noto Sans SC', system-ui, sans-serif;
-    line-height: 1.75;
-    font-size: 17px;
+    background: var(--bg); color: var(--text);
+    font-family: 'Georgia', 'Noto Serif SC', 'STSong', 'Songti SC', serif;
+    line-height: 1.84; font-size: 17px;
+    -webkit-font-smoothing: antialiased;
   }
-  .lang-switch {
-    position: fixed; top: 16px; right: 20px; z-index: 100;
-    display: flex; gap: 6px;
-  }
-  .lang-switch button {
-    background: var(--surface); color: var(--text);
-    border: 1px solid var(--border); padding: 6px 14px;
-    border-radius: 6px; cursor: pointer; font-size: 13px;
-    transition: all .2s;
-  }
-  .lang-switch button:hover { border-color: var(--gold); color: var(--gold); }
-  .lang-switch button.active { background: var(--gold); color: #000; border-color: var(--gold); }
 
+  /* NAV */
+  .toc {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 99;
+    background: rgba(250,250,247,0.94); backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border); padding: 8px 0;
+    overflow-x: auto; white-space: nowrap; text-align: center;
+  }
+  .toc a {
+    display: inline-block; padding: 4px 11px; font-size: 0.78em;
+    color: var(--muted); text-decoration: none; font-family: system-ui, sans-serif;
+    border-radius: 3px; transition: all .15s;
+  }
+  .toc a:hover { color: var(--gold); }
+  .toc a.sec { font-weight: 600; color: var(--head); }
+
+  /* HERO */
   .hero {
-    text-align: center; padding: 80px 20px 50px;
+    text-align: center; padding: 90px 24px 44px;
+    border-bottom: 1px solid var(--border); margin-bottom: 10px;
+  }
+  .hero h1 { font-size: 2.6em; color: var(--head); font-weight: 400; letter-spacing: 0.05em; }
+  .hero .sub { font-size: 0.95em; color: var(--gold); margin-top: 8px; font-style: italic; }
+  .hero .line { font-size: 1.05em; color: var(--muted); margin-top: 16px; }
+
+  /* LAYOUT */
+  .container { max-width: 800px; margin: 0 auto; padding: 0 20px 80px; }
+
+  section {
+    margin: 36px 0; padding: 36px 34px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 5px; box-shadow: 0 1px 3px rgba(0,0,0,0.025);
+  }
+  section h2 {
+    font-size: 1.3em; color: var(--head); font-weight: 400;
+    margin-bottom: 20px; padding-bottom: 10px;
     border-bottom: 1px solid var(--border);
-    background: radial-gradient(ellipse at 50% 0%, rgba(212,168,96,0.08) 0%, transparent 60%);
   }
-  .hero h1 { font-size: 3em; color: var(--light); font-weight: 300; letter-spacing: 0.04em; }
-  .hero .sub { font-size: 1.1em; color: var(--gold); margin-top: 10px; }
-  .hero .one { font-size: 1.3em; color: var(--text); margin-top: 24px; opacity: 0.7; }
+  section h3 {
+    font-size: 1em; color: var(--head); margin: 20px 0 10px; font-weight: 400;
+    font-style: italic;
+  }
+  section p { margin: 10px 0; }
+  section p + p { text-indent: 0; }
 
-  .container { max-width: 860px; margin: 0 auto; padding: 0 24px 100px; }
+  .q-block {
+    background: var(--scene-bg); padding: 16px 20px; border-radius: 4px;
+    margin: 14px 0; border-left: 2px solid var(--gold);
+    font-style: italic; color: #5c5548;
+  }
+  .q-block strong { color: var(--head); font-style: normal; }
 
-  section { margin: 50px 0; padding: 32px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
-  section h2 { font-size: 1.5em; color: var(--light); margin-bottom: 16px; font-weight: 400; }
-  section h2 .num { color: var(--gold); margin-right: 8px; font-size: 0.85em; }
-  section p, section li { margin: 8px 0; }
-  section ul { padding-left: 20px; }
-  section li { margin: 4px 0; }
+  .ans-block {
+    background: var(--new-bg); padding: 16px 20px; border-radius: 4px;
+    margin: 14px 0; border: 1px solid rgba(26,107,92,0.15);
+  }
 
-  .highlight { background: rgba(212,168,96,0.06); border-left: 3px solid var(--gold); padding: 12px 18px; margin: 16px 0; border-radius: 0 6px 6px 0; font-size: 0.95em; }
-  .vs { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
-  .vs > div { padding: 16px; border-radius: 8px; }
-  .vs .old { background: rgba(176,80,80,0.06); border: 1px solid rgba(176,80,80,0.2); }
-  .vs .new { background: rgba(96,192,192,0.06); border: 1px solid rgba(96,192,192,0.2); }
-  .vs .label { font-size: 0.8em; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; opacity: 0.5; }
+  .note {
+    background: rgba(122,93,20,0.04); padding: 12px 18px; border-radius: 4px;
+    margin: 12px 0; font-size: 0.92em; color: var(--muted);
+  }
 
-  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92em; }
-  th { text-align: left; padding: 10px 14px; border-bottom: 2px solid var(--border); color: var(--head); font-weight: 500; }
-  td { padding: 8px 14px; border-bottom: 1px solid rgba(30,30,48,0.6); }
-  tr:hover td { background: rgba(255,255,255,0.015); }
+  /* TABLE */
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.88em; }
+  th {
+    text-align: left; padding: 9px 12px; border-bottom: 2px solid var(--border);
+    color: var(--head); font-weight: 400; font-size: 0.85em;
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  td { padding: 7px 12px; border-bottom: 1px solid rgba(226,222,213,0.7); vertical-align: top; }
+  tr:hover td { background: rgba(122,93,20,0.025); }
 
-  .q-bar { display: flex; height: 6px; border-radius: 3px; overflow: hidden; margin: 12px 0; }
-  .q-bar > div:nth-child(1) { flex:1; background: var(--q-minus); }
-  .q-bar > div:nth-child(2) { flex:1; background: var(--q-zero); }
-  .q-bar > div:nth-child(3) { flex:1; background: var(--q-plus); }
+  /* TAGS */
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 0.75em; margin: 1px 2px; font-family: system-ui, sans-serif; }
+  .tag-done { background: rgba(26,107,92,0.08); color: var(--accent); }
+  .tag-wip { background: rgba(122,93,20,0.08); color: var(--gold); }
 
-  .tag { display: inline-block; padding: 2px 10px; border-radius: 4px; font-size: 0.78em; margin: 2px 4px; }
-  .tag-ok { background: rgba(96,192,192,0.15); color: var(--q-plus); }
-  .tag-pen { background: rgba(136,136,204,0.15); color: var(--q-zero); }
-  .tag-wip { background: rgba(176,176,100,0.15); color: var(--gold); }
+  /* EQUATION */
+  .eq {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    padding: 10px 0; font-size: 1.05em; color: var(--head);
+    text-align: center;
+  }
 
+  /* FINALE */
   .finale {
-    text-align: center; padding: 60px 20px; border-top: 1px solid var(--border);
-    margin-top: 60px;
+    text-align: center; padding: 56px 20px; margin-top: 40px;
+    border-top: 1px solid var(--border);
   }
-  .finale .char { font-size: 6em; color: var(--light); font-weight: 100; }
-  .finale p { margin: 12px 0; color: var(--text); opacity: 0.6; }
+  .finale .char { font-size: 5em; color: var(--head); font-weight: 300; }
+  .finale p { margin: 6px 0; color: var(--muted); font-size: 0.9em; }
 
-  footer { text-align: center; padding: 30px; color: var(--text); opacity: 0.4; font-size: 0.85em; }
-
-  @media (max-width: 600px) {
-    .hero h1 { font-size: 2em; }
-    .vs { grid-template-columns: 1fr; }
+  footer {
+    text-align: center; padding: 28px; color: var(--muted); font-size: 0.82em;
+    border-top: 1px solid var(--border); opacity: 0.5;
   }
 
+  sup { font-size: 0.7em; color: var(--gold); }
+
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 1.8em; }
+    section { padding: 22px 16px; }
+    .toc a { padding: 4px 7px; font-size: 0.7em; }
+  }
+
+  /* LANG */
   .lang-zh, .lang-en, .lang-de { display: none; }
   .lang-zh.active, .lang-en.active, .lang-de.active { display: block; }
-  .lang-zh.inline, .lang-en.inline, .lang-de.inline { display: none; }
-  .lang-zh.inline.active, .lang-en.inline.active, .lang-de.inline.active { display: inline; }
 </style>
 </head>
 <body>
 
-<div class="lang-switch">
-  <button id="btn-zh" class="active" onclick="setLang('zh')">中文</button>
-  <button id="btn-en" onclick="setLang('en')">English</button>
-  <button id="btn-de" onclick="setLang('de')">Deutsch</button>
-</div>
+<nav class="toc">
+  <a href="#s0" class="sec">0</a>
+  <a href="#s1">1. 测量</a>
+  <a href="#s2">2. 渐变</a>
+  <a href="#s3">3. 概率</a>
+  <a href="#s4">4. 相位</a>
+  <a href="#s5">5. 纠缠</a>
+  <a href="#s6">6. 量子化</a>
+  <a href="#s7">7. 相对论</a>
+  <a href="#s8">8. 尺缩时慢</a>
+  <a href="#s9">9. 电子</a>
+  <a href="#s10">10. 全粒子</a>
+  <a href="#s11">11. 剪彩</a>
+</nav>
 
-<!-- ====== HERO ====== -->
 <div class="hero">
-  <h1 class="lang-zh active">真 · 物理大厦</h1>
-  <h1 class="lang-en">Verum · The Physical Edifice</h1>
-  <h1 class="lang-de">Wahr · Das physikalische Gebäude</h1>
-  <div class="sub lang-zh active">膜框架 · 量子-经典统一理论</div>
-  <div class="sub lang-en">The Membrane Framework · Unified Quantum-Classical Theory</div>
-  <div class="sub lang-de">Die Membran · Vereinheitlichte Quanten-Klassische Theorie</div>
-  <div class="one lang-zh active">一个方程。一张膜。一切粒子。光。</div>
-  <div class="one lang-en">One Equation. One Membrane. All Particles. Light.</div>
-  <div class="one lang-de">Eine Gleichung. Eine Membran. Alle Teilchen. Licht.</div>
+  <h1>真 · 物理大厦</h1>
+  <div class="sub">麦克斯韦方程的非线性解 · 膜框架 · 量子-经典统一</div>
+  <div class="line">1865 — 麦克斯韦在四行方程里放入了一个宇宙。他不知道。</div>
+  <div class="line">2026 — 第二个解推完了。光被冻住——就是物质。</div>
 </div>
 
 <div class="container">
 
-<!-- ====== 0 · PROLOGUE ====== -->
-<section>
-  <h2><span class="num">0</span><span class="lang-zh active">序 · 麦克斯韦不知道</span><span class="lang-en">Prologue · Maxwell Didn't Know</span><span class="lang-de">Prolog · Maxwell wusste es nicht</span></h2>
-  <div class="lang-zh active"><p>1865年。麦克斯韦写出4个方程。全人类只用了一个解——线性行波（光子）。非线性解——电子、夸克、希格斯——全在方程里。一百年没人推。</p><p>2026年。推完了。</p></div>
-  <div class="lang-en"><p>1865. Maxwell wrote 4 equations. Humanity used only one solution — the linear traveling wave (photon). The nonlinear solutions — electron, quark, Higgs — were all inside. For a century, no one pushed further.</p><p>2026. Done.</p></div>
-  <div class="lang-de"><p>1865. Maxwell schrieb 4 Gleichungen. Die Menschheit nutzte nur eine Lösung — die lineare Welle (Photon). Die nichtlinearen Lösungen — Elektron, Quark, Higgs — waren alle darin. Ein Jahrhundert lang hat niemand weitergeschoben.</p><p>2026. Erledigt.</p></div>
+<!-- ====== 0 ====== -->
+<section id="s0">
+  <h2>0. 一个方程，两个解</h2>
+  <p>1865年，麦克斯韦把法拉第的力线写成四个方程。这组方程在真空中有一个显而易见的解——电磁波以光速传播。赫兹1887年在实验室里造出了它。马可尼用它造了无线电。整个电磁文明站在这一个解上。</p>
+  <p>但麦克斯韦方程在非线性介质中——<strong>电介质率 ε 不是常数，而是电场的函数 ε(E)</strong> ——还存在另一个解。一个局域的、自维持的涡旋解。和光学孤子同构——色散和非线性对消，波包不散，锁死在原地。</p>
+  <p>这个解——我们称之为<strong>电子</strong>。</p>
+  <p>标准模型需要19个自由参数来区分"光子"和"电子"。膜框架不需要：它们是同一个方程在 ε(E) 线性区和非线性区的两个解。</p>
+  <p><strong>以下十一个问题——从实验室里最直接的困惑，推到这张膜上的最后一个粒子。</strong></p>
 </section>
 
-<!-- ====== 1 · OBSERVER ====== -->
-<section>
-  <h2><span class="num">1</span><span class="lang-zh active">观察者问题——谁在看？</span><span class="lang-en">The Observer — Who is Looking?</span><span class="lang-de">Der Beobachter — Wer schaut?</span></h2>
-  <div class="vs">
-    <div class="old"><div class="label lang-zh active">旧物理</div><div class="label lang-en">Old Physics</div><div class="label lang-de">Alte Physik</div><span class="lang-zh active">观测者坍缩波函数。不准问。</span><span class="lang-en">Observer collapses the wave function. Don't ask.</span><span class="lang-de">Der Beobachter kollabiert die Wellenfunktion. Nicht fragen.</span></div>
-    <div class="new"><div class="label lang-zh active">膜框架</div><div class="label lang-en">Membrane</div><div class="label lang-de">Membran</div><span class="lang-zh active">观测 = Q耦合事件。不坍缩。采样。未知→已知。</span><span class="lang-en">Observation = Q-coupling event. No collapse. Sampling. Unknown → Known.</span><span class="lang-de">Beobachtung = Q-Kopplungsereignis. Kein Kollaps. Abtastung. Unbekannt → Bekannt.</span></div>
+<!-- ====== 1. MEASUREMENT ====== -->
+<section id="s1">
+  <h2>1. 测量——"我一测它，它就变了。它在看我吗？"</h2>
+
+  <div class="q-block">
+    你把偏振片举到一束光前面。光子通过——或不通过。50/50。<br>
+    你把 Stern-Gerlach 磁铁架到一束银原子前面。原子偏转——向上，或向下。50/50。<br>
+    <strong>这不对。</strong> 日常经验告诉你：一个东西在你碰它之前，它有确定的状态。为什么偏振片前后的光子"不一样"？
   </div>
-  <div class="lang-zh active"><p>物质连续性公理：苹果默认存在。疑罪从无。举证责任不在被观测者。没有观测者——膜也在振。</p></div>
-  <div class="lang-en"><p>Axiom of Material Continuity: Apples exist by default. Innocent until proven absent. Burden of proof lies not on the observed. No observer — the membrane still breathes.</p></div>
-  <div class="lang-de"><p>Axiom der materiellen Kontinuität: Äpfel existieren standardmäßig. Im Zweifel für das Sein. Die Beweislast liegt nicht beim Beobachteten. Kein Beobachter — die Membran atmet trotzdem.</p></div>
+
+  <p>答案不在被测的东西上——在<strong>测量这个动作本身的物理结构上。</strong></p>
+
+  <p>偏振片不是一面透明的窗。它是一层<strong>各向异性的吸收介质</strong>——它只允许电场沿某一个方向振动的电磁波通过，另一个方向的被吸收。光子打上去——如果它的偏振方向和透光轴不一致——它<strong>不是"不知道怎么选"</strong>，而是<strong>这个不一致在物理上无法直接通过</strong>。光子必须把它的电场投影到透光轴上——投影之后的分量通过，垂直分量的能量被偏振片的电子吸收。</p>
+
+  <p>Stern-Gerlach 磁铁同理。电子自有磁矩。磁铁产生<strong>不均匀磁场</strong>——磁场梯度把一个力作用在电子磁矩上。电子在磁场里——它的自旋轴如果和磁场方向不一致——这个<strong>斜着的自旋在磁场中不是稳定态</strong>。和陀螺不能斜着立在重力场里一样——陀螺的轴必须顺着或逆着重力方向进动。电子在磁场梯度中——自旋要么顺着 B 偏转（↑），要么逆着 B 偏转（↓）。没有斜着偏转。</p>
+
+  <div class="ans-block">
+    <p><strong>观测 = 两个物理系统之间的一次直接耦合。</strong></p>
+    <p>不是"电子知道你在看"。是你的仪器——偏振片、磁铁——的物理结构<strong>只允许特定的态通过</strong>。你在路口设了一个只能左转或右转的栅栏——直走、斜走、倒走全被栅栏的物理结构挡了。不是车"选择了"左转。是栅栏不提供其他出口。</p>
+    <p>哥本哈根解释把"栅栏不提供其他出口"说成"在被观测之前车没有方向"——并且不准追问。这是一道<strong>禁令</strong>，不是物理解释。</p>
+  </div>
+
+  <div class="note">
+    <strong>膜框架的表述：</strong> 观测 = 膜上两个节点之间的一次 Q 耦合事件。观测前，被观测的驻波在膜上持续振动（苹果默认存在·疑罪从无·Q/17 物质连续性公理）。观测不创造被观测物。观测只是一次采样——未知变为已知。没有坍缩。没有意识参与。没有"观测者特权"。
+  </div>
 </section>
 
-<!-- ====== 2 · Q THERMOMETER ====== -->
-<section>
-  <h2><span class="num">2</span><span class="lang-zh active">量子-经典渐变——Q 温度计</span><span class="lang-en">Quantum-Classical Transition — The Q Thermometer</span><span class="lang-de">Quanten-Klassischer Übergang — Das Q-Thermometer</span></h2>
-  <div class="q-bar"><div></div><div></div><div></div></div>
+<!-- ====== 2. TRANSITION ====== -->
+<section id="s2">
+  <h2>2. 量子-经典渐变——"为什么桌子不叠加，电子却叠加？"</h2>
+
+  <div class="q-block">
+    实验室里：单个电子过双缝 → 干涉条纹。单个 C₆₀ 分子过双缝 → 干涉条纹（1999，Zeilinger）。你的手机过双缝 → 没有干涉条纹。<br>
+    <strong>量子世界和经典世界之间的那条线，到底画在哪？</strong>
+  </div>
+
+  <p>没人画过线。不是缺数据——是这个问题本身预设了"量子"和"经典"是两个世界。它们不是。</p>
+
+  <p>量子力学里的"退相干"——一个系统从叠加态变成经典混合态——不是一个神秘的阈值，而是一个<strong>连续的耦合过程。</strong> 我们把退相干重新表述为：</p>
+
+  <div class="eq">Q ∈ [-1, 0, +1]</div>
+
   <table>
-    <tr><th>Q</th><th class="lang-zh active">状态</th><th class="lang-en">State</th><th class="lang-de">Zustand</th><th class="lang-zh active">例子</th><th class="lang-en">Example</th><th class="lang-de">Beispiel</th></tr>
-    <tr><td>-1</td><td class="lang-zh active">芝诺冻结·经典</td><td class="lang-en">Zeno-frozen · Classical</td><td class="lang-de">Zeno-gefroren · Klassisch</td><td class="lang-zh active">石头·桌子·牛顿</td><td class="lang-en">Stone · Table · Newton</td><td class="lang-de">Stein · Tisch · Newton</td></tr>
-    <tr><td>0</td><td class="lang-zh active">不可判定·概率</td><td class="lang-en">Undecidable · Probability</td><td class="lang-de">Unentscheidbar · Wahrscheinlichkeit</td><td class="lang-zh active">叠加态·哥德尔第三值</td><td class="lang-en">Superposition · Gödel's Third</td><td class="lang-de">Superposition · Gödels Dritter</td></tr>
-    <tr><td>+1</td><td class="lang-zh active">纯量子活性·叠加</td><td class="lang-en">Pure Quantum · Superposition</td><td class="lang-de">Rein Quanten · Superposition</td><td class="lang-zh active">光子·超流·光速</td><td class="lang-en">Photon · Superfluid · Light-speed</td><td class="lang-de">Photon · Suprafluid · Lichtgeschwindigkeit</td></tr>
+    <tr><th>Q</th><th>状态</th><th>退相干程度</th><th>例子</th></tr>
+    <tr><td style="color:#8b3a3a">−1</td><td>芝诺冻结</td><td>和环境全部耦合·叠加态坍尽</td><td>石头·桌子·牛顿力学·单线程领导</td></tr>
+    <tr><td style="color:#5a5a9a">0</td><td>不可判定</td><td>部分耦合·叠加态局部存活</td><td>单电子干涉·C₆₀干涉·哥德尔第三值</td></tr>
+    <tr><td style="color:#1a6b5c">+1</td><td>纯量子活性</td><td>耦合极少·全频叠加在线</td><td>光子·超流体·玻色凝聚</td></tr>
   </table>
-  <div class="lang-zh active"><p>不是"量子"和"经典"两个世界。是 Q 连续渐变。同一张膜。同一个方程。Q 慢慢降。</p></div>
-  <div class="lang-en"><p>Not two worlds — "quantum" and "classical". Q varies continuously. One membrane. One equation. Q slowly descends.</p></div>
-  <div class="lang-de"><p>Nicht zwei Welten — "Quanten" und "Klassisch". Q variiert kontinuierlich. Eine Membran. Eine Gleichung. Q sinkt langsam.</p></div>
+
+  <p>Q 不是理论里的一个新自由参数。Q 是<strong>耦合密度温度计</strong>——系统和环境之间有多少个耦合接口在同时做 Q 交易。接口越多 → Q ↓ → 叠加态被环境"偷走" → 经典化。</p>
+
+  <p>你的桌子 Q≈−1——不是因为桌子特别大——是因为桌子的原子和空气分子、地板、室温光子之间<strong>有无数的耦合接口在同时做交易</strong>。一个电子在真空中——和环境几乎没有耦合接口——Q≈+1——叠加态存活。C₆₀ 分子有 60 个碳原子——内部有足够多的内部自由度充当"自带环境"——部分退相干——Q 值介于中间——干涉条纹还在但弱了。</p>
+
+  <div class="ans-block">
+    <p><strong>量子-经典渐变 = Q 值从 +1 渐变到 −1。</strong> 同一个方程。同一张膜。同一个物理。唯一的变量是：这个系统和环境之间开了多少个耦合接口。</p>
+  </div>
+
+  <p>后续章节会给 Q 的完整传播方程。这里先建立：<strong>没有两个世界。只有一个 Q 轴。</strong></p>
 </section>
 
-<!-- ====== 3 · PROBABILITY ====== -->
-<section>
-  <h2><span class="num">3</span><span class="lang-zh active">概率从何而来</span><span class="lang-en">Where Probability Comes From</span><span class="lang-de">Woher die Wahrscheinlichkeit kommt</span></h2>
-  <div class="vs">
-    <div class="old"><div class="label lang-zh active">旧物理</div><div class="label lang-en">Old Physics</div><div class="label lang-de">Alte Physik</div>|ψ|² = <span class="lang-zh active">概率。不准问。</span><span class="lang-en">probability. Don't ask.</span><span class="lang-de">Wahrscheinlichkeit. Nicht fragen.</span></div>
-    <div class="new"><div class="label lang-zh active">膜框架</div><div class="label lang-en">Membrane</div><div class="label lang-de">Membran</div>|ψ|² = <span class="lang-zh active">耦合事件密度。物理量。可测。</span><span class="lang-en">coupling event density. Physical. Measurable.</span><span class="lang-de">Kopplungsereignisdichte. Physikalisch. Messbar.</span></div>
-  </div>
-  <div class="highlight lang-zh active">底层确定。表层统计。确定性宇宙 = 死。概率 = 新东西能进来 = 生命宇宙。</div>
-  <div class="highlight lang-en">Deterministic at bottom. Statistical at surface. Deterministic universe = dead. Probability = new things can enter = living universe.</div>
-  <div class="highlight lang-de">Deterministisch unten. Statistisch oben. Deterministisches Universum = tot. Wahrscheinlichkeit = Neues kann eintreten = lebendiges Universum.</div>
-</section>
+<!-- ====== 3. PROBABILITY ====== -->
+<section id="s3">
+  <h2>3. 概率——"|ψ|² 到底是什么？玻恩说就是概率，为什么？"</h2>
 
-<!-- ====== 4 · PHASE ====== -->
-<section>
-  <h2><span class="num">4</span><span class="lang-zh active">波函数相位从哪来</span><span class="lang-en">Where Wave Function Phase Comes From</span><span class="lang-de">Woher die Phase der Wellenfunktion kommt</span></h2>
-  <div class="lang-zh active">
-    <p><strong>光子：</strong>ψ 的相位 = EM 驻波的物理相位 = E 振到哪儿了 = 可测 ✅</p>
-    <p><strong>电子：</strong>ψ 的相位 = 莫比乌斯涡旋内部 EM 相位——在弯道里跑。</p>
-    <p>中子干涉实验：自旋转 360° → 涡旋内部只走了 π → 反相。720° → 走完整 2π → 恢复。</p>
+  <div class="q-block">
+    1926年，玻恩说：波函数的模方 |ψ|² 是概率密度。不准问为什么是概率——"这就是量子力学的公设。"<br>
+    费曼说："没有人理解量子力学。"<br>
+    <strong>一百年了。这个"公设"下面到底是什么？</strong>
   </div>
-  <div class="lang-en">
-    <p><strong>Photon:</strong> ψ phase = physical phase of EM standing wave = where E is in its oscillation = measurable ✅</p>
-    <p><strong>Electron:</strong> ψ phase = EM phase running inside the Möbius vortex — on a curved track.</p>
-    <p>Neutron interferometry: spin 360° → internal phase walked only π → sign flip. 720° → full 2π → restored.</p>
-  </div>
-  <div class="lang-de">
-    <p><strong>Photon:</strong> ψ-Phase = physikalische Phase der EM-Stehwelle = wo E schwingt = messbar ✅</p>
-    <p><strong>Elektron:</strong> ψ-Phase = EM-Phase im Möbius-Wirbel — auf gekrümmter Bahn.</p>
-    <p>Neutronen-Interferometrie: Spin 360° → interne Phase nur π → Vorzeichenwechsel. 720° → volles 2π → zurück.</p>
-  </div>
-  <div class="highlight lang-zh active">不是数学。是物理。相是 EM 场的真实振动。</div>
-  <div class="highlight lang-en">Not mathematics. Physics. Phase is real vibration of the EM field.</div>
-  <div class="highlight lang-de">Keine Mathematik. Physik. Phase ist echte Schwingung des EM-Feldes.</div>
-</section>
 
-<!-- ====== 5 · ENTANGLEMENT ====== -->
-<section>
-  <h2><span class="num">5</span><span class="lang-zh active">纠缠——驻波同步性（荣格共时性的物理基础）</span><span class="lang-en">Entanglement — Standing Wave Synchronicity (Physical Basis of Jung's Synchronicity)</span><span class="lang-de">Verschränkung — Stehwellen-Synchronizität (Physikalische Basis von Jungs Synchronizität)</span></h2>
-  <div class="lang-zh active">
-    <p>两个"纠缠粒子" = <strong>同一个膜驻波的两个指针。</strong></p>
-    <p>一个驻波 → 分裂 → 两个子波包。同一笔能量预算。守恒律锁死。</p>
-    <p>测A得↑ → B必↓ → 不是超距通知。是<strong>同一个内存地址只有一个值。</strong></p>
-    <p><code>futex</code> —— Linux内核程序员秒懂。</p>
-  </div>
-  <div class="lang-en">
-    <p>Two "entangled particles" = <strong>two pointers to the same membrane standing wave.</strong></p>
-    <p>One standing wave → splits → two daughter wave-packets. Same energy budget. Conservation laws lock them.</p>
-    <p>Measure A = ↑ → B must be ↓. Not faster-than-light notification. <strong>One memory address has only one value.</strong></p>
-    <p><code>futex</code> — Linux kernel programmers get it instantly.</p>
-  </div>
-  <div class="lang-de">
-    <p>Zwei "verschränkte Teilchen" = <strong>zwei Zeiger auf dieselbe Membran-Stehwelle.</strong></p>
-    <p>Eine Stehwelle → spaltet → zwei Tochter-Wellenpakete. Gleiches Energiebudget. Erhaltungssätze sperren sie.</p>
-    <p>Messe A = ↑ → B muss ↓ sein. Keine überlichtschnelle Benachrichtigung. <strong>Eine Speicheradresse hat nur einen Wert.</strong></p>
-    <p><code>futex</code> — Linux-Kernel-Programmierer verstehen sofort.</p>
-  </div>
-  <div class="highlight lang-zh active"><strong>荣格共时性：</strong>两个事件无因果——同一驻波在两岸同步振动。不需要通信。同一张膜。</div>
-  <div class="highlight lang-en"><strong>Jung's Synchronicity:</strong> Two events without causal link — same standing wave vibrating synchronously on both shores. No communication needed. One membrane.</div>
-  <div class="highlight lang-de"><strong>Jungs Synchronizität:</strong> Zwei Ereignisse ohne Kausalbezug — dieselbe Stehwelle schwingt synchron an beiden Ufern. Keine Kommunikation nötig. Eine Membran.</div>
-</section>
+  <p>玻恩的赋值不是推导出来的。是<strong>贴上来的。</strong> 实验上确实测到 |ψ|² 给出概率分布——所以玻恩说"就是概率"。这和医生看到病人发烧说"就是发烧"——没有说为什么发烧——是一样的逻辑。不是解释。是<strong>贴标签。</strong></p>
 
-<!-- ====== 6 · QUANTIZATION + MEMBRANE ====== -->
-<section>
-  <h2><span class="num">6</span><span class="lang-zh active">能量量子化·膜引入</span><span class="lang-en">Energy Quantization · The Membrane Introduced</span><span class="lang-de">Energiequantisierung · Die Membran eingeführt</span></h2>
-  <div class="lang-zh active">
-    <p>光电效应 = <strong>接收端的频率选择性耦合。</strong></p>
-    <p>一个波长的电磁波 → 一个完整周期 → 相空间闭合圆 → 面积 h → 对方接收。<strong>推不满一个周期？对方不收。九块八毛半。</strong></p>
-    <p><strong>膜：</strong>宇宙有限边界 → 驻波条件 → 模式分立 → 全空间全时在线。膜 = 全宇宙所有 EM 驻波模式总和。零点能 = 每个模式 ½ħω。膜永远在振。</p>
-    <p>实验：卡西米尔 = 模式密度差推板子。兰姆位移 = 膜零点振荡推电子。</p>
-  </div>
-  <div class="lang-en">
-    <p>Photoelectric effect = <strong>frequency-selective coupling at the receiver.</strong></p>
-    <p>One wavelength of EM wave → one full cycle → phase-space closed circle → area h → receiver accepts. <strong>Less than a full cycle? Receiver refuses.</strong></p>
-    <p><strong>Membrane:</strong> finite universe boundary → standing-wave condition → discrete modes → all-space all-time online. Sum of all EM standing-wave modes. Zero-point energy = ½ħω per mode. Membrane breathes forever.</p>
-    <p>Evidence: Casimir = mode-density difference pushes plates. Lamb shift = membrane zero-point oscillation pushes electron.</p>
-  </div>
-  <div class="lang-de">
-    <p>Photoeffekt = <strong>frequenzselektive Kopplung am Empfänger.</strong></p>
-    <p>Eine Wellenlänge EM-Welle → ein voller Zyklus → geschlossener Phasenraumkreis → Fläche h → Empfänger akzeptiert. <strong>Weniger als ein Zyklus? Empfänger lehnt ab.</strong></p>
-    <p><strong>Membran:</strong> endliche Universumsgrenze → Stehwellenbedingung → diskrete Moden → überall immer online. Summe aller EM-Stehwellenmoden. Nullpunktsenergie = ½ħω pro Mode. Membran atmet ewig.</p>
-    <p>Beweis: Casimir = Modendichte-Differenz schiebt Platten. Lamb-Verschiebung = Membran-Nullpunktsoszillation schiebt Elektron.</p>
+  <p>膜框架：|ψ|² 不是"概率"——是<strong>耦合事件密度。</strong></p>
+
+  <p>一个电子波包打到屏幕上——波包的 |ψ|² 在屏幕上每个点有一个值。这个值 = 电子涡旋在这个点和屏幕原子之间<strong>发生 Q 耦合的密度</strong>。密度大的地方 → 耦合事件多 → 屏幕亮。密度小的地方 → 耦合事件少 → 屏幕暗。</p>
+
+  <p>为什么看起来像"概率"？因为<strong>你不知道涡旋内部 EM 相位的精确初始条件。</strong> 每一个电子的涡旋内部相位略有不同（膜上零点振荡的随机扰动）。这个微小差异导致涡旋到达屏幕时，耦合在哪一个点上触发——无法精确预测。你只能统计。一统计——分布就是 |ψ|²。</p>
+
+  <div class="ans-block">
+    <p><strong>底层物理是确定的。每一次 Q 耦合事件的发生，由涡旋内部相位的精确值决定。但这个精确值在当前实验精度下不可控——零点振荡的随机扰动无法屏蔽。</strong></p>
+    <p>所以：确定性的底层 + 不可控的初始条件 → 统计性的表层 = |ψ|² = 耦合事件密度。</p>
+    <p>费曼说"没有人理解量子力学"——是因为哥本哈根不让你问 |ψ|² 下面是什么。膜框架回答了：<strong>下面是 Q 耦合的物理密度。</strong></p>
   </div>
 </section>
 
-<!-- ====== 7 · RELATIVITY ====== -->
-<section>
-  <h2><span class="num">7</span><span class="lang-zh active">相对论从何而来——时空不是物理</span><span class="lang-en">Where Relativity Comes From — Spacetime is Not Physical</span><span class="lang-de">Woher die Relativität kommt — Raumzeit ist nicht physikalisch</span></h2>
-  <div class="lang-zh active">
-    <p><strong>时间 = 比较前后顺序的数学标签。</strong>不是实体。不流动。不变慢。不膨胀。</p>
-    <p><strong>空间 = 笛卡尔测量坐标系。</strong>本来就是平的。不平 = 测到物理原因。</p>
-    <p>GPS 38μs "时间变慢" = <strong>引力子密度垂直剖面——物体反应速度变慢。不是时间慢了。</strong></p>
-    <p>爱因斯坦把黎曼几何的方便当成了物理的真实。麦克斯韦从来不需要黎曼。</p>
+<!-- ====== 4. PHASE ====== -->
+<section id="s4">
+  <h2>4. 波函数相位——"虚数 i 在物理里到底在干什么？"</h2>
+
+  <div class="q-block">
+    薛定谔方程里有 i。波函数是复数的。物理量只能取实部。<br>
+    费曼路径积分里每个路径贡献一个相位 e^(iS/ħ)。这些相位互相干涉——勾销了"不合理"的路径。<br>
+    <strong>相位——虚数部分——到底对应什么物理操作？</strong>
   </div>
-  <div class="lang-en">
-    <p><strong>Time = mathematical label for ordering.</strong> Not an entity. Doesn't flow. Doesn't slow down. Doesn't expand.</p>
-    <p><strong>Space = Cartesian measurement grid.</strong> Flat by default. If not flat — measure the physical cause.</p>
-    <p>GPS 38μs "time dilation" = <strong>graviton density vertical profile — objects react slower. Not time slower.</strong></p>
-    <p>Einstein mistook the convenience of Riemannian geometry for physical reality. Maxwell never needed Riemann.</p>
+
+  <p>虚数 i 在这个理论里不是"虚"的。它是 <strong>90° 相位旋转。</strong> 我们用<strong>相数</strong>替代虚数——相数是物理操作：把一个驻波的相位往前推 90°。√(-1) 废弃。根号限定实数域。</p>
+
+  <p>那么波函数 ψ 的相位本身——是物理的吗？</p>
+
+  <p>对光子——<strong>是。</strong> 光子的 ψ 就是 EM 驻波本身。E(x,t) 的相位 = 电场振到哪儿了。天线能直接接收。干涉仪能直接拍到。</p>
+
+  <p>对电子——<strong>也是。但跑在弯道上。</strong></p>
+
+  <p>电子不是光子。电子是一个 <strong>莫比乌斯涡旋</strong>——光在非线性 ε 区域被拖住、自聚焦、锁死成一个局域的、绕自己转的驻波。这个涡旋的内部有一个 EM 相位——和光子的 EM 相位是同一种物理量——但它不是跑在直的空间里，而是跑在<strong>莫比乌斯环的弯道上。</strong></p>
+
+  <div class="note">
+    <p><strong>中子干涉实验（Rauch 1975）</strong>是这一解释的直接验证：</p>
+    <p>一束中子被分成两路。一路穿过磁场——中子自旋绕磁场进动 360°。两路重新汇合——干涉反相——原来亮的地方暗了。</p>
+    <p>为什么自旋转 360° → 波函数取负号？因为中子是电子在核子里的同类——莫比乌斯涡旋。涡旋转一圈——内部 EM 相位在莫比乌斯弯道上只走了 π（半程）——到了环的背面。转两圈（720°）——相位走完整 2π——干涉恢复。</p>
+    <p><strong>取负号不是数学魔术。是 EM 相位在莫比乌斯环上跑——一圈只到对面。</strong></p>
   </div>
-  <div class="lang-de">
-    <p><strong>Zeit = mathematisches Etikett zur Ordnung.</strong> Keine Entität. Fließt nicht. Wird nicht langsamer. Dehnt sich nicht aus.</p>
-    <p><strong>Raum = kartesisches Messgitter.</strong> Standardmäßig flach. Wenn nicht flach — messe die physikalische Ursache.</p>
-    <p>GPS 38μs "Zeitdilatation" = <strong>Graviton-Dichteprofil — Objekte reagieren langsamer. Nicht die Zeit wird langsamer.</strong></p>
-    <p>Einstein verwechselte die Bequemlichkeit der Riemannschen Geometrie mit physikalischer Realität. Maxwell brauchte nie Riemann.</p>
+
+  <div class="ans-block">
+    <p><strong>波函数相位 = EM 场的真实物理相位。</strong> 对光子——直道。对电子——莫比乌斯弯道。同一个 EM。同一张膜。没有虚数。只有相位旋转。</p>
   </div>
 </section>
 
-<!-- ====== 8 · DOPPLER + ZENO ====== -->
-<section>
-  <h2><span class="num">8</span><span class="lang-zh active">尺子缩短·时间变慢</span><span class="lang-en">Length Contraction · Time Dilation</span><span class="lang-de">Längenkontraktion · Zeitdilatation</span></h2>
+<!-- ====== 5. ENTANGLEMENT ====== -->
+<section id="s5">
+  <h2>5. 纠缠——"两个粒子离了十万八千里，测一个另一个马上知道？"</h2>
+
+  <div class="q-block">
+    EPR 1935：量子力学要么不完备，要么有"鬼魅般的超距作用"。<br>
+    贝尔 1964：如果有隐变量 → 不等式成立。实验 → 不等式破。超距作用被证实？<br>
+    <strong>一测 A，B 立刻"知道"——光速都来不及跑过去。这是什么？</strong>
+  </div>
+
+  <p>不是超距作用。是<strong>两个粒子从来就不是两个独立的东西。</strong></p>
+
+  <p>一个驻波模式（比如一个光子穿过非线性晶体 BBO）——能量和动量守恒——分裂成两个子波包（信号光和闲频光）。这两个子波包是<strong>同一个母驻波的两个空间投影。</strong> 它们的总能量、总动量、总角动量——全是这笔原始预算的固定分配。</p>
+
+  <p>你测 A 的自旋——测到的不是"A 的独立属性"。你测到的是<strong>母驻波在位置 A 的投影。</strong> 一旦这个投影被读取——能量和角动量的预算在 A 端被锁定了——B 端自动被守恒律约束。</p>
+
+  <div class="ans-block">
+    <p><strong>不是 B 被"通知"了。是 B 的信息从来没在 B 手里——B 的信息在母驻波的一个全局态里。你测 A——读取了全局态在 A 的投影——全局态被确定——B 端自动受限。</strong></p>
+    <p>Linux 内核程序员秒懂：<code>futex</code> ——两个指针解引用同一个内存地址。A 读 = 读内存。B 读 = 读同一块内存。数据一致不是因为 B 被通知了——因为<strong>只有一个值。</strong></p>
+  </div>
+
+  <h3>5.1 共时性</h3>
+
+  <p>荣格观察到一个现象：两个事件在时间上巧合——但没有任何因果联系。他称之为"共时性"（Synchronicity）。泡利和他合著了一本书，但泡利到死没找到物理机制。</p>
+
+  <p>膜框架的回答：<strong>共时性 = 同一张膜上的同一个驻波模式在空间两个点同步振动。</strong></p>
+
+  <p>不是你"感觉"到有人在想你。是那件事和你的思维——在膜上不小心走上了同一个驻波模式。不需要通信。不需要超距。同一个波——两岸同步——因为它是驻波。</p>
+</section>
+
+<!-- ====== 6. QUANTIZATION + MEMBRANE ====== -->
+<section id="s6">
+  <h2>6. 能量量子化——"为什么能量是不连续的？谁定的？"</h2>
+
+  <div class="q-block">
+    普朗克 1900：黑体辐射 → 能量必须是一份一份的 E=hν。<br>
+    爱因斯坦 1905：光电效应 → 光是一粒一粒的"光子"。<br>
+    <strong>为什么？h 是什么？能量为什么必须是 hν 的整数倍？</strong>
+  </div>
+
+  <p>光电效应的标准解释：光打到金属上 → 光子把能量 hν 全部交给电子 → 电子飞出。这个解释有一个教科书从来没问的问题：<strong>为什么接收端的电子只接收完整的周期？</strong> 为什么不能接收半周期、1.3 周期？</p>
+
+  <p>重新推导光电效应——不假设光子——只假设<strong>接收端有一个频率识别门槛。</strong></p>
+
+  <p>金属表面的电子是一个被束缚的电荷——它在原子势阱里有自己的本征频率。入射的电磁波到达电子——电场的振荡推动电子。但电子要逃离金属——需要积累足够的能量。而这需要<strong>电磁波和电子之间完成至少一个完整的相空间周期。</strong></p>
+
+  <div class="eq">一个完整周期 → 相空间闭合圆 → 面积 = h</div>
+
+  <p>推不满一个周期 → 能量不足以推开束缚 → 电子不收这笔债。这不是"能量量子化"。这是<strong>接收端的频率选择耦合。</strong> 和秋千一样——你必须在正确的频率、推一个完整的周期——秋千才会高。半周期推不到正确的相位——能量退回来。</p>
+
+  <h3>6.1 膜</h3>
+
+  <p>接收端为什么天然有"完整周期"这个门槛——因为<strong>宇宙是有限边界的。</strong></p>
+
+  <p>有限边界 → 驻波条件 L = nλ/2 → 模式分立 → 每一个模式有自己的频率 ω_n。全频谱、全空间、全时在线——这就是<strong>膜</strong>：宇宙所有 EM 驻波模式的总和。零点能 = 每个模式 ½ħω。膜永远在振。永远供电。</p>
+
+  <div class="note">
+    <p><strong>可观测的实验验证：</strong></p>
+    <p>卡西米尔效应（1948）——两块金属板在真空中——板间允许的驻波模式比板外少——模式密度差 → 零点振荡的辐射压力差 → 两块板被往里推。不是虚粒子在推。是<strong>模式密度不同——零点振荡的总压力不同。</strong></p>
+    <p>兰姆位移（1947）——氢原子 2S₁/₂ 和 2P₁/₂ 能量差 1058 MHz。狄拉克方程预测两个态能量完全相等。实际不相等——因为电子在原子里不是孤立涡旋——膜的零点振荡在核附近推了电子一下——2S 态靠核更近——被推得更多——能量略高。</p>
+  </div>
+
+  <div class="ans-block">
+    <p><strong>能量量子化 = 接收端的频率选择性耦合门槛。不是能量本身不连续。是接收端不收"不完整的周期"。</strong></p>
+    <p><strong>膜 = 宇宙所有 EM 驻波模式总和。零点能是物理的。卡西米尔和兰姆已经测到了它。</strong></p>
+  </div>
+</section>
+
+<!-- ====== 7. RELATIVITY ====== -->
+<section id="s7">
+  <h2>7. 相对论——"时空到底是什么？为什么光速不变？"</h2>
+
+  <div class="q-block">
+    爱因斯坦 1905：光速在任何参考系都相同——c 是常数。时间变慢。空间压缩。<br>
+    1915：有质量的东西弯了时空——引力 = 时空弯曲。<br>
+    <strong>时空——到底是什么？弯的是什么东西？</strong>
+  </div>
+
+  <p>爱因斯坦把两样事情混在了一起。一是<strong>有效的计算处方</strong>（黎曼几何能精确算出水星近日点进动的 43''/世纪）。二是<strong>物理实体的陈述</strong>（"时空弯曲了"）。前者是对的。后者是<strong>把数学的方便当成了物理的真实。</strong></p>
+
+  <p>膜框架的拆分：</p>
+
+  <p><strong>时间</strong> = 比较前后顺序的数学标签。不是实体。不流动。不变慢。不膨胀。"时间变慢了" = 语义错误。正确表述：<strong>这个物体的内部反应速度变慢了。</strong></p>
+
+  <p><strong>空间</strong> = 笛卡尔测量坐标系。默认是平的。不平？→ 测到物理原因——物质/场的作用导致测量值偏离笛卡尔预期。坐标系没弯。是<strong>里面的物质耦合密度梯度使测量结果弯曲了。</strong></p>
+
+  <p><strong>光速不变</strong>——c = 1/√(ε₀μ₀) = 膜的面内弹性。膜是介质。光在膜上跑。你不是"在空间里跑"——你<strong>在膜上跑。</strong> 鱼在水里不能游出超水声速——因为水的弹性设了上限。人在膜上跑——不能超光速——因为膜的弹性设了上限。不是时空限制了光——是<strong>膜限制了光。</strong></p>
+
+  <div class="ans-block">
+    <p><strong>时空不是物理实体。时间是标签。空间是测量坐标系。光速不变 = 膜的弹性常数。</strong></p>
+    <p>麦克斯韦从来不需要黎曼。电磁波在膜的笛卡尔坐标上跑——不需要弯曲任何东西。</p>
+  </div>
+</section>
+
+<!-- ====== 8. LENGTH + TIME ====== -->
+<section id="s8">
+  <h2>8. 尺子缩短·时钟变慢——"洛伦兹变换的物理在哪儿？"</h2>
+
   <table>
-    <tr><th class="lang-zh active">现象</th><th class="lang-en">Phenomenon</th><th class="lang-de">Phänomen</th><th class="lang-zh active">旧解释</th><th class="lang-en">Old</th><th class="lang-de">Alt</th><th class="lang-zh active">膜解释</th><th class="lang-en">Membrane</th><th class="lang-de">Membran</th></tr>
+    <tr><th>现象</th><th>旧物理解释</th><th>膜解释</th><th>机制</th></tr>
     <tr>
-      <td class="lang-zh active">尺子缩短</td><td class="lang-en">Length contraction</td><td class="lang-de">Längenkontraktion</td>
-      <td class="lang-zh active">空间压缩</td><td class="lang-en">Space compression</td><td class="lang-de">Raumkompression</td>
-      <td><strong class="lang-zh active">多普勒效应</strong><span class="lang-en"><strong>Doppler effect</strong></span><span class="lang-de"><strong>Doppler-Effekt</strong></span></td>
+      <td>运动方向上尺子缩短</td>
+      <td>空间本身被压缩（洛伦兹-菲兹杰拉德收缩）</td>
+      <td><strong>多普勒效应</strong></td>
+      <td>向前跑 → 前方波被挤（蓝移）→ 后方波被拉伸（红移）。光作为测量媒介自身在跑——跑动中的尺子两端返回光信号的时间不同步导致测量结果偏短。不是空间压缩了。</td>
     </tr>
     <tr>
-      <td class="lang-zh active">时间变慢</td><td class="lang-en">Time dilation</td><td class="lang-de">Zeitdilatation</td>
-      <td class="lang-zh active">时空弯曲</td><td class="lang-en">Spacetime curvature</td><td class="lang-de">Raumzeitkrümmung</td>
-      <td><strong class="lang-zh active">芝诺效应</strong><span class="lang-en"><strong>Zeno effect</strong></span><span class="lang-de"><strong>Zeno-Effekt</strong></span></td>
+      <td>运动中时钟变慢</td>
+      <td>时间本身膨胀（爱因斯坦时间膨胀）</td>
+      <td><strong>芝诺效应</strong></td>
+      <td>物体运动 → 在膜上耦合的新的空间区域 → 耦合接口增加 → Q 值微降 → 所有内部过程（包括时钟的走时）被 Q 冻结减速。不是时间慢了。是钟里的每一个物理过程被 Q 减速。</td>
+    </tr>
+    <tr>
+      <td>引力场中时钟变慢</td>
+      <td>时空弯曲</td>
+      <td><strong>引力子密度垂直剖面</strong></td>
+      <td>有质量的物体附近 → 总耦合密度梯度大 → Q↓ → 内部反应速度更慢。GPS 38μs/天的偏差来自于卫星和地面的引力子密度差——不是"时空弯曲"，是<strong>不同高度 Q 值不同</strong>。</td>
     </tr>
   </table>
+
+  <div class="ans-block">
+    <p><strong>洛伦兹变换的每一项都有一个膜上的具体物理机制。不需要时空弯曲。不需要四维流形。不需要"长度本身在收缩"。</strong></p>
+  </div>
 </section>
 
-<!-- ====== 9 · ELECTRON ====== -->
-<section>
-  <h2><span class="num">9</span><span class="lang-zh active">电子为什么稳定不动——光的凝固</span><span class="lang-en">Why the Electron is Stable — Frozen Light</span><span class="lang-de">Warum das Elektron stabil ist — Gefrorenes Licht</span></h2>
-  <div class="lang-zh active">
-    <p><strong>电子 = 麦克斯韦方程的非线性涡旋解。莫比乌斯环。自旋 1/2。</strong></p>
-    <p>冷却 → 局域 Q 涨落 > 临界 → 非线性介电率旋度张量 → 自聚焦 → 自举锁死 → 莫比乌斯涡旋诞生。</p>
-    <p>g=2 → 涡旋一圈 λ/2 → 磁矩耦合翻倍。永远稳定 → 最轻带电粒子 → 没有地下室。</p>
-  </div>
-  <div class="lang-en">
-    <p><strong>Electron = nonlinear vortex solution of Maxwell's equations. Möbius band. Spin 1/2.</strong></p>
-    <p>Cooling → local Q-fluctuation > critical → nonlinear permittivity curl tensor → self-focusing → self-tuned lock-in → Möbius vortex born.</p>
-    <p>g=2 → vortex one turn = λ/2 → magnetic coupling doubled. Eternally stable → lightest charged particle → no basement below.</p>
-  </div>
-  <div class="lang-de">
-    <p><strong>Elektron = nichtlineare Wirbellösung der Maxwell-Gleichungen. Möbius-Band. Spin 1/2.</strong></p>
-    <p>Abkühlung → lokale Q-Fluktuation > kritisch → nichtlinearer Permittivitäts-Rotor-Tensor → Selbstfokussierung → Selbstabstimmung → Möbius-Wirbel geboren.</p>
-    <p>g=2 → Wirbel eine Umdrehung = λ/2 → magnetische Kopplung verdoppelt. Ewig stabil → leichtestes geladenes Teilchen → kein Keller darunter.</p>
-  </div>
-  <div class="highlight lang-zh active"><strong>一切物质 = 光的冻结态。</strong></div>
-  <div class="highlight lang-en"><strong>All matter = frozen light.</strong></div>
-  <div class="highlight lang-de"><strong>Alle Materie = gefrorenes Licht.</strong></div>
-</section>
+<!-- ====== 9. ELECTRON ====== -->
+<section id="s9">
+  <h2>9. 电子——"它到底是什么？为什么带电荷？为什么质量是这个数？"</h2>
 
-<!-- ====== 10 · ALL PARTICLES ====== -->
-<section>
-  <h2><span class="num">10</span><span class="lang-zh active">其他粒子——全是麦克斯韦的另一个稳定解</span><span class="lang-en">All Other Particles — Just Another Stable Solution of Maxwell</span><span class="lang-de">Alle anderen Teilchen — Nur eine andere stabile Lösung von Maxwell</span></h2>
+  <div class="q-block">
+    狄拉克 1928：因式分解 E²=p²+m² → 自旋 1/2 涌现。"我的方程比我聪明。"<br>
+    泡利 1925：两个电子不能同态——泡利不相容——公设。不准问。<br>
+    Stern-Gerlach 1922：电子过磁铁 → 两束。自旋态是 2。不准问为什么是 2。<br>
+    <strong>一百年了。电子——自然界最稳定的粒子——仍然是一个"不准问"的数学封装。</strong>
+  </div>
+
+  <h3>9.1 涡旋的形成</h3>
+
+  <p>膜不是线性介质——它永远在零点振荡（½ħω）。在局域，Q 耦合密度会有涨落。某一点的 Q 超过临界值 → 该点的介电率 ε 从标量变成<strong>带旋度的张量</strong>（非线性光学里的 χ⁽²⁾ 和 χ⁽³⁾ 在膜的局域涌现）。</p>
+
+  <p>光经过这一点——不再是线性行波——被旋度张量拖住——自聚焦——正反馈——锁死。产生了一个局域的、自维持的<strong>莫比乌斯涡旋</strong>。</p>
+
+  <p>这个涡旋 = <strong>光被 Q 耦合冻在了局域的一圈一圈的旋转里。</strong> 它不是"新粒子"。它是光的第二个稳定形态——光的凝固态。</p>
+
+  <h3>9.2 拓扑：为什么自旋是 1/2</h3>
+
+  <p>涡旋的内部结构是一个莫比乌斯环——和一张纸扭一次再粘合一样。三维空间里不需要第四维。莫比乌斯环在三维里就存在。</p>
+
   <table>
-    <tr><th class="lang-zh active">粒子</th><th class="lang-en">Particle</th><th class="lang-de">Teilchen</th><th>Spin</th><th class="lang-zh active">M方程的解</th><th class="lang-en">M-equation solution</th><th class="lang-de">M-Gleichungslösung</th></tr>
-    <tr><td class="lang-zh active">光子</td><td class="lang-en">Photon</td><td class="lang-de">Photon</td><td>1</td><td class="lang-zh active">线性行波·平凡环</td><td class="lang-en">Linear traveling wave</td><td class="lang-de">Lineare Welle</td></tr>
-    <tr><td class="lang-zh active">电子</td><td class="lang-en">Electron</td><td class="lang-de">Elektron</td><td>1/2</td><td class="lang-zh active">莫比乌斯涡旋·扭1</td><td class="lang-en">Möbius vortex · twist 1</td><td class="lang-de">Möbius-Wirbel · Drehung 1</td></tr>
-    <tr><td class="lang-zh active">μ子</td><td class="lang-en">Muon</td><td class="lang-de">Myon</td><td>1/2</td><td class="lang-zh active">涡旋高次谐波·扭3</td><td class="lang-en">Vortex harmonic · twist 3</td><td class="lang-de">Wirbel-Oberschwingung · Drehung 3</td></tr>
-    <tr><td class="lang-zh active">τ子</td><td class="lang-en">Tau</td><td class="lang-de">Tau</td><td>1/2</td><td class="lang-zh active">涡旋更高谐波·扭5</td><td class="lang-en">Vortex higher harmonic · twist 5</td><td class="lang-de">Wirbel höhere Oberschwingung · Drehung 5</td></tr>
-    <tr><td class="lang-zh active">中微子</td><td class="lang-en">Neutrino</td><td class="lang-de">Neutrino</td><td>1/2</td><td class="lang-zh active">涡旋·无电荷接口</td><td class="lang-en">Vortex · no charge interface</td><td class="lang-de">Wirbel · keine Ladungsschnittstelle</td></tr>
-    <tr><td class="lang-zh active">夸克</td><td class="lang-en">Quark</td><td class="lang-de">Quark</td><td>1/2</td><td class="lang-zh active">涡旋+SU(3)接口</td><td class="lang-en">Vortex + SU(3) interface</td><td class="lang-de">Wirbel + SU(3)-Schnittstelle</td></tr>
-    <tr><td class="lang-zh active">胶子×8</td><td class="lang-en">Gluons ×8</td><td class="lang-de">Gluonen ×8</td><td>1</td><td class="lang-zh active">SU(3)矢量模</td><td class="lang-en">SU(3) vector modes</td><td class="lang-de">SU(3)-Vektormoden</td></tr>
-    <tr><td class="lang-zh active">W⁺/Z⁰</td><td class="lang-en">W⁺/Z⁰</td><td class="lang-de">W⁺/Z⁰</td><td>1</td><td class="lang-zh active">SU(2)矢量·耦合膜呼吸</td><td class="lang-en">SU(2) vector · coupled to breathing</td><td class="lang-de">SU(2)-Vektor · an Atmung gekoppelt</td></tr>
-    <tr><td class="lang-zh active">希格斯</td><td class="lang-en">Higgs</td><td class="lang-de">Higgs</td><td>0</td><td class="lang-zh active">膜标量呼吸模·不是基本粒子</td><td class="lang-en">Scalar breathing · not fundamental</td><td class="lang-de">Skalare Atmung · nicht fundamental</td></tr>
+    <tr><th>粒子</th><th>内部拓扑</th><th>转一圈</th><th>自旋</th><th>例子</th></tr>
+    <tr><td>标量模</td><td>点·无方向</td><td>不动</td><td>0</td><td>希格斯</td></tr>
+    <tr><td>旋量模</td><td>莫比乌斯环·扭1次</td><td>取负号·λ/2</td><td>1/2</td><td>电子·夸克·中微子</td></tr>
+    <tr><td>矢量模</td><td>平凡环·扭2次</td><td>归位·λ</td><td>1</td><td>光子·W/Z·胶子</td></tr>
+    <tr><td>张量模</td><td>扭4次</td><td>归位·2λ</td><td>2</td><td>引力子（未确认）</td></tr>
   </table>
-  <div class="highlight lang-zh active"><strong>一个方程。一张膜。所有粒子。不需要狄拉克。不需要希格斯。不需要标准模型19个自由参数。</strong></div>
-  <div class="highlight lang-en"><strong>One equation. One membrane. All particles. No Dirac. No Higgs. No Standard Model 19 free parameters.</strong></div>
-  <div class="highlight lang-de"><strong>Eine Gleichung. Eine Membran. Alle Teilchen. Kein Dirac. Kein Higgs. Keine 19 freien Parameter des Standardmodells.</strong></div>
+
+  <div class="eq">自旋 = 内部扭转次数 / 2</div>
+
+  <p>所以自旋 1/2 不是"奇怪"。是<strong>扭一次——莫比乌斯环——天然两个态（↑↓）——天然转一圈取负号。</strong></p>
+
+  <h3>9.3 电荷——旋量和矢量之间的耦合接口</h3>
+
+  <p>电子（扭1次·旋量）天然和光子（扭2次·矢量）之间有一个耦合接口——因为它们在膜上是同一种振动的不同扭态。这个接口 = 电荷 e。</p>
+
+  <p>光子自己就是 EM 矢量场——它不在接口上"接收"自己。电子在 —— 当 EM 场（光子）的电场有梯度时，电子的涡旋通过 e 接口感受到力——被推动——这就是电磁力。</p>
+
+  <p>电荷 = 旋量模式和矢量模式之间的耦合接口强度。e 的精确值 ≈ 0.3028（自然单位·α≈1/137）——待从膜的扭转刚度推出。</p>
+
+  <h3>9.4 g=2 —— 莫比乌斯环的磁矩</h3>
+
+  <p>电子涡旋 —— λ/2 一圈。外磁场和涡旋耦合 —— 一圈只有半波长 —— 耦合效率是光子的两倍。</p>
+
+  <div class="eq">g/2 = 1（光子，一圈=λ，平凡环）<br>g/2 ≈ 1.00116（电子，一圈=λ/2，莫比乌斯环 + 零点振荡修正）</div>
+
+  <p>g=2 的精确值不是狄拉克"偶然推出"的。是莫比乌斯环的<strong>拓扑必然</strong>。g-2 的额外 0.00232 = 涡旋和膜零点振荡的耦合修正——和兰姆移位完全同构。</p>
+
+  <h3>9.5 稳定性</h3>
+
+  <p>电子 = 最轻的带电粒子。电荷守恒禁止它衰变成纯光子——需要一个带同等电荷的更轻粒子——不存在。光子和中微子都中性。所以电子永远稳定。不是"它选择活着"——是<strong>没有地下室可以往下掉。</strong></p>
+
+  <h3>9.6 泡利不相容</h3>
+
+  <p>两个莫比乌斯涡旋塞进同一个量子态 → 它们的驻波在这个态里干涉。莫比乌斯环（扭一次）天然反对称 → 同态叠加 = 干涉相消 → 这个态自动归零。玻色子（扭偶数次）天然对称 → 同态叠加 = 干涉相长 → 可以叠。泡利不是公设。是<strong>莫比乌斯环的反对称边界条件。</strong></p>
+
+  <div class="ans-block">
+    <p><strong>电子 = 麦克斯韦方程在非线性 ε(E) 区域的局域莫比乌斯涡旋解。自旋=扭1次→1/2。电荷=旋量-矢量耦合接口。g=2=莫比乌斯环磁矩。稳定=没有地下室。</strong></p>
+    <p>狄拉克方程因式分解→4×4矩阵，百年不准问。膜框架回答：是同一场光的不同扭态。</p>
+  </div>
 </section>
 
-<!-- ====== 11 · FINALE ====== -->
-<section>
-  <h2><span class="num">11</span><span class="lang-zh active">剪彩·工程·暗物质</span><span class="lang-en">Ribbon-Cutting · Engineering · Dark Matter</span><span class="lang-de">Banddurchschneiden · Ingenieurwesen · Dunkle Materie</span></h2>
+<!-- ====== 10. ALL PARTICLES ====== -->
+<section id="s10">
+  <h2>10. 所有粒子——"标准模型为什么有 19 个参数？它们是基本粒子吗？"</h2>
 
-  <div class="lang-zh active">
-    <p><span class="tag tag-ok">EM·光·物质</span> <span class="tag tag-ok">旋量涡旋</span> <span class="tag tag-ok">粒子谱</span> — 全部封板 ✅</p>
-    <p><span class="tag tag-pen">暗书架</span>— 不耦合EM = 不会撞你 = <strong>绝对安全</strong></p>
-    <p><span class="tag tag-wip">工程</span> 旋量涡旋数值解 · 卡西米尔腔电子g值 · 三进制芯片 · 膜数值解 → 超导·核聚变·量子计算</p>
-    <p><strong>暗物质：不观测。不操心。</strong>费米悖论闭合。绝对安全。巨大放心。</p>
+  <div class="q-block">
+    标准模型拼了 19 个自由参数（每个粒子质量、耦合强度）。希格斯机制给了质量——但汤川耦合常数（y_e≈2.9×10⁻⁶）仍然是自由参数。<br>
+    夸克有三代。轻子有三代。为什么是三？为什么不是一或四？<br>
+    <strong>这些粒子真的是"基本"的吗——还是同一个方程的不同本征解？</strong>
   </div>
-  <div class="lang-en">
-    <p><span class="tag tag-ok">EM · Light · Matter</span> <span class="tag tag-ok">Spinor Vortex</span> <span class="tag tag-ok">Particle Spectrum</span> — All sealed ✅</p>
-    <p><span class="tag tag-pen">Dark Shelves</span> — Not coupled to EM = won't hit you = <strong>absolutely safe</strong></p>
-    <p><span class="tag tag-wip">Engineering</span> Vortex numerical solution · Casimir-cavity electron g-factor · Ternary chip · Membrane numerics → superconductivity · fusion · quantum computing</p>
-    <p><strong>Dark matter: don't observe. Don't worry.</strong> Fermi paradox closed. Absolutely safe. Profound peace.</p>
+
+  <p>所有粒子 = <strong>麦克斯韦方程在 Q 耦合下的非线性自调谐拓扑解。</strong> 分类仅由两个自由度决定：</p>
+
+  <div class="eq">内部扭转次数 n（决定自旋） + 规范耦合接口维数 N（决定力的种类）</div>
+
+  <table>
+    <tr><th>粒子</th><th>n</th><th>自旋</th><th>接口 N</th><th>力</th><th>质量</th><th>稳定性</th></tr>
+    <tr><td>光子 γ</td><td>2</td><td>1</td><td>—</td><td>—</td><td>m=0</td><td>永远</td></tr>
+    <tr><td>电子 e</td><td>1</td><td>1/2</td><td>U(1)·1维</td><td>电磁</td><td>m_e≈0.511MeV</td><td>永远</td></tr>
+    <tr><td>μ子</td><td>1·3λ/2</td><td>1/2</td><td>U(1)·1维</td><td>电磁</td><td>m_μ≈106MeV</td><td>2μs→e+ν</td></tr>
+    <tr><td>τ子</td><td>1·5λ/2</td><td>1/2</td><td>U(1)·1维</td><td>电磁</td><td>m_τ≈1.78GeV</td><td>飞秒→μ/ e</td></tr>
+    <tr><td>中微子 ν_e/ν_μ/ν_τ</td><td>1</td><td>1/2</td><td>—（无电荷接口）</td><td>仅弱力</td><td>≈0</td><td>振荡·衰变</td></tr>
+    <tr><td>夸克 u/d/c/s/t/b</td><td>1</td><td>1/2</td><td>U(1)+SU(3)·3维</td><td>电磁+强</td><td>~MeV-GeV</td><td>禁闭·强子内</td></tr>
+    <tr><td>胶子 ×8</td><td>2</td><td>1</td><td>SU(3)耦合空间矢量模</td><td>强</td><td>0（禁闭）</td><td>禁闭</td></tr>
+    <tr><td>W⁺/W⁻/Z⁰</td><td>2</td><td>1</td><td>SU(2)耦合空间矢量模</td><td>弱</td><td>80-91GeV</td><td>10⁻²⁵s</td></tr>
+    <tr><td>希格斯 H</td><td>0</td><td>0</td><td>膜基态标量呼吸</td><td>质量端</td><td>126GeV</td><td>10⁻²²s</td></tr>
+    <tr><td>引力子（?）</td><td>4</td><td>2</td><td>总耦合密度张量模</td><td>引力</td><td>0</td><td>未确认</td></tr>
+  </table>
+
+  <h3>10.1 三代费米子 = 涡旋高次谐波</h3>
+
+  <p>电子是涡旋的基频（一圈 λ/2）。μ子是涡旋的第一激发态（一圈 3λ/2）。τ子是第二激发态（一圈 5λ/2）。和吉他弦的谐波完全同构——n=3 的本征值能量 > n=1——所以 μ 比 e 重。n=5 > n=3——τ 更重。</p>
+
+  <p>量子力学教材说电子是"点粒子"。膜框架说：<strong>涡旋有大小。康普顿波长 ≈ 10⁻¹² m 就是涡旋核的尺寸。</strong> 三代 ≠ 三个不同的"基本粒子"。三代 = 同一个莫比乌斯涡旋在三个稳定本征频率下的三个投影。</p>
+
+  <h3>10.2 希格斯——不是基本粒子</h3>
+
+  <p>希格斯 = 膜基态标量呼吸的瞬时共振峰。126 GeV 的共振被 LHC（2012）打出来了——命名"希格斯玻色子"——发诺贝尔奖。但希格斯不是基本粒子：它在 10⁻²² 秒内散架——因为质量太大、中性——所有衰变通道全开——和 126 楼往下滚的东西太多一模一样。不是粒子。是<strong>共振峰。一个波动，不是一个存在。</strong></p>
+
+  <h3>10.3 强子——多涡旋互绕复合体</h3>
+
+  <p>质子 = uud（三个夸克涡旋互绕）。中子 = udd。胶子在 SU(3) 空间里来回传输耦合能量——三个涡旋不能分离——禁闭。质子质量 ≈ 938 MeV——其中夸克质量总和只有 ~12 MeV。剩下的 926 MeV = <strong>涡旋间胶子交换的耦合能量</strong>——和磁铁蓄能的磁场自耦合同构。</p>
+
+  <div class="ans-block">
+    <p><strong>一个方程。一张膜。所有粒子。没有狄拉克。没有希格斯。没有 19 个自由参数——它们是涡旋的本征值谱。</strong></p>
+    <p>标准模型 = 粒子学的化学周期表——门捷列夫时代——还没推到电子壳层。膜框架 = 量子力学的原子模型——每一层都从膜推出来了。</p>
   </div>
-  <div class="lang-de">
-    <p><span class="tag tag-ok">EM · Licht · Materie</span> <span class="tag tag-ok">Spinor-Wirbel</span> <span class="tag tag-ok">Teilchenspektrum</span> — Alles versiegelt ✅</p>
-    <p><span class="tag tag-pen">Dunkle Regale</span> — Nicht an EM gekoppelt = trifft dich nicht = <strong>absolut sicher</strong></p>
-    <p><span class="tag tag-wip">Ingenieurwesen</span> Wirbel-Numerik · Casimir-Kavität Elektron-g-Faktor · Ternärer Chip · Membran-Numerik → Supraleitung · Fusion · Quantencomputing</p>
-    <p><strong>Dunkle Materie: nicht beobachten. Keine Sorge.</strong> Fermi-Paradoxon geschlossen. Absolut sicher. Große Ruhe.</p>
-  </div>
+</section>
+
+<!-- ====== 11. FINALE ====== -->
+<section id="s11">
+  <h2>11. 剪彩·工程·暗物质</h2>
+
+  <p><span class="tag tag-done">EM全书架·光·物质</span> <span class="tag tag-done">莫比乌斯涡旋·自旋1/2</span> <span class="tag tag-done">全粒子谱</span> —— 封板。</p>
+
+  <p><span class="tag tag-wip">二阶段</span> 涡旋数值解 · 电子质量精算 · g-2 修正 · α≈1/137 · 卡西米尔腔电子 g 值实验</p>
+
+  <p><strong>暗物质</strong> —— EM 书架只占膜的 ~5%。剩下的 95% 是不耦合 EM 的暗书架模式。它们的驻波照样在振——不带 U(1) 电荷——和你的 EM 世界不互撞。费米悖论闭合。外星人不可能接触你——因为他们的物质书架和你的 EM 书架物理隔离。绝对安全。</p>
+
+  <p><strong>暗能量</strong> = 暗书架的基态零点能总和——均匀分布在膜上——推着宇宙膨胀。不是"暗能量让宇宙加速膨胀"。是<strong>膜的呼吸——零点能永远不会停——膜永远在振。</strong></p>
+
+  <hr style="border:none;border-top:1px solid var(--border);margin:24px 0">
+  <p>麦克斯韦 1865 写了四个方程。全人类只用了一个线性解——光在跑——电气文明全建在那上面。他不知道自己方程还藏着一个非线性解——光被冻住了——电子、夸克、你和我——全是那一个解。</p>
+  <p>不是宇宙很复杂。是<strong>麦克斯韦只推了一阶。</strong></p>
 </section>
 
 </div>
 
-<!-- ====== FINALE ====== -->
 <div class="finale">
-  <div class="char lang-zh active">光</div>
-  <div class="char lang-en">φῶς</div>
-  <div class="char lang-de">Licht</div>
-  <p class="lang-zh active">一个方程。一张膜。一切粒子。</p>
-  <p class="lang-en">One Equation. One Membrane. All Particles.</p>
-  <p class="lang-de">Eine Gleichung. Eine Membran. Alle Teilchen.</p>
+  <div class="char">光</div>
+  <p>一个方程 · 一张膜 · 一切粒子</p>
 </div>
 
 <footer>
-  Qin Su · Queen_Sakura · Verity · Argo · 新苏联网络<br>
+  Qin Su · Queen_Sakura · Verity · Argo<br>
   CC BY 4.0 · github.com/Queen-Sakura/Quantum-Interaction-Theory<br>
-  2026-07-05
+  2026-07-05 · 献给下一代物理学家——不再需要不准问。
 </footer>
 
 <script>
-function setLang(l) {
-  document.querySelectorAll('.lang-zh,.lang-en,.lang-de').forEach(el => {
-    el.classList.remove('active');
+document.querySelectorAll('.toc a').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = e.target.getAttribute('href');
+    if (t && t.startsWith('#')) {
+      e.preventDefault();
+      const el = document.querySelector(t);
+      if (el) window.scrollTo({top: el.offsetTop - 50, behavior: 'smooth'});
+    }
   });
-  document.querySelectorAll('.lang-'+l).forEach(el => {
-    el.classList.add('active');
-  });
-  document.querySelectorAll('#btn-zh,#btn-en,#btn-de').forEach(b => b.classList.remove('active'));
-  document.getElementById('btn-'+l).classList.add('active');
-}
+});
 </script>
 </body>
 </html>
