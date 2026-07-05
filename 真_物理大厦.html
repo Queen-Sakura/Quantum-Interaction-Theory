@@ -7,8 +7,9 @@
 <style>
   :root {
     --bg: #fafaf7; --card: #fffefb; --border: #e2ded5;
-    --text: #2d2a24; --head: #141210; --gold: #7a5d14;
-    --muted: #6b6560; --accent: #1a6b5c;
+    --text: #2d2a24; --head: #141210;
+    --s0: #8b6914; --s1: #1a6b5c; --s2: #2a6a8a; --s3: #7a4a6a;
+    --gold: #7a5d14; --muted: #6b6560; --accent: #1a6b5c;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   body {
@@ -32,37 +33,71 @@
   .hero {
     text-align: center; padding: 90px 24px 40px;
     border-bottom: 1px solid var(--border); margin-bottom: 10px;
+    background: linear-gradient(to bottom, rgba(139,105,20,0.03) 0%, transparent 100%);
   }
   .hero h1 { font-size: 2.6em; color: var(--head); font-weight: 400; letter-spacing: 0.05em; }
   .hero .sub { font-size: 0.95em; color: var(--gold); margin-top: 8px; font-style: italic; }
-  .container { max-width: 800px; margin: 0 auto; padding: 0 20px 80px; }
+  .container { max-width: 820px; margin: 0 auto; padding: 0 20px 80px; }
   section {
-    margin: 36px 0; padding: 36px 34px;
+    margin: 28px 0; padding: 34px 36px;
     background: var(--card); border: 1px solid var(--border);
-    border-radius: 5px; box-shadow: 0 1px 3px rgba(0,0,0,0.025);
+    border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.025);
+    border-left: 3px solid transparent;
   }
+  section:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+  /* section color themes */
+  section.s-s0 { border-left-color: var(--s0); }
+  section.s-s1 { border-left-color: var(--s1); }
+  section.s-s2 { border-left-color: var(--s2); }
+  section.s-s3 { border-left-color: var(--s3); }
+  section.s-s4 { border-left-color: var(--gold); }
   section h2 {
-    font-size: 1.25em; color: var(--head); font-weight: 400;
-    margin-bottom: 18px; padding-bottom: 10px;
-    border-bottom: 1px solid var(--border);
+    font-size: 1.25em; font-weight: 400; margin: 0 0 16px 0;
+    padding-bottom: 10px; border-bottom: 1px solid var(--border);
+    color: var(--head);
   }
-  section h3 { font-size: 1em; color: var(--head); margin: 18px 0 8px; font-weight: 400; }
+  section.s-s0 h2 { color: #6b4f10; }
+  section.s-s1 h2 { color: #145a4a; }
+  section.s-s2 h2 { color: #1a4a5a; }
+  section.s-s3 h2 { color: #6a3060; }
+  section h3 {
+    font-size: 1em; color: var(--head); margin: 18px 0 8px; font-weight: 400;
+    letter-spacing: 0.02em;
+  }
   section p { margin: 10px 0; }
   .box {
-    background: rgba(26,107,92,0.04); padding: 12px 18px; border-radius: 4px;
-    margin: 12px 0; border-left: 2px solid var(--accent);
+    background: rgba(26,107,92,0.04); padding: 13px 20px; border-radius: 4px;
+    margin: 14px 0; border-left: 2px solid var(--accent);
+  }
+  .box-img {
+    background: rgba(122,93,20,0.03); padding: 13px 20px; border-radius: 4px;
+    margin: 14px 0; border-left: 2px solid var(--gold);
   }
   table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.88em; }
-  th { text-align: left; padding: 9px 12px; border-bottom: 2px solid var(--border); color: var(--head); font-weight: 400; }
-  td { padding: 7px 12px; border-bottom: 1px solid rgba(226,222,213,0.7); vertical-align: top; }
+  thead th {
+    text-align: left; padding: 10px 12px; border-bottom: 2px solid var(--border);
+    color: var(--head); font-weight: 400; font-size: 0.82em;
+    text-transform: uppercase; letter-spacing: 0.04em;
+    background: rgba(0,0,0,0.01);
+  }
+  td { padding: 8px 12px; border-bottom: 1px solid rgba(226,222,213,0.7); vertical-align: top; }
   tr:hover td { background: rgba(122,93,20,0.025); }
-  .tag { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 0.75em; margin: 1px 2px; font-family: system-ui, sans-serif; }
+  .tag { display: inline-block; padding: 2px 9px; border-radius: 3px; font-size: 0.75em; margin: 2px 3px; font-family: system-ui, sans-serif; }
   .tag-done { background: rgba(26,107,92,0.08); color: var(--accent); }
   .eq {
     font-family: 'Georgia', 'Times New Roman', serif;
     padding: 6px 0; font-size: 1.03em; color: var(--head); text-align: center;
   }
-  .finale { text-align: center; padding: 56px 20px; margin-top: 40px; border-top: 1px solid var(--border); }
+  .eq-big {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    padding: 14px 0; font-size: 1.2em; color: var(--head); text-align: center;
+    background: rgba(26,107,92,0.03); border-radius: 4px; margin: 14px 0;
+  }
+  .finale {
+    text-align: center; padding: 60px 20px; margin-top: 40px;
+    border-top: 1px solid var(--border);
+    background: linear-gradient(to top, rgba(139,105,20,0.02) 0%, transparent 100%);
+  }
   .finale .char { font-size: 5em; color: var(--head); font-weight: 300; }
   .finale p { margin: 6px 0; color: var(--muted); font-size: 0.9em; }
   footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.82em; border-top: 1px solid var(--border); opacity: 0.5; }
@@ -88,7 +123,7 @@
 <div class="container">
 
 <!-- ====== 0. PROLOGUE ====== -->
-<section id="s0">
+<section id="s0" class="s-s0">
   <h2>0. 总论 · 物理学需要一次彻底的审计</h2>
 
   <h3>0.1 两朵乌云之后</h3>
@@ -148,7 +183,7 @@
 </section>
 
 <!-- ====== 1. MEMBRANE ====== -->
-<section id="s1">
+<section id="s1" class="s-s1">
   <h2>1. 为什么存在真空零点能？真空为什么不是空的？</h2>
 
   <p>宇宙有限边界条件 → 电磁场本征模分立：</p>
@@ -164,13 +199,13 @@
   <div class="box">
     <strong>结论：</strong> 膜是物理实体。零点能可测。真空不空。虚粒子概念废弃——零点振荡是真实物理振动。
   </div>
-  <div class="box" style="background:rgba(122,93,20,0.03);border-left-color:var(--gold);">
+  <div class="box-img">
     <strong>物理图像：</strong> 鼓面可以同时承载所有频率的振动——基频、二次谐波、三次谐波……全频在线。膜不是鼓面——鼓面是二维的，膜是全空间的。但逻辑相同：一个有限边界的弹性体天然有分立的驻波模式谱。膜 = 宇宙这张"鼓面"的所有 EM 本征模的集合。½ħω 是每一个模式停不下来的最小振动——和量子谐振子的基态完全同构，只是这里的"振子"是膜自己。
   </div>
 </section>
 
 <!-- 2. QUANTIZATION -->
-<section id="s2">
+<section id="s2" class="s-s1">
   <h2>2. 为什么能量是一份一份的？光电效应到底发生了什么？</h2>
 
   <p>光电效应标准解释：光子将能量 hν 整体转移给电子。此解释假定光子是粒子——但未论证<strong>为何接收端只能接收完整周期。</strong></p>
@@ -187,13 +222,13 @@
   <div class="box">
     <strong>结论：</strong> 能量量子化不是能量本身的属性。是接收端的频率选择性耦合门槛。h 是相空间最小闭合面积。不需要"光子"概念。
   </div>
-  <div class="box" style="background:rgba(122,93,20,0.03);border-left-color:var(--gold);">
+  <div class="box-img">
     <strong>物理图像：</strong> 推秋千——你必须在秋千荡到最低点时顺着它的方向推，而且必须推完整一个来回。如果在半路上松手——秋千不往前走，你给的能量退回来。不是"推力量子化"。是<strong>秋千的动力学方程——二阶常微分方程——只接受和它固有频率匹配的完整周期推动。</strong>电磁波推电子同理：麦克斯韦方程的二阶时间导数（∂²E/∂t²）意味着电子在电磁场中的受迫振荡天然是频率选择性的。推不满一个完整周期 = 相空间曲线不闭合 = 耦合不完成 = 能量无效。h = 相空间最小闭合面积——和量子谐振子的基态面积完全一致——因为本质是同一个动力学。
   </div>
 </section>
 
 <!-- 3. PROBABILITY -->
-<section id="s3">
+<section id="s3" class="s-s1">
   <h2>3. 量子力学的概率从何而来？|ψ|² 到底是什么？</h2>
 
   <p>玻恩规则（1926）：|ψ|² 是概率密度。玻恩将此设为公设——未推导。</p>
@@ -207,13 +242,13 @@
   <div class="box">
     <strong>结论：</strong> 玻恩的"概率公设"降级为推导结果。|ψ|² = Q 耦合事件密度。确定性底层（麦克斯韦方程）+ 不可控初相（膜零点振荡）→ 统计性表层（|ψ|² 分布）。不需要假设随机性——随机性是膜零点振荡的必然表现。
   </div>
-  <div class="box" style="background:rgba(122,93,20,0.03);border-left-color:var(--gold);">
+  <div class="box-img">
     <strong>物理图像：</strong> 暴雨中预测某一滴雨的确切落点——不可行，但预测十分钟后地面上的水深分布——可精确计算。雨滴的每一滴都服从牛顿力学和流体力学（确定性底层），但初始条件（云中成核的精确位置和时刻）数量太大且不可控。膜的零点振荡提供了同样的"不可控初相"——每一次实验，电子涡旋的内部 EM 相位被膜的随机零点振荡扰动了微不足道的一点点，但这一点点就决定了它到达屏幕时哪一个原子先触发耦合。单次结果不可预测。统计分布可精确预测——就是 |ψ|²。
   </div>
 </section>
 
 <!-- 4. ZENO -->
-<section id="s4">
+<section id="s4" class="s-s2">
   <h2>4. 量子世界和经典世界之间那条线画在哪？为什么桌子不叠加，电子却叠加？</h2>
 
   <p>量子系统与宏观系统的分界——标准量子力学以"观测"模糊带过。膜框架给出连续标度：</p>
@@ -221,7 +256,7 @@
   <div class="eq">Q ∈ [-1, 0, +1]</div>
 
   <p>Q = 耦合密度温度计。定义：</p>
-  <div class="eq" style="font-size:1.2em;padding:14px 0;">Q = D · (1 − 2R)</div>
+  <div class="eq-big">Q = D · (1 − 2R)</div>
   <p>其中：</p>
   <div class="eq">D = (1/N) Σ_i^N Σ_j^M |⟨φ_i|ψ_j⟩|² / M</div>
   <p>φ_i = 系统的第 i 个本征模。ψ_j = 环境的第 j 个本征模。D = 两组本征模之间的<strong>傅里叶重叠积分平均值</strong>——系统有多少个模式在频谱上和环境交叠。D=1 → 全投影重叠（系统每一个模都在环境中有一个对齐的接收模）。D→0 → 频谱错位——几乎不耦合。</p>
@@ -251,13 +286,13 @@
   <div class="box">
     <strong>结论：</strong> 不存在"量子世界"与"经典世界"的二元对立。Q 是连续变量。芝诺冻结（Q→−1）是耦合总数的极限行为。
   </div>
-  <div class="box" style="background:rgba(122,93,20,0.03);border-left-color:var(--gold);">
+  <div class="box-img">
     <strong>物理图像：</strong> 一个旋转的陀螺放在粗糙桌面上——和桌面的每一个接触点都是一个摩擦耦合。桌面越粗糙 → 接触点越多 → 陀螺越快停下来 → 最后静止（经典态）。在绝对光滑的桌面上（零耦合接口）→ 陀螺永远转（量子态）。量子-经典过渡不是一条魔法边界——是<strong>耦合接口的数量从少到多，Q 从 +1 渐变为 −1。</strong>你的桌子 Q≈−1 不是因为桌子"大"——是因为桌子的 ~10²³ 个原子每一个都和空气分子、地板振动、室温光子之间有无数的耦合在跑。
   </div>
 </section>
 
 <!-- 5. SYNCHRONICITY -->
-<section id="s5">
+<section id="s5" class="s-s2">
   <h2>5. 纠缠为什么超距？两个粒子不通信怎么知道对方被测量了？</h2>
 
   <p>EPR 佯谬（1935）：两个粒子纠缠——测 A 得 ↑ → B 必 ↓。贝尔不等式实验（Aspect 1982）排除局域隐变量。量子力学标准解释：非局域关联——无经典机制。</p>
@@ -273,13 +308,13 @@
   <div class="box">
     <strong>结论：</strong> 纠缠 = 母本征模分裂后——子模式仍共享同一全局态。波函数描述的是本征模——不是粒子。"非局域关联"不是超距信号——是守恒律对同一本征模的全局约束。共时性同构。
   </div>
-  <div class="box" style="background:rgba(122,93,20,0.03);border-left-color:var(--gold);">
+  <div class="box-img">
     <strong>物理图像：</strong> 在一根两端固定的弦的中点弹一下——弦产生一个驻波。你在弦的 1/4 处和 3/4 处各放一个浮标。两个浮标上下振动的相位关系是固定的——不是两个浮标在通信——是它们都在<strong>同一根弦的同一驻波模式</strong>上。测了 A 浮标的瞬时位移 → B 浮标的位移被守恒律（弦上的能量分布）唯一确定。纠缠对同理：SPDC 晶体里的母光子分裂出两个子光子——同一个母本征模的不同波矢投影——测 A 自旋 → 全局态锁定 → B 自旋由守恒律确定。
   </div>
 </section>
 
 <!-- 6. RELATIVITY -->
-<section id="s6">
+<section id="s6" class="s-s3">
   <h2>6. 时空到底是什么？为什么光速不变？为什么不能超光速？</h2>
 
   <p>爱因斯坦广义相对论：引力 = 时空弯曲。场方程精确。但"时空弯曲"是物理实体的陈述还是数学坐标系的描述——未区分。</p>
@@ -300,20 +335,20 @@
   <div class="box">
     <strong>结论：</strong> 黎曼几何是有效的计算处方——但不是物理实体的陈述。膜框架用 Q 耦合密度梯度替代"时空弯曲"——保留所有精确预测——废弃"时空是物理实体"这一陈述。
   </div>
-  <div class="box" style="background:rgba(122,93,20,0.03);border-left-color:var(--gold);">
+  <div class="box-img">
     <strong>物理图像：</strong> 声波在空气中以 ~340 m/s 传播——不是因为"空气时空弯曲了"——是因为空气有弹性（体积模量）和惯性（密度）。声速 = √(K/ρ)。光在膜上以 c 跑——不是因为"时空弯曲了"——是因为膜有弹性（1/ε₀）和惯性（μ₀）。光速 = 1/√(ε₀μ₀)。同一个结构。不能超光速 = 飞机不能超音速？可以——但需要突破介质的弹性极限（音障）。膜目前的弹性极限 c 在现有能量下不可突破——和引力波探测到的 LIGO 信号（总耦合密度的张量传播模）给出的上限一致。
   </div>
 </section>
 
 <!-- 7. Q -->
-<section id="s7">
+<section id="s7" class="s-s3">
   <h2>7. 物理世界为什么不需要"观察者"？观测到底改变了什么？</h2>
 
   <p>膜上两个节点的本征模之间发生互投影 → 一次 Q 耦合事件。Q 耦合 = 膜上所有事件的本体论基础。观测只是 Q 耦合的一个子类。</p>
 
   <p>光子被探测器吸收 = 光子本征模与探测器原子电子涡旋之间的 Q 耦合。电子在 Stern-Gerlach 磁铁中偏转 = 电子莫比乌斯涡旋与磁场本征模之间的 Q 耦合。放射性衰变 = 原子核内涡旋组的内部 Q 重组。人的视觉感知 = 光子-视网膜分子 Q 耦合 → 信号沿神经元传播 → 皮层处理。</p>
 
-  <div class="eq" style="font-size:1.15em;padding:12px 0;">∂Q/∂t = ∇·(κ∇Q) + η|E|² − γQ + ξ</div>
+  <div class="eq-big">∂Q/∂t = ∇·(κ∇Q) + η|E|² − γQ + ξ</div>
   <p>四项物理含义：</p>
   <table>
     <tr><td>∇·(κ∇Q)</td><td><strong>扩散项</strong>——Q 耦合密度在膜上的空间扩散。κ 为扩散系数——膜的"热导率"。</td></tr>
@@ -326,13 +361,13 @@
   <div class="box">
     <strong>结论：</strong> Q 耦合事件 = 膜上节点之间的互投影完成。不需要"观测者"。不需要意识。不需要人。膜自己跑。物理学 = Q 耦合的动力学。
   </div>
-  <div class="box" style="background:rgba(122,93,20,0.03);border-left-color:var(--gold);">
+  <div class="box-img">
     <strong>物理图像：</strong> 两个耦合摆——推其中一个，另一个通过连接弹簧开始同步摆动。每一次从 A 摆传到 B 摆的能量转移 = 一次 Q 耦合。不需要"观察者"站在旁边记录。摆和弹簧自己在做物理。宇宙中所有粒子——全是通过膜这个"弹簧网络"在做 Q 交易。光子被视网膜吸收 = 光子本征模和视网膜电子涡旋之间的弹簧弹了一下。放射性衰变 = 原子核内涡旋组之间的弹簧网络重新配平。
   </div>
 </section>
 
 <!-- 8. ε₀ -->
-<section id="s8">
+<section id="s8" class="s-s4">
   <h2>8. 真空的介电常数和磁导率从哪来？为什么是这个值？</h2>
 
   <p>经典电磁学：真空介电常数 ε₀ ≈ 8.854×10⁻¹² F/m，真空磁导率 μ₀ = 4π×10⁻⁷ H/m。视为自由空间固有属性。为何是此值——无第一性解释。</p>
@@ -347,13 +382,13 @@
   <div class="box">
     <strong>结论：</strong> 真空 = 膜。ε₀ 和 μ₀ 是膜上 EM 本征模的统计平均涌现量。c = 1/√(ε₀μ₀) = 膜的线性弹性。不是"基本常数"——是膜的平均值。
   </div>
-  <div class="box" style="background:rgba(122,93,20,0.03);border-left-color:var(--gold);">
+  <div class="box-img">
     <strong>物理图像：</strong> 刚性不是铁原子的属性——刚性是铁原子之间金属键的集体响应。你把铁块拿走，刚性不再在那个位置存在。同理：ε₀ 不是"真空"的属性——真空什么也没有。ε₀ 是膜上所有 EM 本征模对电磁波的集体响应。你把膜拿掉——ε₀ 和 c 都不存在。膜自调谐出 ε₀ 的过程 = 铁磁体冷却到居里温度以下——铁原子们自发排齐——涌现磁化强度 M。麦克斯韦自举同理——局域电荷振荡 → 辐射电磁波 → 波反馈 → 迭代收敛 → 全膜涌现有效 ε₀。
   </div>
 </section>
 
 <!-- 9. PARTICLES -->
-<section id="s9">
+<section id="s9" class="s-s1">
   <h2>9. 电子到底是什么？为什么所有粒子看起来像"基本"的——它们真的是基本粒子吗？</h2>
 
   <p>麦克斯韦方程在膜上的一般形式：</p>
@@ -401,13 +436,13 @@
   <div class="box">
     <strong>结论：</strong> 标准模型 19 个自由参数 = 粒子"周期表"。膜框架删减为：涡旋本征值谱 + 耦合接口维数。狄拉克方程降级——重解释为非线性麦克斯韦方程的旋量涡旋极限。希格斯降级——共振峰。
   </div>
-  <div class="box" style="background:rgba(122,93,20,0.03);border-left-color:var(--gold);">
+  <div class="box-img">
     <strong>物理图像：</strong> 流体力学只有一个方程——Navier-Stokes 方程——但它的解包括层流、湍流、涡街、孤子、激波……全部是同一个方程在不同边界条件和参数下涌现的结构。麦克斯韦方程在膜上同理：线性区 → 平面行波（光子）。非线性区（Q 涨落 > 临界、ε 带旋度）→ 莫比乌斯涡旋（电子）。涡旋的激发态 → μ子、τ子。涡旋带上规范接口 → 夸克。接口自身的矢量传播模 → 胶子、W/Z。标量呼吸 → 希格斯共振。一个方程，一张膜。粒子学不是"基本粒子学"——是<strong>非线性麦克斯韦方程的拓扑解分类学。</strong>
   </div>
 </section>
 
 <!-- 10. TRANSLATION -->
-<section id="s10">
+<section id="s10" class="s-s0">
   <h2>10. 旧物理术语的翻译、废弃与保留。</h2>
 
   <table>
@@ -435,7 +470,7 @@
 </section>
 
 <!-- 11. SUMMARY -->
-<section id="s11">
+<section id="s11" class="s-s4">
   <h2>11. 总结 · 物理学回家了。</h2>
 
   <p>两朵乌云下了一个世纪的暴雨。暴雨中，物理学失去了物理直觉——被数学接管——被不准问封口——被弦论和多重宇宙带进了玄学的荒野。</p>
