@@ -6,10 +6,10 @@
 <title>真 · 物理大厦</title>
 <style>
   :root {
-    --bg: #fafaf7; --card: #fffefb; --border: #e2ded5;
+    --bg: #f9f8f5; --card: #fffefb; --border: #e8e4db;
     --text: #2d2a24; --head: #141210;
-    --s0: #8b6914; --s1: #1a6b5c; --s2: #2a6a8a; --s3: #7a4a6a;
-    --gold: #7a5d14; --muted: #6b6560; --accent: #1a6b5c;
+    --c0: #6b5e3e; --c1: #2d6b5e; --c2: #3a5a7a; --c3: #5a4a6a; --c4: #8b5a3e;
+    --gold: #6b5e3e; --muted: #78736c; --accent: #2d6b5e;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   body {
@@ -47,21 +47,21 @@
   }
   section:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
   /* section color themes */
-  section.s-s0 { border-left-color: var(--s0); }
-  section.s-s1 { border-left-color: var(--s1); }
-  section.s-s2 { border-left-color: var(--s2); }
-  section.s-s3 { border-left-color: var(--s3); }
-  section.s-s4 { border-left-color: var(--gold); }
+  section.s-s0 { border-left-color: #6b5e3e; }
+  section.s-s1 { border-left-color: #2d6b5e; }
+  section.s-s2 { border-left-color: #3a5a7a; }
+  section.s-s3 { border-left-color: #5a4a6a; }
+  section.s-s4 { border-left-color: #8b5a3e; }
   section h2 {
     font-size: 1.2em; font-weight: 400; margin: -34px -36px 18px -36px;
     padding: 14px 36px; border-radius: 6px 6px 0 0;
     color: #fff; letter-spacing: 0.04em;
   }
-  section.s-s0 h2 { background: #8b6914; color: #fff; }
-  section.s-s1 h2 { background: #1a6b5c; color: #fff; }
-  section.s-s2 h2 { background: #2a6a8a; color: #fff; }
-  section.s-s3 h2 { background: #7a4a6a; color: #fff; }
-  section.s-s4 h2 { background: #7a5d14; color: #fff; }
+  section.s-s0 h2 { background: linear-gradient(135deg, #6b5e3e, #8b7a5e); color: #fff; }
+  section.s-s1 h2 { background: linear-gradient(135deg, #1a5c4e, #2d7a6a); color: #fff; }
+  section.s-s2 h2 { background: linear-gradient(135deg, #2a4a68, #3a6088); color: #fff; }
+  section.s-s3 h2 { background: linear-gradient(135deg, #4a3a5a, #5a4a6a); color: #fff; }
+  section.s-s4 h2 { background: linear-gradient(135deg, #7a4a2e, #9a6a4e); color: #fff; }
   section h3 {
     font-size: 1em; color: var(--head); margin: 18px 0 8px; font-weight: 400;
     letter-spacing: 0.02em;
@@ -186,20 +186,20 @@
 
 <!-- ====== TOC ====== -->
 <section id="toc" style="border-left-color:transparent;text-align:center;padding:28px 36px;">
-  <h2 style="background:#444;color:#fff;margin:-28px -36px 18px -36px;padding:12px 36px;border-radius:6px 6px 0 0;font-size:1.05em;letter-spacing:0.06em;">问 题 目 录</h2>
+  <h2 style="background:linear-gradient(135deg,#3a3a3a,#5a5a5a);color:#fff;margin:-28px -36px 18px -36px;padding:12px 36px;border-radius:6px 6px 0 0;font-size:1.05em;letter-spacing:0.06em;">问 题 目 录</h2>
   <table style="margin:0 auto;width:auto;">
-    <tr><td style="text-align:right;padding:4px 10px;color:var(--gold);border:none;font-size:0.9em;">0.</td><td style="border:none;padding:4px 0;"><a href="#s0" style="color:var(--text);text-decoration:none;">总论 · 物理学需要一次彻底的审计</a></td></tr>
-    <tr><td style="text-align:right;padding:4px 10px;color:var(--accent);border:none;font-size:0.9em;">1.</td><td style="border:none;padding:4px 0;"><a href="#s1" style="color:var(--text);text-decoration:none;">为什么存在真空零点能？真空为什么不是空的？</a></td></tr>
-    <tr><td style="text-align:right;padding:4px 10px;color:var(--accent);border:none;font-size:0.9em;">2.</td><td style="border:none;padding:4px 0;"><a href="#s2" style="color:var(--text);text-decoration:none;">为什么能量是一份一份的？光电效应到底发生了什么？</a></td></tr>
-    <tr><td style="text-align:right;padding:4px 10px;color:var(--accent);border:none;font-size:0.9em;">3.</td><td style="border:none;padding:4px 0;"><a href="#s3" style="color:var(--text);text-decoration:none;">量子力学的概率从何而来？|ψ|² 到底是什么？</a></td></tr>
-    <tr><td style="text-align:right;padding:4px 10px;color:#2a6a8a;border:none;font-size:0.9em;">4.</td><td style="border:none;padding:4px 0;"><a href="#s4" style="color:var(--text);text-decoration:none;">量子世界和经典世界那条线画在哪？</a></td></tr>
-    <tr><td style="text-align:right;padding:4px 10px;color:#2a6a8a;border:none;font-size:0.9em;">5.</td><td style="border:none;padding:4px 0;"><a href="#s5" style="color:var(--text);text-decoration:none;">纠缠为什么超距？两个粒子不通信怎么知道？</a></td></tr>
-    <tr><td style="text-align:right;padding:4px 10px;color:#7a4a6a;border:none;font-size:0.9em;">6.</td><td style="border:none;padding:4px 0;"><a href="#s6" style="color:var(--text);text-decoration:none;">时空到底是什么？为什么光速不变？不能超光速？</a></td></tr>
-    <tr><td style="text-align:right;padding:4px 10px;color:#7a4a6a;border:none;font-size:0.9em;">7.</td><td style="border:none;padding:4px 0;"><a href="#s7" style="color:var(--text);text-decoration:none;">物理世界为什么不需要"观察者"？</a></td></tr>
-    <tr><td style="text-align:right;padding:4px 10px;color:var(--gold);border:none;font-size:0.9em;">8.</td><td style="border:none;padding:4px 0;"><a href="#s8" style="color:var(--text);text-decoration:none;">真空的介电常数和磁导率从哪来？</a></td></tr>
-    <tr><td style="text-align:right;padding:4px 10px;color:var(--accent);border:none;font-size:0.9em;">9.</td><td style="border:none;padding:4px 0;"><a href="#s9" style="color:var(--text);text-decoration:none;">电子到底是什么？粒子真的是基本粒子吗？</a></td></tr>
-    <tr><td style="text-align:right;padding:4px 10px;color:var(--gold);border:none;font-size:0.9em;">10.</td><td style="border:none;padding:4px 0;"><a href="#s10" style="color:var(--text);text-decoration:none;">旧物理术语的翻译、废弃与保留</a></td></tr>
-    <tr><td style="text-align:right;padding:4px 10px;color:var(--gold);border:none;font-size:0.9em;">11.</td><td style="border:none;padding:4px 0;"><a href="#s11" style="color:var(--text);text-decoration:none;">总结 · 物理学回家了</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s0" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#6b5e3e;margin-right:10px;vertical-align:middle;"></span>总论 · 物理学需要一次彻底的审计</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s1" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#2d6b5e;margin-right:10px;vertical-align:middle;"></span>为什么存在真空零点能？真空为什么不是空的？</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s2" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#2d6b5e;margin-right:10px;vertical-align:middle;"></span>为什么能量是一份一份的？光电效应到底发生了什么？</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s3" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#2d6b5e;margin-right:10px;vertical-align:middle;"></span>量子力学的概率从何而来？|ψ|² 到底是什么？</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s4" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#3a5a7a;margin-right:10px;vertical-align:middle;"></span>量子世界和经典世界那条线画在哪？</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s5" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#3a5a7a;margin-right:10px;vertical-align:middle;"></span>纠缠为什么超距？两个粒子不通信怎么知道对方被测量了？</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s6" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#5a4a6a;margin-right:10px;vertical-align:middle;"></span>时空到底是什么？为什么光速不变？为什么不能超光速？</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s7" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#5a4a6a;margin-right:10px;vertical-align:middle;"></span>物理世界为什么不需要"观察者"？观测到底改变了什么？</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s8" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#8b5a3e;margin-right:10px;vertical-align:middle;"></span>真空的介电常数和磁导率从哪来？为什么是这个值？</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s9" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#2d6b5e;margin-right:10px;vertical-align:middle;"></span>电子到底是什么？粒子真的是基本粒子吗？</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s10" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#6b5e3e;margin-right:10px;vertical-align:middle;"></span>旧物理术语的翻译、废弃与保留</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s11" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#6b5e3e;margin-right:10px;vertical-align:middle;"></span>总结 · 物理学回家了</a></td></tr>
   </table>
 </section>
 
