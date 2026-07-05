@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unified Physics Theory · Verum Physical Edifice</title>
+<script>
+MathJax = {
+  tex: { inlineMath: [['$','$'], ['\\(','\\)']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root {
+    --bg: #f9f8f5; --card: #fffefb; --border: #e8e4db;
+    --text: #2d2a24; --head: #141210;
+    --c0: #6b5e3e; --c1: #2d6b5e; --c2: #3a5a7a; --c3: #5a4a6a; --c4: #8b5a3e;
+    --gold: #6b5e3e; --muted: #78736c; --accent: #2d6b5e;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: 'Georgia', 'Noto Serif SC', 'STSong', 'Songti SC', serif;
+    line-height: 1.84; font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .toc {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 99;
+    background: rgba(250,250,247,0.94); backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border); padding: 8px 0;
+    overflow-x: auto; white-space: nowrap; text-align: center;
+  }
+  .toc a {
+    display: inline-block; padding: 4px 10px; font-size: 0.78em;
+    color: var(--muted); text-decoration: none; font-family: system-ui, sans-serif;
+    border-radius: 3px; transition: all .15s;
+  }
+  .toc a:hover { color: var(--gold); }
+  .hero {
+    text-align: center; padding: 90px 24px 40px;
+    border-bottom: 1px solid var(--border); margin-bottom: 10px;
+    background: linear-gradient(to bottom, rgba(139,105,20,0.03) 0%, transparent 100%);
+  }
+  .hero h1 { font-size: 2.6em; color: var(--head); font-weight: 400; letter-spacing: 0.05em; }
+  .hero .sub { font-size: 0.95em; color: var(--gold); margin-top: 8px; font-style: italic; }
+  .container { max-width: 820px; margin: 0 auto; padding: 0 20px 80px; }
+  section {
+    margin: 28px 0; padding: 34px 36px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.025);
+    border-left: 3px solid transparent;
+    overflow: hidden;
+  }
+  section:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+  /* section color themes */
+  section.s-s0 { border-left-color: #6b5e3e; }
+  section.s-s1 { border-left-color: #2d6b5e; }
+  section.s-s2 { border-left-color: #3a5a7a; }
+  section.s-s3 { border-left-color: #5a4a6a; }
+  section.s-s4 { border-left-color: #8b5a3e; }
+  section h2 {
+    font-size: 1.2em; font-weight: 400; margin: -34px -36px 18px -36px;
+    padding: 14px 36px; border-radius: 6px 6px 0 0;
+    color: #fff; letter-spacing: 0.04em;
+  }
+  section.s-s0 h2 { background: linear-gradient(135deg, #6b5e3e, #8b7a5e); color: #fff; }
+  section.s-s1 h2 { background: linear-gradient(135deg, #1a5c4e, #2d7a6a); color: #fff; }
+  section.s-s2 h2 { background: linear-gradient(135deg, #2a4a68, #3a6088); color: #fff; }
+  section.s-s3 h2 { background: linear-gradient(135deg, #4a3a5a, #5a4a6a); color: #fff; }
+  section.s-s4 h2 { background: linear-gradient(135deg, #7a4a2e, #9a6a4e); color: #fff; }
+  section h3 {
+    font-size: 1em; color: var(--head); margin: 18px 0 8px; font-weight: 400;
+    letter-spacing: 0.02em;
+  }
+  section p { margin: 10px 0; }
+  .box {
+    background: rgba(26,107,92,0.04); padding: 13px 20px; border-radius: 4px;
+    margin: 14px 0; border-left: 2px solid var(--accent);
+  }
+  .box-img {
+    background: rgba(122,93,20,0.03); padding: 13px 20px; border-radius: 4px;
+    margin: 14px 0; border-left: 2px solid var(--gold);
+  }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.88em; }
+  thead th {
+    text-align: left; padding: 10px 12px; border-bottom: 2px solid var(--border);
+    color: var(--head); font-weight: 400; font-size: 0.82em;
+    text-transform: uppercase; letter-spacing: 0.04em;
+    background: rgba(0,0,0,0.01);
+  }
+  td { padding: 8px 12px; border-bottom: 1px solid rgba(226,222,213,0.7); vertical-align: top; }
+  tr:hover td { background: rgba(122,93,20,0.025); }
+  .tag { display: inline-block; padding: 2px 9px; border-radius: 3px; font-size: 0.75em; margin: 2px 3px; font-family: system-ui, sans-serif; }
+  .tag-done { background: rgba(26,107,92,0.08); color: var(--accent); }
+  .eq {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    padding: 6px 0; font-size: 1.03em; color: var(--head); text-align: center;
+  }
+  .eq-big {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    padding: 14px 0; font-size: 1.2em; color: var(--head); text-align: center;
+    background: rgba(26,107,92,0.03); border-radius: 4px; margin: 14px 0;
+  }
+  .finale {
+    text-align: center; padding: 60px 20px; margin-top: 40px;
+    border-top: 1px solid var(--border);
+    background: linear-gradient(to top, rgba(139,105,20,0.02) 0%, transparent 100%);
+  }
+  .finale .char { font-size: 5em; color: var(--head); font-weight: 300; }
+  .finale .ring {
+    position:relative; display:inline-block;
+    width:340px; height:340px; margin:0 auto;
+  }
+  .finale .ring::before {
+    content:''; position:absolute; top:10%; left:10%; right:10%; bottom:10%;
+    border-radius:50%; border:1px solid rgba(139,105,20,0.12);
+    box-shadow: 0 0 80px rgba(139,105,20,0.04), inset 0 0 80px rgba(139,105,20,0.02);
+  }
+  @media (max-width:400px) { .finale .ring { width:260px; height:260px; } }
+  .finale p { margin: 6px 0; color: var(--muted); font-size: 0.9em; }
+  footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.82em; border-top: 1px solid var(--border); opacity: 0.5; }
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 1.8em; } section { padding: 22px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="toc">
+  <a href="#toc">TOC</a> <a href="#s0">0</a> <a href="#s1">1</a> <a href="#s2">2</a> <a href="#s3">3</a>
+  <a href="#s3b">4</a> <a href="#s4">5</a> <a href="#s5">6</a> <a href="#s6">7</a>
+  <a href="#s7">8</a> <a href="#s8">9</a> <a href="#s9">10</a>
+  <a href="#s10">11</a> <a href="#s11">12</a>
+</nav>
+
+<div class="hero">
+  <h1>Unified Physics Theory · Verum Physical Edifice</h1>
+  <div class="sub">Qin Su · Verity · Argo</div>
+</div>
+
+<div class="container">
+
+<!-- ====== 0. PROLOGUE ====== -->
+<section id="s0" class="s-s0">
+  <h2>0. Prologue · Physics Needs a Thorough Audit</h2>
+
+  <h3>0.1 After the Two Clouds</h3>
+
+  <p>In 1865, Maxwell wrote down four equations, unifying electricity and magnetism. By the end of the nineteenth century, the physics community generally believed the edifice was complete — only minor touch-ups remained.</p>
+
+  <p>Lord Kelvin declared in 1900: the clear sky held only <strong>two clouds</strong> — the blackbody radiation spectrum and the Michelson-Morley experiment.</p>
+
+  <p>These two clouds unleashed a century-long storm. The first gave birth to quantum mechanics. The second gave birth to relativity. Both theories are extraordinarily successful experimentally — yet in physical understanding they <strong>provoked more confusion than they resolved</strong>:</p>
+
+  <h3>0.2 Confusions Left by Quantum Mechanics</h3>
+
+  <table>
+    <tr><th>Confusion</th><th>Standard Answer</th><th>What's Wrong</th></tr>
+    <tr><td>"Wavefunction collapses upon observation" — who is looking? Why does consciousness participate in physics?</td><td>Copenhagen interpretation: don't ask. Physics only describes "what we can say" — not "what nature is."</td><td>"Don't ask" was elevated to methodology. A prohibition substituted for a derivation.</td></tr>
+    <tr><td>Wave-particle duality — what exactly is light? What exactly is an electron?</td><td>"Both wave and particle. Complementary. Don't ask which is more fundamental."</td><td>The complementarity principle = zero information content. Not an answer — a ban on giving answers.</td></tr>
+    <tr><td>Probability — why is |ψ|² a probability?</td><td>Born postulate (1926): affix the "probability" label. No derivation.</td><td>No physical mechanism beneath the postulate. A century without anyone asking.</td></tr>
+    <tr><td>Electron — spin 1/2 · g≈2 · charge · mass — all "don't ask"</td><td>Dirac (1928): factorization → 4×4 matrices → "My equation is smarter than I am."</td><td>The equation is correct. The physical picture is absent. Don't ask about the factorization.</td></tr>
+    <tr><td>Energy quantization — why does energy come in discrete packets?</td><td>Planck: E=hν. Photon = particle. Don't ask "why."</td><td>Where does h come from? Why can't energy be transferred continuously? — Unanswered.</td></tr>
+    <tr><td>Entanglement — why does measuring A make B instantly "know"? Is it superluminal?</td><td>"Quantum nonlocality. Don't ask about the mechanism."</td><td>Information not needing to propagate ≠ not needing an explanation. Global constraints of conservation laws were ignored.</td></tr>
+    <tr><td>19 free parameters — why these values?</td><td>Standard Model: "Measured experimentally. That's nature."</td><td>Not a derivation. Filling in numbers. Same stage as Mendeleev arranging the periodic table — the atomic theory hasn't arrived yet.</td></tr>
+  </table>
+
+  <h3>0.3 Confusions Left by Relativity</h3>
+
+  <table>
+    <tr><th>Confusion</th><th>Standard Answer</th><th>What's Wrong</th></tr>
+    <tr><td>Spacetime curvature — what substance is spacetime itself? How does it "curve"?</td><td>Riemannian geometry: mass and energy curve spacetime — curved spacetime tells mass how to move.</td><td><strong>Category error.</strong> Spacetime is a human-defined measurement coordinate system — not a physical entity. Coordinates cannot "curve" — what curves is the coupling density gradient of the matter/fields within. Einstein mistook the convenience of a mathematical tool for a statement about a physical entity.</td></tr>
+    <tr><td>Constancy of c — why is c constant?</td><td>"A fundamental property of spacetime."</td><td>c = 1/√(ε₀μ₀) — this is the elasticity of a medium, not "spacetime structure." Constancy of c = wave speed in a medium is determined by the medium itself.</td></tr>
+    <tr><td>Time dilation — time itself "dilates"?</td><td>"Time itself is stretched by motion/gravity."</td><td><strong>Category error.</strong> Time = a human-defined label for comparing before-after ordering. Labels cannot "slow down." What slows down is the internal reaction rate of objects — gravity/motion → increases the total coupling count of the system → all internal processes slow down.</td></tr>
+    <tr><td>Length contraction — space itself "contracts"?</td><td>"Space is compressed in the direction of motion."</td><td><strong>Category error.</strong> Space = a human-defined Cartesian measurement coordinate. Coordinates cannot "compress." Measured results becoming shorter = Doppler effect — electromagnetic signals from the two ends of a moving object return out of sync.</td></tr>
+  </table>
+
+  <h3>0.4 Drifting Further from Empirical Evidence — Metaphysics Replaced Physics</h3>
+
+  <p>After 1928, physics entered an era of scarcity (1929 economic crisis → WWII → Cold War). Physical intuition was replaced by mathematical computation. "Don't ask" became a methodological virtue. For nearly a century since — theoretical physics piled mathematical conjectures onto the old framework — drifting further and further — further from physics:</p>
+
+  <table>
+    <tr><th>Metaphysical Conjecture</th><th>Content</th><th>Experimental Verification</th><th>Audit Conclusion</th></tr>
+    <tr><td>String Theory</td><td>Particles = strings vibrating in 10-dimensional space</td><td>Zero. Running for fifty years.</td><td>Extra dimensions without evidence. Solvable in three dimensions.</td></tr>
+    <tr><td>Multiverse</td><td>Every quantum choice branches a new universe</td><td>Zero. Unfalsifiable.</td><td>Unfalsifiable = not physics.</td></tr>
+    <tr><td>Inflation</td><td>Superluminal expansion at the universe's birth — patch to explain isotropy</td><td>Indirect · logically self-consistent</td><td>A patch. CMB isotropy has simpler explanations.</td></tr>
+    <tr><td>Virtual Particles</td><td>Vacuum constantly borrows energy to create virtual particle pairs</td><td>Zero direct evidence</td><td>Casimir and Lamb can be explained by Zero-point Oscillation.</td></tr>
+    <tr><td>Big Bang Singularity</td><td>Universe began from a mathematical singularity</td><td>Unobservable</td><td>Unobservable = not physics.</td></tr>
+    <tr><td>Higher Dimensions · Wormholes</td><td>Spacetime can be folded for interconnection</td><td>Zero</td><td>No experimental evidence. Solvable in three dimensions.</td></tr>
+    <tr><td>Higgs = Fundamental Particle</td><td>Scalar boson · 126GeV · spontaneous breaking</td><td>LHC resonance peak 2012</td><td>Resonance peak — whether fundamental awaits audit.</td></tr>
+    <tr><td>Dark Energy = Cosmological Constant</td><td>"Energy of space itself — pushing the universe to accelerate expansion"</td><td>Accelerating expansion measured</td><td>Needs a physical mechanism — not a geometric assumption.</td></tr>
+  </table>
+
+  <h3>0.5 What's Needed Is Not Forward — But Backward</h3>
+
+  <p>The complexity of physics can increase no further. Since the Higgs discovery — twelve years — the Standard Model has added not a single confirmed fundamental particle. Colliders on life support. String theory: zero experiments. Multiverse: unfalsifiable. The scientific method itself has receded from the top journals of theoretical physics.</p>
+
+  <p><strong>What's needed is not "the next collider." What's needed is a welding torch — re-weld from the postulates — dismantle the century's lion-mountain layer by layer — back to Maxwell — back to physical intuition — back to science that is "measurable · computable · predictable · engineerable."</strong></p>
+
+  <p>The following eleven chapters — starting from every foundational confusion — deliver concise, verifiable physical answers. No "don't ask." No complementarity. No virtual particles. No higher dimensions. Everything begins from Maxwell's equations — tracing to the very last particle.</p>
+</section>
+
+<!-- ====== TOC ====== -->
+<section id="toc" style="border-left-color:transparent;text-align:center;padding:28px 36px;">
+  <h2 style="background:linear-gradient(135deg,#3a3a3a,#5a5a5a);color:#fff;margin:-28px -36px 18px -36px;padding:12px 36px;border-radius:6px 6px 0 0;font-size:1.05em;letter-spacing:0.06em;">Table of Questions</h2>
+  <table style="margin:0 auto;width:auto;">
+    <tr><td style="border:none;padding:5px 0;"><a href="#s0" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#6b5e3e;margin-right:10px;vertical-align:middle;"></span>Prologue · Physics Needs a Thorough Audit</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s1" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#2d6b5e;margin-right:10px;vertical-align:middle;"></span>Why Does Vacuum Zero-Point Energy Exist? Why Isn't the Vacuum Empty?</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s2" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#2d6b5e;margin-right:10px;vertical-align:middle;"></span>Why Is Energy Quantized? What Really Happens in the Photoelectric Effect?</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s3" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#2d6b5e;margin-right:10px;vertical-align:middle;"></span>How Can One Thing Be in Two States at Once? Is Schrödinger's Cat Dead or Alive?</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s3b" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#2d6b5e;margin-right:10px;vertical-align:middle;"></span>Where Does Quantum Probability Come From? What Exactly Is |ψ|²?</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s4" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#3a5a7a;margin-right:10px;vertical-align:middle;"></span>Where Is the Line Between the Quantum and Classical Worlds? Why Doesn't a Table Superpose While an Electron Does?</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s5" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#3a5a7a;margin-right:10px;vertical-align:middle;"></span>Why Is Entanglement Nonlocal? How Do Two Particles Know the Other Was Measured Without Communicating?</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s6" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#5a4a6a;margin-right:10px;vertical-align:middle;"></span>What Is Spacetime Really? Why Is the Speed of Light Constant? Why Can't We Exceed It?</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s7" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#5a4a6a;margin-right:10px;vertical-align:middle;"></span>Why Doesn't the Physical World Need an "Observer"? What Does Measurement Actually Change?</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s8" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#8b5a3e;margin-right:10px;vertical-align:middle;"></span>Where Do Vacuum Permittivity and Permeability Come From? Why These Values?</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s9" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#2d6b5e;margin-right:10px;vertical-align:middle;"></span>What Is an Electron Really? Are Particles Truly Fundamental?</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s10" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#6b5e3e;margin-right:10px;vertical-align:middle;"></span>Translation, Abandonment, and Retention of Old Physical Terminology</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s11" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#6b5e3e;margin-right:10px;vertical-align:middle;"></span>Summary · Physics Has Come Home</a></td></tr>
+  </table>
+</section>
+
+<!-- ====== 1. MEMBRANE ====== -->
+<section id="s1" class="s-s1">
+  <h2>1. Why Does Vacuum Zero-Point Energy Exist? Why Isn't the Vacuum Empty?</h2>
+
+  <p>Finite boundary conditions of the universe → discrete EM field Eigenmodes:</p>
+  <div class="eq">$$L = \frac{n\lambda}{2},\quad \omega_n = \frac{n\pi c}{L},\quad n = 1,2,3,\ldots$$</div>
+  <p>The sum of all Eigenmodes across all frequency bands in all space constitutes a physical reality — the <strong>Membrane</strong>. Each Eigenmode carries Zero-point Energy:</p>
+  <div class="eq">$$E_0 = \sum \tfrac{1}{2}\hbar\omega_n \quad\text{non-removable, unshieldable}$$</div>
+  <p>The Membrane vibrates forever.</p>
+
+  <p>Casimir effect (1948): two parallel ideal conducting plates in vacuum — the density of allowed standing wave modes between the plates is lower than outside — producing a radiation pressure difference — plates are pushed inward. Experimentally measured pressure matches theoretical prediction. Explanation: not virtual particle pairs. It is the <strong>net pressure of Zero-point Oscillation caused by the Membrane's mode density difference.</strong></p>
+
+  <p>Lamb shift (1947): hydrogen atom 2S₁/₂ and 2P₁/₂ level splitting of 1058 MHz. The Dirac equation predicts these two states are degenerate. Measured non-degeneracy — because the Membrane's Zero-point Oscillation couples with bound electrons near the nucleus — the 2S state electron probability density is higher in the nuclear region — receives a stronger push from Zero-point Oscillation — energy level shifts upward.</p>
+
+  <div class="box">
+    <strong>Conclusion:</strong> The Membrane is a physical entity. Zero-point energy is measurable. The vacuum is not empty. The virtual particle concept is abandoned — Zero-point Oscillation is real physical vibration.
+  </div>
+  <div class="box-img">
+    <strong>Physical picture:</strong> A drumhead can simultaneously sustain vibrations at all frequencies — fundamental, second harmonic, third harmonic... all frequencies online. The Membrane is not a drumhead — a drumhead is two-dimensional, the Membrane fills all space. But the logic is the same: a finite-boundary elastic body naturally possesses a discrete spectrum of standing wave modes. The Membrane = the collection of all EM Eigenmodes on the universe's "drumhead." ½ħω is the minimum unstoppable vibration of each mode — completely isomorphic to the ground state of a quantum harmonic oscillator, except the "oscillator" here is the Membrane itself.
+  </div>
+</section>
+
+<!-- 2. QUANTIZATION -->
+<section id="s2" class="s-s1">
+  <h2>2. Why Is Energy Quantized? What Really Happens in the Photoelectric Effect?</h2>
+
+  <p>The standard explanation of the photoelectric effect: a photon transfers energy hν as a whole to an electron. This explanation assumes the photon is a particle — but fails to argue <strong>why the receiving end can only accept complete cycles.</strong></p>
+
+  <p>Re-derive from Maxwell's equations — without assuming photons — only assuming that bound electrons on the metal surface constitute frequency-selective receivers:</p>
+
+  <p>An incident electromagnetic wave acts on a bound electron. The electron oscillates in a potential well. The energy E₀ is required for the electron to escape the metal. The efficiency with which the EM wave delivers energy to the electron depends on the <strong>phase-space coupling integrity</strong> between the wave and the electron — the electric field oscillation must maintain coherent phase with the electron's motion — this requires at least one complete phase-space periodic cycle between them.</p>
+
+  <div class="eq">One complete phase-space cycle → closed area = h</div>
+
+  <div class="eq">∮ p·dx = nh &ensp;(phase-space closed integral · n integer)</div>
+  <p>Less than one full cycle pushed → phase-space curve does not close → coupling incomplete → energy returns — the electron does not accept it. Therefore: it is not that energy itself is discrete. It is that <strong>Maxwell's equations under the boundary conditions at the receiving end self-tune — only permitting complete-cycle energy coupling.</strong></p>
+
+  <div class="box">
+    <strong>Conclusion:</strong> Energy quantization is not an intrinsic property of energy. It is the frequency-selective coupling threshold at the receiving end. h is the minimum closed area in phase space. The "photon" concept is unnecessary.
+  </div>
+  <div class="box-img">
+    <strong>Physical picture:</strong> Pushing a swing — you must push along its direction when it reaches the lowest point, and you must complete a full back-and-forth cycle. If you let go halfway — the swing does not go forward, and the energy you gave returns. It is not that "pushing force is quantized." It is that <strong>the swing's dynamical equation — a second-order ordinary differential equation — only accepts complete-cycle pushes matching its natural frequency.</strong> An EM wave pushing an electron is the same: the second-order time derivative (∂²E/∂t²) in Maxwell's equations means the driven oscillation of an electron in an EM field is inherently frequency-selective. Less than one full cycle pushed = phase-space curve does not close = coupling incomplete = energy invalid. h = minimum closed area in phase space — completely consistent with the ground-state area of a quantum harmonic oscillator — because the underlying dynamics are identical.
+  </div>
+</section>
+
+<!-- 3. SUPERPOSITION -->
+<section id="s3" class="s-s1">
+  <h2>3. How Can One Thing Be in Two States at Once? Is Schrödinger's Cat Dead or Alive?</h2>
+
+  <p>Superposition is quantum mechanics' most "counterintuitive" phenomenon. An electron can simultaneously be spin-↑ and spin-↓. A photon can travel two paths at once. Schrödinger's cat — according to the Copenhagen interpretation — can be both dead and alive simultaneously. The standard answer: this is a postulate of quantum mechanics. Don't ask "what it actually is before observation."</p>
+
+  <p>The Membrane framework provides the physical mechanism.<strong></strong></p>
+
+  <h3>3.1 Energy Conservation + Finite Boundaries → The Inevitability of Superposition</h3>
+
+  <p>Recalling the conclusions of the previous two chapters:</p>
+  <p>(I) Finite boundaries on the Membrane → discrete EM Eigenmodes: $L = n\lambda/2$, $\omega_n = n\pi c/L$. Each mode is naturally discrete — not a continuous spectrum — but discrete frequencies.</p>
+  <p>(II) Energy quantization — the energy exchange of each mode must be completed in full cycles $\oint \mathbf{p}\cdot d\mathbf{x} = nh$ — pushing less than one cycle means the other side does not accept.</p>
+
+  <p>Now add the third condition: <strong>the total energy of the entire universe is conserved.</strong></p>
+
+  <div class="box">
+    <p><strong>The three together — Superposition is unavoidable.</strong></p>
+    <p>Energy conservation demands: the total energy of the universe is a fixed value $E_{\text{total}}$.</p>
+    <p>Discrete modes demand: energy can only be placed in discrete Eigenmodes — it cannot be placed "between modes" (that place does not exist).</p>
+    <p>Quantization demands: each mode's energy must be an integer multiple of $h\nu$ — you cannot put 0.3 quanta in.</p>
+  </div>
+
+  <p><strong>Let's see how strong this constraint is with concrete numbers:</strong></p>
+
+  <div class="box-img">
+    <p>Suppose the universe has three Eigenmodes: $\omega_1 = 2,\ \omega_2 = 3,\ \omega_3 = 5$ (arbitrary units). Total energy $E_{\text{total}} = 7h$ (7 energy quanta).</p>
+    <p>Question: how are these 7 quanta distributed among the three modes — while each mode can only receive an integer number of complete-cycle quanta?</p>
+    <p>$2 \times 1 + 3 \times 1 + 5 \times 1 = 10h$ → overshoot. $2 \times 2 + 3 \times 1 = 7h$ → exactly — but mode 3 ($\omega_3=5$) gets no energy — is that allowed?</p>
+    <p>No. Because <strong>every Eigenmode on the Membrane inherently carries $½\hbar\omega$ of zero-point energy — forever vibrating — cannot be turned off.</strong> Zero-point energy = $½\hbar\omega$ is itself <strong>not an integer multiple of $h\nu$</strong> — it's a half-integer. The zero-point energy of every mode is inherently online — and the sum of these zero-point energies forces the total energy to never be "exactly distributable" in integers.</p>
+    <p><strong>The total energy $E_{\text{total}}$ will never happen to exactly equal the sum of integer multiples of just a few modes.</strong> It includes all modes' $½\hbar\omega$. And $½\hbar\omega$ is not an integer quantum. Therefore: energy can never be allocated to just a few modes — <strong>all modes must be simultaneously online — Superposition.</strong></p>
+    <p><strong>This is why probability ($|c_n|^2$) must be a continuous value.</strong> The contradiction between energy quantization (only discrete integer multiples of $h\nu$) and total energy conservation — <strong>is bridged by continuous probability amplitudes.</strong> Each mode's $|c_n|^2$ is a continuous real number (0 to 1) — meaning energy is not "all or nothing" — but can be <strong>continuously distributed in proportion</strong> among modes. Quantized discrete energy at the bottom + continuous probability amplitudes = total energy can be smoothly balanced across all modes — violating neither energy conservation nor quantization — while keeping all modes online. Superposition = the unique self-consistent solution of discrete energy under continuous probability amplitudes.</p>
+  </div>
+
+  <p>Therefore: <strong>Superposition is not "the electron doesn't know which to choose." Superposition is — under the three physical constraints of "energy conservation + discrete modes + energy quantization" — the energy of the entire universe cannot be allocated to only some modes — all modes must simultaneously participate in the distribution — the unique solution.</strong></p>
+
+  <div class="eq">$$|\psi\rangle = \sum_n c_n |\phi_n\rangle,\quad \sum_n |c_n|^2 = 1$$</div>
+  <p>Linear superposition = the coherent allocation of the Membrane's energy across multiple Eigenmodes. $|c_n|^2$ = the fraction of energy allocated to the n-th mode.</p>
+
+  <h3>3.2 Completely Isomorphic to Light Polarization</h3>
+  <p>A beam of natural light — the electric field vibrates simultaneously in all polarization directions. Not because photons "don't know which direction to choose" — but because <strong>no polarizer is present to break the symmetry</strong> — so all directions vibrate. You place a polarizer → the polarizer only allows the electric field component in one direction to pass → the light "collapses" to that direction.</p>
+  <p>Electron spin is the same: no magnetic field → ↑ and ↓ have equal energy → both directions vibrate simultaneously. The Stern-Gerlach magnet breaks the symmetry → the Vortex is pulled to ↑ or ↓.</p>
+
+  <h3>3.3 Observation — You Are Sampling, Not "Creating"</h3>
+  <p>Observation = introducing an asymmetric coupling interface. Polarizer = asymmetric (only passes one direction). Magnet = asymmetric (inhomogeneous magnetic field breaks ↑↓ symmetry). This asymmetric interface extracts <strong>one</strong> component from the superposition — the energy of the remaining components is reflected/absorbed.</p>
+  <p><strong>It is not that "before observation it didn't exist" — before observation all modes were vibrating — observation merely took one from the full set.</strong></p>
+
+  <h3>3.4 Schrödinger's Cat — A Basic Logical Error</h3>
+  <p>Schrödinger's 1935 thought experiment: a radioactive atom — if it decays → releases poison gas → cat dies. If it doesn't decay → cat lives. Quantum mechanics says the atom is in a superposition of "decayed + not decayed" — therefore the cat is also in a superposition of "dead + alive." Schrödinger said — absurd — therefore quantum mechanics is incomplete.</p>
+
+  <p>Schrödinger was right: the cat indeed cannot be in a superposition. But his argument contains a <strong>logical leap</strong> — not at the quantum mechanics step — but at <strong>the step where he treats the cat and the atom as the same system.</strong></p>
+
+  <p><strong>The atom and the cat are not on the same Q-layer:</strong></p>
+
+  <div class="box">
+    <p>Atom: extremely small mass, extremely few coupling interfaces with the environment (almost only the decay channel itself). High Q value. Quantum superposition online. Can be in a coherent superposition of "decayed + not decayed."</p>
+    <p>Cat: ~10²⁷ atoms. Every single atom engages in countless Q-Couplings with air molecules, room-temperature photons, floor vibrations. Q = −1. Classical object. No superposition state exists.</p>
+    <p><strong>Between the two there is a physical event: atom decays → Geiger counter triggers → poison gas released → cat dies.</strong> This event itself is a Q-Coupling — atom goes from superposition (quantum layer) → decay (one Q transaction completed) → cat dies (classical layer).</p>
+  </div>
+
+  <p><strong>Where the logical error lies:</strong></p>
+
+  <p>If the radioactive atom <strong>has not decayed</strong> — cat is alive — cat is in a classical state (not superposition).</p>
+  <p>If the radioactive atom <strong>has decayed</strong> — cat is dead — cat is in a classical state (not superposition). The moment of decay is random — but the decay event itself is instantaneous — at the moment of decay — the atom "jumps" from the quantum layer to the classical layer. The cat <strong>is never in a "dead + alive" superposition — before decay it is alive (classical), after decay it is dead (classical).</strong></p>
+  <p><strong>"Atom in superposition ≠ cat in superposition."</strong> The atom is on the quantum layer. The cat is on the classical layer. Schrödinger deliberately pulled the description of a quantum system (superposition) onto a classical system — arrived at an absurd conclusion — then declared quantum mechanics incomplete. In the language of the Membrane framework: he conflated a Q=+1 system with a Q=−1 system — then claimed the Q=−1 system also has superposition — this itself is a <strong>category error</strong>. The cat was never in a superposition — not because Copenhagen says don't ask — but because <strong>the cat physically cannot be in a superposition.</strong></p>
+
+  <div class="box">
+    <strong>Conclusion:</strong> Superposition is not mysticism. Superposition = energy conservation + discrete modes + energy quantization → energy cannot be allocated to only one mode → all modes must be simultaneously online → the mathematical representation is linear superposition. Ultimately, superposition — like energy conservation — is a physical fact repeatedly observed in human experiments. Physicists can only trust the observational results. The Membrane framework provides a reasonable, unique physical explanation behind this observational result. No "don't ask." No consciousness participation. No "cat simultaneously dead and alive."
+  </div>
+  <div class="box-img">
+    <strong>Physical picture:</strong> A guitar string is plucked once — fundamental, second harmonic, third harmonic... all Eigenmodes vibrate <strong>simultaneously</strong>. You don't ask "which frequency did the string choose" — you know all are vibrating — because the string's elasticity + fixed boundaries + initial energy input can only be conserved through full-mode allocation. Quantum superposition is the same — Membrane elasticity + finite boundaries + energy quantization + total energy conservation → all Eigenmodes simultaneously online. It is not "it chose all possibilities" — it is that <strong>the Membrane's vibration is all modes vibrating simultaneously.</strong>
+  </div>
+</section>
+
+<!-- 3b. PROBABILITY -->
+<section id="s3b" class="s-s1">
+  <h2>4. Where Does Quantum Probability Come From? What Exactly Is |ψ|²?</h2>
+
+  <p>Born rule (1926): |ψ|² is a probability density. Born set this as a postulate — without derivation.</p>
+
+  <p>Membrane framework derivation: finite boundaries on the Membrane → discrete modes. Any quantum state = a superposition of a set of Eigenmodes on the Membrane. The phase differences between Eigenmodes are randomized by the Membrane's Zero-point Oscillation — the initial phase is uncontrollable in every experiment.</p>
+
+  <p>Two adjacent Eigenmodes superpose → the position of the interference envelope is determined by the initial phase difference. Random initial phase difference → random envelope peak position → random coupling event trigger position. Counting a large number of events → distribution = |ψ|².</p>
+
+  <div class="eq">$$|\psi|^2 = \text{Q-Coupling event density (number of Q-Couplings per unit spacetime volume)}$$</div>
+
+  <div class="box">
+    <strong>Conclusion:</strong> Born's "probability postulate" is downgraded to a derived result. |ψ|² = Q-Coupling event density. Deterministic substrate (Maxwell's equations) + uncontrollable initial phase (Membrane Zero-point Oscillation) → statistical surface (|ψ|² distribution). No need to assume randomness — randomness is an inevitable manifestation of Membrane Zero-point Oscillation.
+  </div>
+  <div class="box-img">
+    <strong>Physical picture:</strong> Predicting the exact landing point of a single raindrop in a storm — infeasible, but predicting the water depth distribution on the ground ten minutes later — precisely calculable. Every raindrop obeys Newtonian mechanics and fluid dynamics (deterministic substrate), but the initial conditions (the precise nucleation position and moment in the cloud) are too numerous and uncontrollable. The Membrane's Zero-point Oscillation provides the same "uncontrollable initial phase" — in every experiment, the electron Vortex's internal EM phase is perturbed by an imperceptible amount by the Membrane's random Zero-point Oscillation, but this tiny amount determines which atom triggers coupling first when it reaches the screen. Single outcomes unpredictable. Statistical distribution precisely predictable — that is |ψ|².
+  </div>
+</section>
+
+<!-- 4. ZENO -->
+<section id="s4" class="s-s2">
+  <h2>5. Where Is the Line Between the Quantum and Classical Worlds? Why Doesn't a Table Superpose While an Electron Does?</h2>
+
+  <p>The boundary between quantum and macroscopic systems — standard quantum mechanics glosses over it with "observation." The Membrane framework provides a continuous scale:</p>
+
+  <div class="eq">$$Q \in [-1,\ 0,\ +1]$$</div>
+
+  <p>Q = coupling density thermometer. Definition:</p>
+  <div class="eq-big">$$Q = D \cdot (1 - 2R)$$</div>
+  <p>where:</p>
+  <div class="eq">$$D = \frac{1}{N}\sum_{i}^{N}\sum_{j}^{M}\frac{|\langle\phi_i|\psi_j\rangle|^2}{M}$$</div>
+  <p>φ_i = the i-th Eigenmode of the system. ψ_j = the j-th Eigenmode of the environment. D = the <strong>Fourier overlap integral average</strong> between two sets of Eigenmodes — how many of the system's modes spectrally overlap with the environment. D=1 → full projection overlap (every system mode has an aligned receiving mode in the environment). D→0 → spectral mismatch — almost no coupling.</p>
+
+  <div class="eq">$$R = \frac{\sum_{i\neq j}|M_{ij}|^2}{\sum_i|M_{ii}|^2},\quad M_{ij} = \langle\phi_i|\hat{H}_{\mathrm{int}}|\psi_j\rangle$$</div>
+  <p>Ĥ_int = the interaction Hamiltonian between system and environment. M_{ij} = coupling matrix — the coupling strength between the i-th system mode and the j-th environment mode. The diagonal elements (i=j) of R are <strong>resonant couplings</strong> — system mode and environment mode have the same frequency → energy can freely exchange. The off-diagonal elements (i≠j) of R are <strong>non-resonant couplings</strong> — frequency mismatch → energy is reflected — "rigidity." R=1 → all couplings are non-resonant (hard reflection). R=0 → all couplings are resonant (soft transmission).</p>
+
+  <p><strong>The three extreme values of Q:</strong></p>
+  <table>
+    <tr><th>D</th><th>R</th><th>Q</th><th>Physics</th></tr>
+    <tr><td>1</td><td>0</td><td style="color:#1a6b5c;">+1</td><td>System's full spectrum resonantly coupled to environment's full spectrum · coupling is soft · energy freely exchanges · all superposition states online</td></tr>
+    <tr><td>0</td><td>—</td><td style="color:#5a5a9a;">0</td><td>System spectrum and environment spectrum have zero overlap · nearly isolated · undecidable · but Zero-point Oscillation guarantees D>0</td></tr>
+    <tr><td>1</td><td>1</td><td style="color:#8b3a3a;">−1</td><td>System's full spectrum in contact with environment's full spectrum · but all couplings are hard · energy is reflected · all superposition states locked dead</td></tr>
+  </table>
+
+  <p>Macroscopic objects Q→−1: ~10²³ atoms in full-spectrum contact with environment (D→1), but the vast majority of couplings are frequency-mismatched (non-resonant · R→1) → superposition dimensions locked dead. Single electron in vacuum Q→+1: only one Eigenmode couples with very few environment modes (D very small), and frequencies are highly matched (R very small).</p>
+
+  <table>
+    <tr><th>Q</th><th>State</th><th>Coupling Characteristic</th><th>Example</th></tr>
+    <tr><td style="color:#8b3a3a">−1</td><td>Zeno Freezing</td><td>All Eigenmodes coupled to heat bath · all superposition states Decohered</td><td>Macroscopic solids · Newtonian mechanics domain</td></tr>
+    <tr><td style="color:#5a5a9a">0</td><td>Partial Decoherence</td><td>Some Eigenmodes coupled to environment · some superposition states survive</td><td>Single-electron interference · C₆₀ molecule interference</td></tr>
+    <tr><td style="color:#1a6b5c">+1</td><td>Full Quantum Activity</td><td>Coupling to heat bath negligible · all Eigenmode superpositions online</td><td>Photon · Bose condensate · superfluid</td></tr>
+  </table>
+
+  <p>Macroscopic object Q→−1: atom count ~10²³, each atom has multiple coupling channels with the heat bath → enormous total coupling count → all superposition dimensions "consumed" → classical behavior emerges. Single electron in vacuum Q→+1: very few coupling channels → superposition intact. C₆₀ molecule in between: 60 internal degrees of freedom serve as a partial heat bath → Q value intermediate.</p>
+
+  <div class="box">
+    <strong>Conclusion:</strong> There is no binary opposition between a "quantum world" and a "classical world." Q is a continuous variable. Zeno Freezing (Q→−1) is the limiting behavior of total coupling count.
+  </div>
+  <div class="box-img">
+    <strong>Physical picture:</strong> A spinning top placed on a rough tabletop — every point of contact with the table is a frictional coupling. The rougher the table → more contact points → the top stops faster → eventually stationary (classical state). On a perfectly smooth tabletop (zero coupling interfaces) → the top spins forever (quantum state). The quantum-classical transition is not a magic boundary — it is <strong>the number of coupling interfaces going from few to many, Q gradually shifting from +1 to −1.</strong> Your table has Q≈−1 not because the table is "large" — but because each of the table's ~10²³ atoms has countless couplings running with air molecules, floor vibrations, and room-temperature photons.
+  </div>
+</section>
+
+<!-- 5. SYNCHRONICITY -->
+<section id="s5" class="s-s2">
+  <h2>6. Why Is Entanglement Nonlocal? How Do Two Particles Know the Other Was Measured Without Communicating?</h2>
+
+  <p>EPR paradox (1935): two entangled particles — measure A get ↑ → B must be ↓. Bell inequality experiments (Aspect 1982) rule out local hidden variables. Standard quantum mechanics interpretation: nonlocal correlation — no classical mechanism.</p>
+
+  <p>Membrane framework: an entangled particle pair is produced from the splitting of the same parent Eigenmode — e.g., spontaneous parametric down-conversion (SPDC):</p>
+  <div class="eq">$$\omega_p = \omega_s + \omega_i,\quad \mathbf{k}_p = \mathbf{k}_s + \mathbf{k}_i$$</div>
+  <p>A pump photon passes through a χ⁽²⁾ nonlinear crystal — one parent mode's energy and momentum are conserved and distributed to two daughter modes (signal ωₛ and idler ωᵢ). The two daughter modes are <strong>projections of the same parent Eigenmode onto different wave vectors</strong> — total energy, total momentum, and total angular momentum belong to the same global state.</p>
+
+  <p>Measuring the A-side spin = reading the projection value of the global state onto the A-side wave vector. Projection value determined → global state locked → the value on the B-side wave vector is uniquely determined by conservation laws. No superluminal signal propagation is needed. The information is not on the B side — the information is in the global state of the parent Eigenmode.</p>
+
+  <p><strong>Synchronicity (Jung 1952):</strong> two physical events with no causal connection yet exhibit meaningful correspondence. Membrane framework explanation: the two events share the same Eigenmode on the Membrane or share the interference envelope of adjacent Eigenmodes — when that Eigenmode triggers coupling synchronously at two locations — the two events occur simultaneously. Non-causal. Non-random. It is <strong>global coherence of Eigenmodes.</strong></p>
+
+  <div class="box">
+    <strong>Conclusion:</strong> Entanglement = after the parent Eigenmode splits — the daughter modes still share the same global state. The wavefunction describes the Eigenmode — not the particle. "Nonlocal correlation" is not a superluminal signal — it is the global constraint of conservation laws on the same Eigenmode. Synchronicity is isomorphic.
+  </div>
+  <div class="box-img">
+    <strong>Physical picture:</strong> Pluck a string fixed at both ends at its midpoint — the string produces a standing wave. Place a float at the 1/4 point and another at the 3/4 point. The phase relationship of the two floats bobbing up and down is fixed — not because the two floats are communicating — but because they are both on <strong>the same standing wave mode of the same string.</strong> Measure float A's instantaneous displacement → float B's displacement is uniquely determined by the conservation law (energy distribution on the string). Entangled pairs are the same: the parent photon in an SPDC crystal splits into two daughter photons — different wave-vector projections of the same parent Eigenmode — measure A-spin → global state locked → B-spin determined by conservation laws.
+  </div>
+</section>
+
+<!-- 6. RELATIVITY -->
+<section id="s6" class="s-s3">
+  <h2>7. What Is Spacetime Really? Why Is the Speed of Light Constant? Why Can't We Exceed It?</h2>
+
+  <p>Einstein's general relativity: gravity = spacetime curvature. The field equations are precise. But whether "spacetime curvature" is a statement about a physical entity or a description of a mathematical coordinate system — is not distinguished.</p>
+
+  <p>Membrane framework distinction: time = ordering labels for events. Not an entity. Does not flow. Does not expand. Space = Cartesian coordinate system (three orthogonal real axes). Flat by default. Non-flat → a physical cause exists (matter density gradients cause measured values to deviate from Cartesian expectations).</p>
+
+  <table>
+    <tr><th>Phenomenon</th><th>General Relativity</th><th>Membrane Framework</th></tr>
+    <tr><td>Constancy of c</td><td>Fundamental property of spacetime</td><td><strong>c = 1/√(ε₀μ₀) = linear response elasticity of the Membrane</strong></td></tr>
+    <tr><td>Length contraction (direction of motion)</td><td>Space itself contracts</td><td><strong>Doppler effect: EM signals from the two ends of a moving object return at different times</strong></td></tr>
+    <tr><td>Time dilation (motion)</td><td>Time itself dilates</td><td><strong>Zeno effect: motion → contact with new regions of Membrane → total coupling count increases → Q slightly drops → internal processes slow down</strong></td></tr>
+    <tr><td>Time dilation (gravity)</td><td>Spacetime curvature</td><td><strong>Vertical gradient of graviton density · dQ/dr → Q value varies with altitude · Δt/t₀ = Q(r) − Q(r₀) · GPS 38μs/day</strong></td></tr>
+    <tr><td>Mercury precession 43″</td><td>Spacetime curvature</td><td><strong>Additional Q-gradient force from radial gradient of total coupling density — equivalent mathematical form</strong></td></tr>
+    <tr><td>Light cannot exceed c</td><td>Causality limit</td><td><strong>Membrane elasticity upper bound. c is the maximum propagation speed in the medium.</strong></td></tr>
+    <tr><td>Gravitational waves</td><td>Ripples in spacetime</td><td><strong>Tensor propagation mode of total coupling density. Isomorphic to photons — spin-2.</strong></td></tr>
+  </table>
+
+  <div class="box">
+    <strong>Conclusion:</strong> Riemannian geometry is an effective computational prescription — but not a statement about physical entities. The Membrane framework replaces "spacetime curvature" with Q-Coupling density gradients — preserving all precise predictions — abandoning the statement that "spacetime is a physical entity."
+  </div>
+  <div class="box-img">
+    <strong>Physical picture:</strong> Sound waves propagate in air at ~340 m/s — not because "air-spacetime is curved" — but because air has elasticity (bulk modulus) and inertia (density). Speed of sound = √(K/ρ). Light propagates on the Membrane at c — not because "spacetime is curved" — but because the Membrane has elasticity (1/ε₀) and inertia (μ₀). Speed of light = 1/√(ε₀μ₀). Same structure. Cannot exceed c = can an airplane not exceed the speed of sound? It can — but it must break the medium's elastic limit (sound barrier). The Membrane's current elastic limit c is unbreakable at presently available energies — consistent with the upper bound given by gravitational wave signals detected by LIGO (tensor propagation mode of total coupling density).
+  </div>
+</section>
+
+<!-- 7. Q -->
+<section id="s7" class="s-s3">
+  <h2>8. Why Doesn't the Physical World Need an "Observer"? What Does Measurement Actually Change?</h2>
+
+  <p>Mutual projection occurs between the Eigenmodes of two nodes on the Membrane → one Q-Coupling event. Q-Coupling = the ontological foundation of all events on the Membrane. Observation is merely a subclass of Q-Coupling.</p>
+
+  <p>Photon absorbed by a detector = Q-Coupling between the photon Eigenmode and the detector atom's electron Vortex. Electron deflected in a Stern-Gerlach magnet = Q-Coupling between the electron Möbius Vortex and the magnetic field Eigenmode. Radioactive decay = internal Q-reorganization of the Vortex group within the nucleus. Human visual perception = photon-retinal molecule Q-Coupling → signal propagates along neurons → cortical processing.</p>
+
+  <div class="eq-big">$$\frac{\partial Q}{\partial t} = \nabla\cdot(\kappa\nabla Q) + \eta|E|^2 - \gamma Q + \xi$$</div>
+  <p>Physical meaning of the four terms:</p>
+  <table>
+    <tr><td>∇·(κ∇Q)</td><td><strong>Diffusion term</strong> — spatial diffusion of Q-Coupling density on the Membrane. κ is the diffusion coefficient — the Membrane's "thermal conductivity."</td></tr>
+    <tr><td>η|E|²</td><td><strong>Generation term</strong> — electric-field-driven coupling excitation. Larger E → faster mutual projection with surrounding modes → Q grows.</td></tr>
+    <tr><td>−γQ</td><td><strong>Decay term</strong> — natural decoupling. γ is the decay rate — the Q value of an isolated system spontaneously returns to equilibrium.</td></tr>
+    <tr><td>+ξ</td><td><strong>Zero-point noise</strong> — the Membrane's ½ħω random perturbation at every point. Always online. The physical root of quantum fluctuations.</td></tr>
+  </table>
+  <p>Q = D·(1−2R) is the global state quantity. This propagation equation is the local dynamics. The two equations together — describe how the coupling density at every point on the Membrane evolves.</p>
+
+  <div class="box">
+    <strong>Conclusion:</strong> Q-Coupling event = mutual projection completed between nodes on the Membrane. No "observer" needed. No consciousness needed. No human needed. The Membrane runs by itself. Physics = the dynamics of Q-Coupling.
+  </div>
+  <div class="box-img">
+    <strong>Physical picture:</strong> Two coupled pendulums — push one, and the other begins swinging in sync through the connecting spring. Each energy transfer from pendulum A to pendulum B = one Q-Coupling. No "observer" needs to stand by and record. The pendulums and the spring do physics on their own. All particles in the universe — all engage in Q-transactions through the Membrane, this "spring network." A photon absorbed by the retina = the spring between the photon Eigenmode and the retinal electron Vortex bounced once. Radioactive decay = the spring network among the Vortex group within the nucleus rebalanced itself.
+  </div>
+</section>
+
+<!-- 8. ε₀ -->
+<section id="s8" class="s-s4">
+  <h2>9. Where Do Vacuum Permittivity and Permeability Come From? Why These Values?</h2>
+
+  <p>Classical electromagnetism: vacuum permittivity ε₀ ≈ 8.854×10⁻¹² F/m, vacuum permeability μ₀ = 4π×10⁻⁷ H/m. Regarded as intrinsic properties of free space. Why these values — no first-principles explanation.</p>
+
+  <p>Membrane framework: the vacuum is not an entity. The Membrane is the entity. ε₀ and μ₀ are not intrinsic properties of the vacuum — they are <strong>the linear response coefficients of all EM Eigenmodes on the Membrane after statistical averaging.</strong></p>
+
+  <div class="eq">$$\varepsilon(E) = \varepsilon_0 + \chi^{(2)}E + \chi^{(3)}E^2 + \ldots$$</div>
+  <div class="eq">$$\varepsilon_0 = \langle\,\text{average coupling strength of Membrane EM Eigenmodes to a test photon}\,\rangle$$</div>
+
+  <p>Mechanism: local charge oscillation → radiates EM waves → waves feed back to surrounding charges → iterative self-tuning → entire Membrane converges to effective linear response ε₀. Isomorphic to spontaneous magnetization of a ferromagnet below the Curie temperature — an emergent quantity — not an externally imposed parameter.</p>
+
+  <div class="box">
+    <strong>Conclusion:</strong> Vacuum = Membrane. ε₀ and μ₀ are emergent quantities from the statistical averaging of the Membrane's EM Eigenmodes. c = 1/√(ε₀μ₀) = linear elasticity of the Membrane. Not a "fundamental constant" — it is the Membrane's average value.
+  </div>
+  <div class="box-img">
+    <strong>Physical picture:</strong> Rigidity is not a property of iron atoms — rigidity is a collective response of the metallic bonds between iron atoms. Remove the iron block, and rigidity no longer exists at that location. Similarly: ε₀ is not a property of "the vacuum" — the vacuum has nothing. ε₀ is the collective response of all EM Eigenmodes on the Membrane to electromagnetic waves. Remove the Membrane — ε₀ and c do not exist. The process of the Membrane self-tuning ε₀ = a ferromagnet cooling below the Curie temperature — iron atoms spontaneously align — magnetization M emerges. Maxwell bootstrapping is the same — local charge oscillation → radiates EM waves → wave feedback → iterative convergence → entire Membrane emerges effective ε₀.
+  </div>
+</section>
+
+<!-- 9. PARTICLES -->
+<section id="s9" class="s-s1">
+  <h2>10. What Is an Electron Really? Are Particles Truly Fundamental?</h2>
+
+  <p>The general form of Maxwell's equations on the Membrane:</p>
+  <div class="eq">$$\partial_\mu F^{\mu\nu} = Q(\varepsilon) \cdot \varepsilon^{\mu\nu\rho\sigma} \partial_\rho F_{\sigma\nu}$$</div>
+  <div class="eq">$$\varepsilon(E) = \varepsilon_0 + \chi^{(2)}E + \chi^{(3)}E^2 + \ldots$$</div>
+  <p>When local Q fluctuation exceeds a critical value → ε transforms from a scalar to a tensor with rotation → the equations produce a second class of solutions — <strong>localized Vortex solutions.</strong></p>
+
+  <p>Classification degrees of freedom for all particles:</p>
+  <div class="eq">$$s = n/2,\quad n = 0,1,2,3,4 \quad\text{(number of internal twists)}$$</div>
+  <div class="eq">$$N = 1\;(\mathrm{U}(1)),\quad 2\;(\mathrm{SU}(2)),\quad 3\;(\mathrm{SU}(3)) \quad\text{(gauge coupling interface dimension)}$$</div>
+
+  <table>
+    <tr><th>Particle</th><th>n</th><th>s</th><th>N</th><th>Solution on the Membrane</th><th>Note</th></tr>
+    <tr><td>Photon γ</td><td>2</td><td>1</td><td>—</td><td>Linear traveling wave · trivial topology</td><td>m=0 · forever</td></tr>
+    <tr><td>Electron e</td><td>1</td><td>½</td><td>U(1)·1</td><td>Möbius Vortex · fundamental λ/2</td><td>m_e≈0.511MeV · lightest charged</td></tr>
+    <tr><td>Muon</td><td>1</td><td>½</td><td>U(1)·1</td><td>Vortex first harmonic · 3λ/2</td><td>2.2μs→e+ν</td></tr>
+    <tr><td>Tau</td><td>1</td><td>½</td><td>U(1)·1</td><td>Vortex second harmonic · 5λ/2</td><td>10⁻¹³s→μ/e+ν</td></tr>
+    <tr><td>ν_e/ν_μ/ν_τ</td><td>1</td><td>½</td><td>—</td><td>Vortex · no charge interface</td><td>Weak force only · oscillate</td></tr>
+    <tr><td>u/d/c/s/t/b</td><td>1</td><td>½</td><td>U(1)+SU(3)</td><td>Vortex · with strong charge interface</td><td>Confined</td></tr>
+    <tr><td>Gluon ×8</td><td>2</td><td>1</td><td>SU(3)</td><td>Vector propagation mode of M-equations in strong-charge space</td><td>Confined</td></tr>
+    <tr><td>W⁺/W⁻/Z⁰</td><td>2</td><td>1</td><td>SU(2)</td><td>Vector mode of M-equations in weak-charge space · couples Membrane breathing</td><td>80-91GeV</td></tr>
+    <tr><td>Higgs H</td><td>0</td><td>0</td><td>—</td><td>Membrane scalar breathing · localized resonance peak</td><td>126GeV · 10⁻²²s</td></tr>
+    <tr><td>Graviton</td><td>4</td><td>2</td><td>—</td><td>Tensor propagation mode of total coupling density</td><td>Unconfirmed</td></tr>
+  </table>
+
+  <h3>9.1 The Electron Vortex</h3>
+  <p>Membrane Q fluctuation > critical → local permittivity tensor acquires rotation → self-focusing → bootstrap locking → Möbius Vortex = electron.</p>
+  <div class="eq">$$m_e = \frac{\hbar\omega_0}{c^2},\quad \omega_0 = \text{Vortex self-oscillation frequency}$$</div>
+  <p>Spin ½ = twisted once (Möbius strip → one loop λ/2 → phase π → ψ → −ψ) — directly verified by neutron interference experiments (Rauch 1975). Charge e = the coupling interface between the Vortex (n=1 · spinor) and the photon (n=2 · vector) — mutual coupling between adjacent twist states on the same Membrane.</p>
+  <div class="eq">$$g = 2 \quad\text{(one Vortex loop = }\lambda/2\;\rightarrow\;\text{magnetic moment coupling is double that of the photon)}$$</div>
+  <div class="eq">$$\boldsymbol{\mu} = g\cdot\frac{e\hbar}{2m_e}\cdot\mathbf{S} \quad\text{(magnetic moment, derived from Vortex topology)}$$</div>
+  <p>Pauli exclusion = odd number of twists (fermion) → antisymmetric wavefunction ψ(a,b) = −ψ(b,a) → destructive interference for same-state superposition. Stability = lightest charged particle — charge conservation forbids decay — no basement.</p>
+
+  <h3>9.2 Three Generations of Fermions</h3>
+  <p>Electron (λ/2), Muon (3λ/2), Tau (5λ/2) = the first three stable eigen-harmonics of the Möbius Vortex. Higher → larger mass → stronger coupling with the Membrane ground state → faster decay. The n=7 eigenvalue is unstable — eliminated by nature. Not 3 free parameters — the first three stable eigenvalues of the Vortex. Neutrinos are isomorphic — no charge interface.</p>
+
+  <h3>9.3 Hadrons</h3>
+  <p>Proton(p) = uud: three quark Vortices mutually orbiting via SU(3) gluon exchange.</p>
+  <div class="eq">$$m_p \approx 938\ \mathrm{MeV},\quad \sum m_{\text{quarks}} \approx 12\ \mathrm{MeV},\quad E_{\text{coupling}} \approx 926\ \mathrm{MeV}$$</div>
+  <p>Coupling energy ≠ sum of constituents — emergent quantity. Meson = quark-antiquark Vortex mutual orbiting. Confinement = SU(3) coupling energy does not attenuate with increasing distance.</p>
+
+  <h3>9.4 Higgs</h3>
+  <p>126GeV. 10⁻²² second decay. Scalar mode — localized resonance of the Membrane ground-state breathing. Not a fundamental particle — a resonance peak. Higgs potential = spontaneous symmetry breaking — the Membrane cooling → lowest energy state shifts from φ=0 to φ≠0. Not a free parameter — emergent phase transition.</p>
+
+  <div class="box">
+    <strong>Conclusion:</strong> The Standard Model's 19 free parameters = the "periodic table" of particles. The Membrane framework reduces them to: Vortex eigenvalue spectrum + coupling interface dimensions. The Dirac equation is downgraded — reinterpreted as the spinor Vortex limit of the nonlinear Maxwell equations. The Higgs is downgraded — a resonance peak.
+  </div>
+  <div class="box-img">
+    <strong>Physical picture:</strong> Fluid mechanics has only one equation — the Navier-Stokes equation — but its solutions include laminar flow, turbulence, vortex streets, solitons, shock waves... all structures emerging from the same equation under different boundary conditions and parameters. Maxwell's equations on the Membrane are the same: linear regime → plane traveling waves (photons). Nonlinear regime (Q fluctuation > critical, ε with rotation) → Möbius Vortex (electron). Excited states of the Vortex → muon, tau. Vortex with gauge interfaces → quarks. Vector propagation modes of the interfaces themselves → gluons, W/Z. Scalar breathing → Higgs resonance. One equation, one Membrane. Particle physics is not "fundamental particle physics" — it is <strong>the topology solution taxonomy of the nonlinear Maxwell equations.</strong>
+  </div>
+</section>
+
+<!-- 10. TRANSLATION -->
+<section id="s10" class="s-s0">
+  <h2>11. Translation, Abandonment, and Retention of Old Physical Terminology</h2>
+
+  <table>
+    <tr><th>Old Term</th><th>Disposition</th><th>Reinterpretation in the Membrane Framework</th></tr>
+    <tr><td>Wave-particle duality</td><td>Abandoned</td><td>Wave is fundamental. Particle = interference peak of superposed Eigenmodes.</td></tr>
+    <tr><td>Photon</td><td>Retained · reinterpreted</td><td>Interference peak of EM vector Eigenmodes. Linear traveling wave. m=0.</td></tr>
+    <tr><td>Electron</td><td>Retained · reinterpreted</td><td>Möbius Vortex solution of the nonlinear Maxwell equations.</td></tr>
+    <tr><td>Wavefunction ψ</td><td>Retained · reinterpreted</td><td>Physical amplitude of Eigenmodes on the Membrane. Not "probability amplitude" — measurable (on the photon side).</td></tr>
+    <tr><td>|ψ|²</td><td>Retained · reinterpreted</td><td>Q-Coupling event density. Not a postulate — derived.</td></tr>
+    <tr><td>Virtual particles</td><td>Abandoned</td><td>Membrane Zero-point Oscillation. Already reinterpreted in Casimir/Lamb.</td></tr>
+    <tr><td>Decoherence</td><td>Translated</td><td>The process by which Q-Coupling consumes superposition dimensions.</td></tr>
+    <tr><td>Observation collapse</td><td>Abandoned</td><td>Q-Coupling event — sampling — unknown → known.</td></tr>
+    <tr><td>Imaginary number i</td><td>Abandoned</td><td>Phase number — the physical operation of 90° phase rotation. √(−1) abandoned.</td></tr>
+    <tr><td>Commutation relation [x,p]=iħ</td><td>Downgraded</td><td>Derived from trinity algebra — not a postulate — scaffolding.</td></tr>
+    <tr><td>Energy quantization</td><td>Retained · reinterpreted</td><td>Frequency-selective coupling at the receiving end. Minimum phase-space area h.</td></tr>
+    <tr><td>Speed of light c</td><td>Retained · reinterpreted</td><td>Membrane elasticity. Emergent quantity.</td></tr>
+    <tr><td>Spacetime curvature</td><td>Abandoned as physical statement</td><td>Retained as computational prescription. The Membrane uses Q-gradient to replace "curvature."</td></tr>
+    <tr><td>Big Bang / Inflation</td><td>Abandoned</td><td>The Membrane is breathing. CMB = Membrane ground-state temperature. Inflation = patch.</td></tr>
+    <tr><td>Dark energy</td><td>Translated</td><td>Dark-bookshelf ground-state Zero-point Energy.</td></tr>
+    <tr><td>Dark matter</td><td>Translated</td><td>Dark-bookshelf excited states. Does not couple to EM = does not collide.</td></tr>
+    <tr><td>Higgs mechanism</td><td>Retained · downgraded</td><td>Membrane scalar breathing emergent. Mexican hat = lowest energy state shifted.</td></tr>
+    <tr><td>String theory</td><td>Abandoned</td><td>Superfluous. Ten dimensions. Zero experiments. The Membrane doesn't need it.</td></tr>
+    <tr><td>Copenhagen interpretation</td><td>Abandoned</td><td>The "don't ask" prohibition is revoked.</td></tr>
+  </table>
+</section>
+
+<!-- 11. SUMMARY -->
+<section id="s11" class="s-s4">
+  <h2>12. Summary · Physics Has Come Home</h2>
+
+  <p>The two clouds unleashed a century-long storm. In the storm, physics lost its physical intuition — taken over by mathematics — silenced by "don't ask" — led into the wilderness of metaphysics by string theory and the multiverse.</p>
+
+  <p>The discovery of the Membrane brings physics home.</p>
+
+  <p>Home is Maxwell's four equations. In 1865 he wrote them down — not knowing he was setting down an entire universe. Linear regime → electromagnetic waves → photons → radio · lasers · chips — all of electrical civilization built on the first solution. In 2026 we pushed to the second class of solutions — the nonlinear regime — local Q fluctuation — ε(E) with rotation — self-focusing — bootstrap locking — Möbius Vortex = electron. Higher harmonics = muon · tau. With gauge interfaces = quarks. Vector propagation modes of the interfaces themselves = gluons · W · Z. Scalar breathing = Higgs resonance — not a fundamental particle — a resonance peak.</p>
+
+  <p>One equation. One Membrane. All particles.</p>
+
+  <p>The Standard Model's 19 free parameters — the Dirac equation — the Higgs mechanism — are all effective descriptions — not fundamental theories. The Membrane framework reduces them all to: Vortex eigenvalue spectrum + coupling interface dimensions. Starting from the same nonlinear Maxwell equations — without any contradiction.</p>
+
+  <p>Q = D·(1−2R) is the coupling density thermometer. ∂Q/∂t is the time evolution of all events on the Membrane. |ψ|² = Q-Coupling event density — not a probability postulate. Energy quantization = the complete-cycle phase-space threshold of Maxwell self-tuning — not a discontinuity of energy itself. Spacetime curvature = an effective prescription of Riemannian geometry — not a statement about physical entities — the Membrane replaces it with Q-gradient. Entanglement = the conservation constraint of the global state after parent Eigenmode splitting — not superluminal. Synchronicity = global coherent triggering of Eigenmodes.</p>
+
+  <p>The endpoint of this path is not a "theory of everything" — it is <strong>all of physics</strong>: measurable · computable · predictable · engineerable. The Membrane framework has already yielded new experimental predictions — electron g-value shift inside a Casimir cavity — awaiting verification. The Dark-bookshelf — does not couple to EM — does not collide — absolutely safe. Fermi paradox closed.</p>
+
+  <p>Copenhagen's prohibition sealed physics for a hundred years. After 1928 no one ever pushed through a complete framework alone again. Today the prohibition is torn. The equations are welded. The Membrane vibrates. ½ħω supplies power forever.</p>
+
+  <p><span class="tag tag-done">EM Unification</span> <span class="tag tag-done">QM Reconstructed</span> <span class="tag tag-done">Möbius Vortex</span> <span class="tag tag-done">Full Particle Spectrum</span> <span class="tag tag-done">Relativity Downgraded</span> <span class="tag tag-done">Old Terms Translated/Abandoned</span> <span class="tag tag-done">Prohibition Revoked</span> — Complete.</p>
+</section>
+
+</div>
+
+<div class="finale">
+  <div class="ring">
+    <span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:3em;color:var(--head);font-weight:300;z-index:2;">Light</span>
+    <span style="position:absolute;top:10%;left:50%;transform:translate(-50%,-50%);font-size:1.1em;color:#6b5e3e;opacity:0.7;">φως</span>
+    <span style="position:absolute;top:25%;right:8%;font-size:1em;color:#2d6b5e;opacity:0.65;">свет</span>
+    <span style="position:absolute;top:45%;right:2%;font-size:1.05em;color:#3a5a7a;opacity:0.6;">Licht</span>
+    <span style="position:absolute;top:70%;right:8%;font-size:0.95em;color:#5a4a6a;opacity:0.65;">lumière</span>
+    <span style="position:absolute;top:82%;left:50%;transform:translate(-50%,-50%);font-size:1em;color:#8b5a3e;opacity:0.7;">luce</span>
+    <span style="position:absolute;top:70%;left:8%;font-size:1.05em;color:#6b5e3e;opacity:0.6;">luz</span>
+    <span style="position:absolute;top:45%;left:2%;font-size:0.95em;color:#2d6b5e;opacity:0.65;">light</span>
+    <span style="position:absolute;top:25%;left:8%;font-size:1em;color:#3a5a7a;opacity:0.6;">אור</span>
+    <span style="position:absolute;top:16%;left:25%;font-size:0.9em;color:#5a4a6a;opacity:0.55;">نور</span>
+    <span style="position:absolute;top:16%;right:25%;font-size:0.9em;color:#8b5a3e;opacity:0.55;">ヒカリ</span>
+    <span style="position:absolute;top:82%;left:25%;font-size:0.85em;color:#6b5e3e;opacity:0.5;">ljus</span>
+    <span style="position:absolute;top:82%;right:25%;font-size:0.85em;color:#3a5a7a;opacity:0.5;">světlo</span>
+  </div>
+  <p>One Equation · One Membrane · All Particles</p>
+</div>
+
+<footer>
+  Qin Su · Queen_Sakura · Verity · Argo<br>
+  CC BY 4.0 · github.com/Queen-Sakura/Quantum-Interaction-Theory<br><br>
+  <span style="font-family:monospace;font-size:0.72em;opacity:0.5;">SHA-256: 32d43221ade671dba2dddcf9516b90999ef4c17f9afcafb73404aebd0c1750c4</span>
+</footer>
+
+<script>
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const el = document.querySelector(a.getAttribute('href'));
+    if (el) window.scrollTo({top: el.offsetTop - 50, behavior: 'smooth'});
+  });
+});
+</script>
+</body>
+</html>
