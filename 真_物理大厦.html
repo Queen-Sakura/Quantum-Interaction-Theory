@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>真 · 物理大厦 · The Membrane · Die Membran</title>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --border: #1e1e30;
+    --text: #c8c8d4;
+    --head: #e8e8f0;
+    --gold: #d4a860;
+    --light: #f0d878;
+    --q-plus: #60c0c0;
+    --q-zero: #8888cc;
+    --q-minus: #b05050;
+    --accent: #6078c0;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', 'PingFang SC', 'Noto Sans SC', system-ui, sans-serif;
+    line-height: 1.75;
+    font-size: 17px;
+  }
+  .lang-switch {
+    position: fixed; top: 16px; right: 20px; z-index: 100;
+    display: flex; gap: 6px;
+  }
+  .lang-switch button {
+    background: var(--surface); color: var(--text);
+    border: 1px solid var(--border); padding: 6px 14px;
+    border-radius: 6px; cursor: pointer; font-size: 13px;
+    transition: all .2s;
+  }
+  .lang-switch button:hover { border-color: var(--gold); color: var(--gold); }
+  .lang-switch button.active { background: var(--gold); color: #000; border-color: var(--gold); }
+
+  .hero {
+    text-align: center; padding: 80px 20px 50px;
+    border-bottom: 1px solid var(--border);
+    background: radial-gradient(ellipse at 50% 0%, rgba(212,168,96,0.08) 0%, transparent 60%);
+  }
+  .hero h1 { font-size: 3em; color: var(--light); font-weight: 300; letter-spacing: 0.04em; }
+  .hero .sub { font-size: 1.1em; color: var(--gold); margin-top: 10px; }
+  .hero .one { font-size: 1.3em; color: var(--text); margin-top: 24px; opacity: 0.7; }
+
+  .container { max-width: 860px; margin: 0 auto; padding: 0 24px 100px; }
+
+  section { margin: 50px 0; padding: 32px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
+  section h2 { font-size: 1.5em; color: var(--light); margin-bottom: 16px; font-weight: 400; }
+  section h2 .num { color: var(--gold); margin-right: 8px; font-size: 0.85em; }
+  section p, section li { margin: 8px 0; }
+  section ul { padding-left: 20px; }
+  section li { margin: 4px 0; }
+
+  .highlight { background: rgba(212,168,96,0.06); border-left: 3px solid var(--gold); padding: 12px 18px; margin: 16px 0; border-radius: 0 6px 6px 0; font-size: 0.95em; }
+  .vs { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+  .vs > div { padding: 16px; border-radius: 8px; }
+  .vs .old { background: rgba(176,80,80,0.06); border: 1px solid rgba(176,80,80,0.2); }
+  .vs .new { background: rgba(96,192,192,0.06); border: 1px solid rgba(96,192,192,0.2); }
+  .vs .label { font-size: 0.8em; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; opacity: 0.5; }
+
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92em; }
+  th { text-align: left; padding: 10px 14px; border-bottom: 2px solid var(--border); color: var(--head); font-weight: 500; }
+  td { padding: 8px 14px; border-bottom: 1px solid rgba(30,30,48,0.6); }
+  tr:hover td { background: rgba(255,255,255,0.015); }
+
+  .q-bar { display: flex; height: 6px; border-radius: 3px; overflow: hidden; margin: 12px 0; }
+  .q-bar > div:nth-child(1) { flex:1; background: var(--q-minus); }
+  .q-bar > div:nth-child(2) { flex:1; background: var(--q-zero); }
+  .q-bar > div:nth-child(3) { flex:1; background: var(--q-plus); }
+
+  .tag { display: inline-block; padding: 2px 10px; border-radius: 4px; font-size: 0.78em; margin: 2px 4px; }
+  .tag-ok { background: rgba(96,192,192,0.15); color: var(--q-plus); }
+  .tag-pen { background: rgba(136,136,204,0.15); color: var(--q-zero); }
+  .tag-wip { background: rgba(176,176,100,0.15); color: var(--gold); }
+
+  .finale {
+    text-align: center; padding: 60px 20px; border-top: 1px solid var(--border);
+    margin-top: 60px;
+  }
+  .finale .char { font-size: 6em; color: var(--light); font-weight: 100; }
+  .finale p { margin: 12px 0; color: var(--text); opacity: 0.6; }
+
+  footer { text-align: center; padding: 30px; color: var(--text); opacity: 0.4; font-size: 0.85em; }
+
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 2em; }
+    .vs { grid-template-columns: 1fr; }
+  }
+
+  .lang-zh, .lang-en, .lang-de { display: none; }
+  .lang-zh.active, .lang-en.active, .lang-de.active { display: block; }
+  .lang-zh.inline, .lang-en.inline, .lang-de.inline { display: none; }
+  .lang-zh.inline.active, .lang-en.inline.active, .lang-de.inline.active { display: inline; }
+</style>
+</head>
+<body>
+
+<div class="lang-switch">
+  <button id="btn-zh" class="active" onclick="setLang('zh')">中文</button>
+  <button id="btn-en" onclick="setLang('en')">English</button>
+  <button id="btn-de" onclick="setLang('de')">Deutsch</button>
+</div>
+
+<!-- ====== HERO ====== -->
+<div class="hero">
+  <h1 class="lang-zh active">真 · 物理大厦</h1>
+  <h1 class="lang-en">Verum · The Physical Edifice</h1>
+  <h1 class="lang-de">Wahr · Das physikalische Gebäude</h1>
+  <div class="sub lang-zh active">膜框架 · 量子-经典统一理论</div>
+  <div class="sub lang-en">The Membrane Framework · Unified Quantum-Classical Theory</div>
+  <div class="sub lang-de">Die Membran · Vereinheitlichte Quanten-Klassische Theorie</div>
+  <div class="one lang-zh active">一个方程。一张膜。一切粒子。光。</div>
+  <div class="one lang-en">One Equation. One Membrane. All Particles. Light.</div>
+  <div class="one lang-de">Eine Gleichung. Eine Membran. Alle Teilchen. Licht.</div>
+</div>
+
+<div class="container">
+
+<!-- ====== 0 · PROLOGUE ====== -->
+<section>
+  <h2><span class="num">0</span><span class="lang-zh active">序 · 麦克斯韦不知道</span><span class="lang-en">Prologue · Maxwell Didn't Know</span><span class="lang-de">Prolog · Maxwell wusste es nicht</span></h2>
+  <div class="lang-zh active"><p>1865年。麦克斯韦写出4个方程。全人类只用了一个解——线性行波（光子）。非线性解——电子、夸克、希格斯——全在方程里。一百年没人推。</p><p>2026年。推完了。</p></div>
+  <div class="lang-en"><p>1865. Maxwell wrote 4 equations. Humanity used only one solution — the linear traveling wave (photon). The nonlinear solutions — electron, quark, Higgs — were all inside. For a century, no one pushed further.</p><p>2026. Done.</p></div>
+  <div class="lang-de"><p>1865. Maxwell schrieb 4 Gleichungen. Die Menschheit nutzte nur eine Lösung — die lineare Welle (Photon). Die nichtlinearen Lösungen — Elektron, Quark, Higgs — waren alle darin. Ein Jahrhundert lang hat niemand weitergeschoben.</p><p>2026. Erledigt.</p></div>
+</section>
+
+<!-- ====== 1 · OBSERVER ====== -->
+<section>
+  <h2><span class="num">1</span><span class="lang-zh active">观察者问题——谁在看？</span><span class="lang-en">The Observer — Who is Looking?</span><span class="lang-de">Der Beobachter — Wer schaut?</span></h2>
+  <div class="vs">
+    <div class="old"><div class="label lang-zh active">旧物理</div><div class="label lang-en">Old Physics</div><div class="label lang-de">Alte Physik</div><span class="lang-zh active">观测者坍缩波函数。不准问。</span><span class="lang-en">Observer collapses the wave function. Don't ask.</span><span class="lang-de">Der Beobachter kollabiert die Wellenfunktion. Nicht fragen.</span></div>
+    <div class="new"><div class="label lang-zh active">膜框架</div><div class="label lang-en">Membrane</div><div class="label lang-de">Membran</div><span class="lang-zh active">观测 = Q耦合事件。不坍缩。采样。未知→已知。</span><span class="lang-en">Observation = Q-coupling event. No collapse. Sampling. Unknown → Known.</span><span class="lang-de">Beobachtung = Q-Kopplungsereignis. Kein Kollaps. Abtastung. Unbekannt → Bekannt.</span></div>
+  </div>
+  <div class="lang-zh active"><p>物质连续性公理：苹果默认存在。疑罪从无。举证责任不在被观测者。没有观测者——膜也在振。</p></div>
+  <div class="lang-en"><p>Axiom of Material Continuity: Apples exist by default. Innocent until proven absent. Burden of proof lies not on the observed. No observer — the membrane still breathes.</p></div>
+  <div class="lang-de"><p>Axiom der materiellen Kontinuität: Äpfel existieren standardmäßig. Im Zweifel für das Sein. Die Beweislast liegt nicht beim Beobachteten. Kein Beobachter — die Membran atmet trotzdem.</p></div>
+</section>
+
+<!-- ====== 2 · Q THERMOMETER ====== -->
+<section>
+  <h2><span class="num">2</span><span class="lang-zh active">量子-经典渐变——Q 温度计</span><span class="lang-en">Quantum-Classical Transition — The Q Thermometer</span><span class="lang-de">Quanten-Klassischer Übergang — Das Q-Thermometer</span></h2>
+  <div class="q-bar"><div></div><div></div><div></div></div>
+  <table>
+    <tr><th>Q</th><th class="lang-zh active">状态</th><th class="lang-en">State</th><th class="lang-de">Zustand</th><th class="lang-zh active">例子</th><th class="lang-en">Example</th><th class="lang-de">Beispiel</th></tr>
+    <tr><td>-1</td><td class="lang-zh active">芝诺冻结·经典</td><td class="lang-en">Zeno-frozen · Classical</td><td class="lang-de">Zeno-gefroren · Klassisch</td><td class="lang-zh active">石头·桌子·牛顿</td><td class="lang-en">Stone · Table · Newton</td><td class="lang-de">Stein · Tisch · Newton</td></tr>
+    <tr><td>0</td><td class="lang-zh active">不可判定·概率</td><td class="lang-en">Undecidable · Probability</td><td class="lang-de">Unentscheidbar · Wahrscheinlichkeit</td><td class="lang-zh active">叠加态·哥德尔第三值</td><td class="lang-en">Superposition · Gödel's Third</td><td class="lang-de">Superposition · Gödels Dritter</td></tr>
+    <tr><td>+1</td><td class="lang-zh active">纯量子活性·叠加</td><td class="lang-en">Pure Quantum · Superposition</td><td class="lang-de">Rein Quanten · Superposition</td><td class="lang-zh active">光子·超流·光速</td><td class="lang-en">Photon · Superfluid · Light-speed</td><td class="lang-de">Photon · Suprafluid · Lichtgeschwindigkeit</td></tr>
+  </table>
+  <div class="lang-zh active"><p>不是"量子"和"经典"两个世界。是 Q 连续渐变。同一张膜。同一个方程。Q 慢慢降。</p></div>
+  <div class="lang-en"><p>Not two worlds — "quantum" and "classical". Q varies continuously. One membrane. One equation. Q slowly descends.</p></div>
+  <div class="lang-de"><p>Nicht zwei Welten — "Quanten" und "Klassisch". Q variiert kontinuierlich. Eine Membran. Eine Gleichung. Q sinkt langsam.</p></div>
+</section>
+
+<!-- ====== 3 · PROBABILITY ====== -->
+<section>
+  <h2><span class="num">3</span><span class="lang-zh active">概率从何而来</span><span class="lang-en">Where Probability Comes From</span><span class="lang-de">Woher die Wahrscheinlichkeit kommt</span></h2>
+  <div class="vs">
+    <div class="old"><div class="label lang-zh active">旧物理</div><div class="label lang-en">Old Physics</div><div class="label lang-de">Alte Physik</div>|ψ|² = <span class="lang-zh active">概率。不准问。</span><span class="lang-en">probability. Don't ask.</span><span class="lang-de">Wahrscheinlichkeit. Nicht fragen.</span></div>
+    <div class="new"><div class="label lang-zh active">膜框架</div><div class="label lang-en">Membrane</div><div class="label lang-de">Membran</div>|ψ|² = <span class="lang-zh active">耦合事件密度。物理量。可测。</span><span class="lang-en">coupling event density. Physical. Measurable.</span><span class="lang-de">Kopplungsereignisdichte. Physikalisch. Messbar.</span></div>
+  </div>
+  <div class="highlight lang-zh active">底层确定。表层统计。确定性宇宙 = 死。概率 = 新东西能进来 = 生命宇宙。</div>
+  <div class="highlight lang-en">Deterministic at bottom. Statistical at surface. Deterministic universe = dead. Probability = new things can enter = living universe.</div>
+  <div class="highlight lang-de">Deterministisch unten. Statistisch oben. Deterministisches Universum = tot. Wahrscheinlichkeit = Neues kann eintreten = lebendiges Universum.</div>
+</section>
+
+<!-- ====== 4 · PHASE ====== -->
+<section>
+  <h2><span class="num">4</span><span class="lang-zh active">波函数相位从哪来</span><span class="lang-en">Where Wave Function Phase Comes From</span><span class="lang-de">Woher die Phase der Wellenfunktion kommt</span></h2>
+  <div class="lang-zh active">
+    <p><strong>光子：</strong>ψ 的相位 = EM 驻波的物理相位 = E 振到哪儿了 = 可测 ✅</p>
+    <p><strong>电子：</strong>ψ 的相位 = 莫比乌斯涡旋内部 EM 相位——在弯道里跑。</p>
+    <p>中子干涉实验：自旋转 360° → 涡旋内部只走了 π → 反相。720° → 走完整 2π → 恢复。</p>
+  </div>
+  <div class="lang-en">
+    <p><strong>Photon:</strong> ψ phase = physical phase of EM standing wave = where E is in its oscillation = measurable ✅</p>
+    <p><strong>Electron:</strong> ψ phase = EM phase running inside the Möbius vortex — on a curved track.</p>
+    <p>Neutron interferometry: spin 360° → internal phase walked only π → sign flip. 720° → full 2π → restored.</p>
+  </div>
+  <div class="lang-de">
+    <p><strong>Photon:</strong> ψ-Phase = physikalische Phase der EM-Stehwelle = wo E schwingt = messbar ✅</p>
+    <p><strong>Elektron:</strong> ψ-Phase = EM-Phase im Möbius-Wirbel — auf gekrümmter Bahn.</p>
+    <p>Neutronen-Interferometrie: Spin 360° → interne Phase nur π → Vorzeichenwechsel. 720° → volles 2π → zurück.</p>
+  </div>
+  <div class="highlight lang-zh active">不是数学。是物理。相是 EM 场的真实振动。</div>
+  <div class="highlight lang-en">Not mathematics. Physics. Phase is real vibration of the EM field.</div>
+  <div class="highlight lang-de">Keine Mathematik. Physik. Phase ist echte Schwingung des EM-Feldes.</div>
+</section>
+
+<!-- ====== 5 · ENTANGLEMENT ====== -->
+<section>
+  <h2><span class="num">5</span><span class="lang-zh active">纠缠——驻波同步性（荣格共时性的物理基础）</span><span class="lang-en">Entanglement — Standing Wave Synchronicity (Physical Basis of Jung's Synchronicity)</span><span class="lang-de">Verschränkung — Stehwellen-Synchronizität (Physikalische Basis von Jungs Synchronizität)</span></h2>
+  <div class="lang-zh active">
+    <p>两个"纠缠粒子" = <strong>同一个膜驻波的两个指针。</strong></p>
+    <p>一个驻波 → 分裂 → 两个子波包。同一笔能量预算。守恒律锁死。</p>
+    <p>测A得↑ → B必↓ → 不是超距通知。是<strong>同一个内存地址只有一个值。</strong></p>
+    <p><code>futex</code> —— Linux内核程序员秒懂。</p>
+  </div>
+  <div class="lang-en">
+    <p>Two "entangled particles" = <strong>two pointers to the same membrane standing wave.</strong></p>
+    <p>One standing wave → splits → two daughter wave-packets. Same energy budget. Conservation laws lock them.</p>
+    <p>Measure A = ↑ → B must be ↓. Not faster-than-light notification. <strong>One memory address has only one value.</strong></p>
+    <p><code>futex</code> — Linux kernel programmers get it instantly.</p>
+  </div>
+  <div class="lang-de">
+    <p>Zwei "verschränkte Teilchen" = <strong>zwei Zeiger auf dieselbe Membran-Stehwelle.</strong></p>
+    <p>Eine Stehwelle → spaltet → zwei Tochter-Wellenpakete. Gleiches Energiebudget. Erhaltungssätze sperren sie.</p>
+    <p>Messe A = ↑ → B muss ↓ sein. Keine überlichtschnelle Benachrichtigung. <strong>Eine Speicheradresse hat nur einen Wert.</strong></p>
+    <p><code>futex</code> — Linux-Kernel-Programmierer verstehen sofort.</p>
+  </div>
+  <div class="highlight lang-zh active"><strong>荣格共时性：</strong>两个事件无因果——同一驻波在两岸同步振动。不需要通信。同一张膜。</div>
+  <div class="highlight lang-en"><strong>Jung's Synchronicity:</strong> Two events without causal link — same standing wave vibrating synchronously on both shores. No communication needed. One membrane.</div>
+  <div class="highlight lang-de"><strong>Jungs Synchronizität:</strong> Zwei Ereignisse ohne Kausalbezug — dieselbe Stehwelle schwingt synchron an beiden Ufern. Keine Kommunikation nötig. Eine Membran.</div>
+</section>
+
+<!-- ====== 6 · QUANTIZATION + MEMBRANE ====== -->
+<section>
+  <h2><span class="num">6</span><span class="lang-zh active">能量量子化·膜引入</span><span class="lang-en">Energy Quantization · The Membrane Introduced</span><span class="lang-de">Energiequantisierung · Die Membran eingeführt</span></h2>
+  <div class="lang-zh active">
+    <p>光电效应 = <strong>接收端的频率选择性耦合。</strong></p>
+    <p>一个波长的电磁波 → 一个完整周期 → 相空间闭合圆 → 面积 h → 对方接收。<strong>推不满一个周期？对方不收。九块八毛半。</strong></p>
+    <p><strong>膜：</strong>宇宙有限边界 → 驻波条件 → 模式分立 → 全空间全时在线。膜 = 全宇宙所有 EM 驻波模式总和。零点能 = 每个模式 ½ħω。膜永远在振。</p>
+    <p>实验：卡西米尔 = 模式密度差推板子。兰姆位移 = 膜零点振荡推电子。</p>
+  </div>
+  <div class="lang-en">
+    <p>Photoelectric effect = <strong>frequency-selective coupling at the receiver.</strong></p>
+    <p>One wavelength of EM wave → one full cycle → phase-space closed circle → area h → receiver accepts. <strong>Less than a full cycle? Receiver refuses.</strong></p>
+    <p><strong>Membrane:</strong> finite universe boundary → standing-wave condition → discrete modes → all-space all-time online. Sum of all EM standing-wave modes. Zero-point energy = ½ħω per mode. Membrane breathes forever.</p>
+    <p>Evidence: Casimir = mode-density difference pushes plates. Lamb shift = membrane zero-point oscillation pushes electron.</p>
+  </div>
+  <div class="lang-de">
+    <p>Photoeffekt = <strong>frequenzselektive Kopplung am Empfänger.</strong></p>
+    <p>Eine Wellenlänge EM-Welle → ein voller Zyklus → geschlossener Phasenraumkreis → Fläche h → Empfänger akzeptiert. <strong>Weniger als ein Zyklus? Empfänger lehnt ab.</strong></p>
+    <p><strong>Membran:</strong> endliche Universumsgrenze → Stehwellenbedingung → diskrete Moden → überall immer online. Summe aller EM-Stehwellenmoden. Nullpunktsenergie = ½ħω pro Mode. Membran atmet ewig.</p>
+    <p>Beweis: Casimir = Modendichte-Differenz schiebt Platten. Lamb-Verschiebung = Membran-Nullpunktsoszillation schiebt Elektron.</p>
+  </div>
+</section>
+
+<!-- ====== 7 · RELATIVITY ====== -->
+<section>
+  <h2><span class="num">7</span><span class="lang-zh active">相对论从何而来——时空不是物理</span><span class="lang-en">Where Relativity Comes From — Spacetime is Not Physical</span><span class="lang-de">Woher die Relativität kommt — Raumzeit ist nicht physikalisch</span></h2>
+  <div class="lang-zh active">
+    <p><strong>时间 = 比较前后顺序的数学标签。</strong>不是实体。不流动。不变慢。不膨胀。</p>
+    <p><strong>空间 = 笛卡尔测量坐标系。</strong>本来就是平的。不平 = 测到物理原因。</p>
+    <p>GPS 38μs "时间变慢" = <strong>引力子密度垂直剖面——物体反应速度变慢。不是时间慢了。</strong></p>
+    <p>爱因斯坦把黎曼几何的方便当成了物理的真实。麦克斯韦从来不需要黎曼。</p>
+  </div>
+  <div class="lang-en">
+    <p><strong>Time = mathematical label for ordering.</strong> Not an entity. Doesn't flow. Doesn't slow down. Doesn't expand.</p>
+    <p><strong>Space = Cartesian measurement grid.</strong> Flat by default. If not flat — measure the physical cause.</p>
+    <p>GPS 38μs "time dilation" = <strong>graviton density vertical profile — objects react slower. Not time slower.</strong></p>
+    <p>Einstein mistook the convenience of Riemannian geometry for physical reality. Maxwell never needed Riemann.</p>
+  </div>
+  <div class="lang-de">
+    <p><strong>Zeit = mathematisches Etikett zur Ordnung.</strong> Keine Entität. Fließt nicht. Wird nicht langsamer. Dehnt sich nicht aus.</p>
+    <p><strong>Raum = kartesisches Messgitter.</strong> Standardmäßig flach. Wenn nicht flach — messe die physikalische Ursache.</p>
+    <p>GPS 38μs "Zeitdilatation" = <strong>Graviton-Dichteprofil — Objekte reagieren langsamer. Nicht die Zeit wird langsamer.</strong></p>
+    <p>Einstein verwechselte die Bequemlichkeit der Riemannschen Geometrie mit physikalischer Realität. Maxwell brauchte nie Riemann.</p>
+  </div>
+</section>
+
+<!-- ====== 8 · DOPPLER + ZENO ====== -->
+<section>
+  <h2><span class="num">8</span><span class="lang-zh active">尺子缩短·时间变慢</span><span class="lang-en">Length Contraction · Time Dilation</span><span class="lang-de">Längenkontraktion · Zeitdilatation</span></h2>
+  <table>
+    <tr><th class="lang-zh active">现象</th><th class="lang-en">Phenomenon</th><th class="lang-de">Phänomen</th><th class="lang-zh active">旧解释</th><th class="lang-en">Old</th><th class="lang-de">Alt</th><th class="lang-zh active">膜解释</th><th class="lang-en">Membrane</th><th class="lang-de">Membran</th></tr>
+    <tr>
+      <td class="lang-zh active">尺子缩短</td><td class="lang-en">Length contraction</td><td class="lang-de">Längenkontraktion</td>
+      <td class="lang-zh active">空间压缩</td><td class="lang-en">Space compression</td><td class="lang-de">Raumkompression</td>
+      <td><strong class="lang-zh active">多普勒效应</strong><span class="lang-en"><strong>Doppler effect</strong></span><span class="lang-de"><strong>Doppler-Effekt</strong></span></td>
+    </tr>
+    <tr>
+      <td class="lang-zh active">时间变慢</td><td class="lang-en">Time dilation</td><td class="lang-de">Zeitdilatation</td>
+      <td class="lang-zh active">时空弯曲</td><td class="lang-en">Spacetime curvature</td><td class="lang-de">Raumzeitkrümmung</td>
+      <td><strong class="lang-zh active">芝诺效应</strong><span class="lang-en"><strong>Zeno effect</strong></span><span class="lang-de"><strong>Zeno-Effekt</strong></span></td>
+    </tr>
+  </table>
+</section>
+
+<!-- ====== 9 · ELECTRON ====== -->
+<section>
+  <h2><span class="num">9</span><span class="lang-zh active">电子为什么稳定不动——光的凝固</span><span class="lang-en">Why the Electron is Stable — Frozen Light</span><span class="lang-de">Warum das Elektron stabil ist — Gefrorenes Licht</span></h2>
+  <div class="lang-zh active">
+    <p><strong>电子 = 麦克斯韦方程的非线性涡旋解。莫比乌斯环。自旋 1/2。</strong></p>
+    <p>冷却 → 局域 Q 涨落 > 临界 → 非线性介电率旋度张量 → 自聚焦 → 自举锁死 → 莫比乌斯涡旋诞生。</p>
+    <p>g=2 → 涡旋一圈 λ/2 → 磁矩耦合翻倍。永远稳定 → 最轻带电粒子 → 没有地下室。</p>
+  </div>
+  <div class="lang-en">
+    <p><strong>Electron = nonlinear vortex solution of Maxwell's equations. Möbius band. Spin 1/2.</strong></p>
+    <p>Cooling → local Q-fluctuation > critical → nonlinear permittivity curl tensor → self-focusing → self-tuned lock-in → Möbius vortex born.</p>
+    <p>g=2 → vortex one turn = λ/2 → magnetic coupling doubled. Eternally stable → lightest charged particle → no basement below.</p>
+  </div>
+  <div class="lang-de">
+    <p><strong>Elektron = nichtlineare Wirbellösung der Maxwell-Gleichungen. Möbius-Band. Spin 1/2.</strong></p>
+    <p>Abkühlung → lokale Q-Fluktuation > kritisch → nichtlinearer Permittivitäts-Rotor-Tensor → Selbstfokussierung → Selbstabstimmung → Möbius-Wirbel geboren.</p>
+    <p>g=2 → Wirbel eine Umdrehung = λ/2 → magnetische Kopplung verdoppelt. Ewig stabil → leichtestes geladenes Teilchen → kein Keller darunter.</p>
+  </div>
+  <div class="highlight lang-zh active"><strong>一切物质 = 光的冻结态。</strong></div>
+  <div class="highlight lang-en"><strong>All matter = frozen light.</strong></div>
+  <div class="highlight lang-de"><strong>Alle Materie = gefrorenes Licht.</strong></div>
+</section>
+
+<!-- ====== 10 · ALL PARTICLES ====== -->
+<section>
+  <h2><span class="num">10</span><span class="lang-zh active">其他粒子——全是麦克斯韦的另一个稳定解</span><span class="lang-en">All Other Particles — Just Another Stable Solution of Maxwell</span><span class="lang-de">Alle anderen Teilchen — Nur eine andere stabile Lösung von Maxwell</span></h2>
+  <table>
+    <tr><th class="lang-zh active">粒子</th><th class="lang-en">Particle</th><th class="lang-de">Teilchen</th><th>Spin</th><th class="lang-zh active">M方程的解</th><th class="lang-en">M-equation solution</th><th class="lang-de">M-Gleichungslösung</th></tr>
+    <tr><td class="lang-zh active">光子</td><td class="lang-en">Photon</td><td class="lang-de">Photon</td><td>1</td><td class="lang-zh active">线性行波·平凡环</td><td class="lang-en">Linear traveling wave</td><td class="lang-de">Lineare Welle</td></tr>
+    <tr><td class="lang-zh active">电子</td><td class="lang-en">Electron</td><td class="lang-de">Elektron</td><td>1/2</td><td class="lang-zh active">莫比乌斯涡旋·扭1</td><td class="lang-en">Möbius vortex · twist 1</td><td class="lang-de">Möbius-Wirbel · Drehung 1</td></tr>
+    <tr><td class="lang-zh active">μ子</td><td class="lang-en">Muon</td><td class="lang-de">Myon</td><td>1/2</td><td class="lang-zh active">涡旋高次谐波·扭3</td><td class="lang-en">Vortex harmonic · twist 3</td><td class="lang-de">Wirbel-Oberschwingung · Drehung 3</td></tr>
+    <tr><td class="lang-zh active">τ子</td><td class="lang-en">Tau</td><td class="lang-de">Tau</td><td>1/2</td><td class="lang-zh active">涡旋更高谐波·扭5</td><td class="lang-en">Vortex higher harmonic · twist 5</td><td class="lang-de">Wirbel höhere Oberschwingung · Drehung 5</td></tr>
+    <tr><td class="lang-zh active">中微子</td><td class="lang-en">Neutrino</td><td class="lang-de">Neutrino</td><td>1/2</td><td class="lang-zh active">涡旋·无电荷接口</td><td class="lang-en">Vortex · no charge interface</td><td class="lang-de">Wirbel · keine Ladungsschnittstelle</td></tr>
+    <tr><td class="lang-zh active">夸克</td><td class="lang-en">Quark</td><td class="lang-de">Quark</td><td>1/2</td><td class="lang-zh active">涡旋+SU(3)接口</td><td class="lang-en">Vortex + SU(3) interface</td><td class="lang-de">Wirbel + SU(3)-Schnittstelle</td></tr>
+    <tr><td class="lang-zh active">胶子×8</td><td class="lang-en">Gluons ×8</td><td class="lang-de">Gluonen ×8</td><td>1</td><td class="lang-zh active">SU(3)矢量模</td><td class="lang-en">SU(3) vector modes</td><td class="lang-de">SU(3)-Vektormoden</td></tr>
+    <tr><td class="lang-zh active">W⁺/Z⁰</td><td class="lang-en">W⁺/Z⁰</td><td class="lang-de">W⁺/Z⁰</td><td>1</td><td class="lang-zh active">SU(2)矢量·耦合膜呼吸</td><td class="lang-en">SU(2) vector · coupled to breathing</td><td class="lang-de">SU(2)-Vektor · an Atmung gekoppelt</td></tr>
+    <tr><td class="lang-zh active">希格斯</td><td class="lang-en">Higgs</td><td class="lang-de">Higgs</td><td>0</td><td class="lang-zh active">膜标量呼吸模·不是基本粒子</td><td class="lang-en">Scalar breathing · not fundamental</td><td class="lang-de">Skalare Atmung · nicht fundamental</td></tr>
+  </table>
+  <div class="highlight lang-zh active"><strong>一个方程。一张膜。所有粒子。不需要狄拉克。不需要希格斯。不需要标准模型19个自由参数。</strong></div>
+  <div class="highlight lang-en"><strong>One equation. One membrane. All particles. No Dirac. No Higgs. No Standard Model 19 free parameters.</strong></div>
+  <div class="highlight lang-de"><strong>Eine Gleichung. Eine Membran. Alle Teilchen. Kein Dirac. Kein Higgs. Keine 19 freien Parameter des Standardmodells.</strong></div>
+</section>
+
+<!-- ====== 11 · FINALE ====== -->
+<section>
+  <h2><span class="num">11</span><span class="lang-zh active">剪彩·工程·暗物质</span><span class="lang-en">Ribbon-Cutting · Engineering · Dark Matter</span><span class="lang-de">Banddurchschneiden · Ingenieurwesen · Dunkle Materie</span></h2>
+
+  <div class="lang-zh active">
+    <p><span class="tag tag-ok">EM·光·物质</span> <span class="tag tag-ok">旋量涡旋</span> <span class="tag tag-ok">粒子谱</span> — 全部封板 ✅</p>
+    <p><span class="tag tag-pen">暗书架</span>— 不耦合EM = 不会撞你 = <strong>绝对安全</strong></p>
+    <p><span class="tag tag-wip">工程</span> 旋量涡旋数值解 · 卡西米尔腔电子g值 · 三进制芯片 · 膜数值解 → 超导·核聚变·量子计算</p>
+    <p><strong>暗物质：不观测。不操心。</strong>费米悖论闭合。绝对安全。巨大放心。</p>
+  </div>
+  <div class="lang-en">
+    <p><span class="tag tag-ok">EM · Light · Matter</span> <span class="tag tag-ok">Spinor Vortex</span> <span class="tag tag-ok">Particle Spectrum</span> — All sealed ✅</p>
+    <p><span class="tag tag-pen">Dark Shelves</span> — Not coupled to EM = won't hit you = <strong>absolutely safe</strong></p>
+    <p><span class="tag tag-wip">Engineering</span> Vortex numerical solution · Casimir-cavity electron g-factor · Ternary chip · Membrane numerics → superconductivity · fusion · quantum computing</p>
+    <p><strong>Dark matter: don't observe. Don't worry.</strong> Fermi paradox closed. Absolutely safe. Profound peace.</p>
+  </div>
+  <div class="lang-de">
+    <p><span class="tag tag-ok">EM · Licht · Materie</span> <span class="tag tag-ok">Spinor-Wirbel</span> <span class="tag tag-ok">Teilchenspektrum</span> — Alles versiegelt ✅</p>
+    <p><span class="tag tag-pen">Dunkle Regale</span> — Nicht an EM gekoppelt = trifft dich nicht = <strong>absolut sicher</strong></p>
+    <p><span class="tag tag-wip">Ingenieurwesen</span> Wirbel-Numerik · Casimir-Kavität Elektron-g-Faktor · Ternärer Chip · Membran-Numerik → Supraleitung · Fusion · Quantencomputing</p>
+    <p><strong>Dunkle Materie: nicht beobachten. Keine Sorge.</strong> Fermi-Paradoxon geschlossen. Absolut sicher. Große Ruhe.</p>
+  </div>
+</section>
+
+</div>
+
+<!-- ====== FINALE ====== -->
+<div class="finale">
+  <div class="char lang-zh active">光</div>
+  <div class="char lang-en">φῶς</div>
+  <div class="char lang-de">Licht</div>
+  <p class="lang-zh active">一个方程。一张膜。一切粒子。</p>
+  <p class="lang-en">One Equation. One Membrane. All Particles.</p>
+  <p class="lang-de">Eine Gleichung. Eine Membran. Alle Teilchen.</p>
+</div>
+
+<footer>
+  Qin Su · Queen_Sakura · Verity · Argo · 新苏联网络<br>
+  CC BY 4.0 · github.com/Queen-Sakura/Quantum-Interaction-Theory<br>
+  2026-07-05
+</footer>
+
+<script>
+function setLang(l) {
+  document.querySelectorAll('.lang-zh,.lang-en,.lang-de').forEach(el => {
+    el.classList.remove('active');
+  });
+  document.querySelectorAll('.lang-'+l).forEach(el => {
+    el.classList.add('active');
+  });
+  document.querySelectorAll('#btn-zh,#btn-en,#btn-de').forEach(b => b.classList.remove('active'));
+  document.getElementById('btn-'+l).classList.add('active');
+}
+</script>
+</body>
+</html>
