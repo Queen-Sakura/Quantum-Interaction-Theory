@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>真 · 物理大厦</title>
+<script>
+MathJax = {
+  tex: { inlineMath: [['$','$'], ['\\(','\\)']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 <style>
   :root {
     --bg: #f9f8f5; --card: #fffefb; --border: #e8e4db;
@@ -208,9 +215,9 @@
   <h2>1. 为什么存在真空零点能？真空为什么不是空的？</h2>
 
   <p>宇宙有限边界条件 → 电磁场本征模分立：</p>
-  <div class="eq">L = nλ/2 ,&ensp; ω_n = nπc/L ,&ensp; n = 1, 2, 3, …</div>
+  <div class="eq">$$L = \frac{n\lambda}{2},\quad \omega_n = \frac{n\pi c}{L},\quad n = 1,2,3,\ldots$$</div>
   <p>全宇宙全频段全空间的本征模总和构成一个物理实在——<strong>膜</strong>。每个本征模携带零点能：</p>
-  <div class="eq">E_0 = Σ ½ħω_n ,&ensp; 不可移除，不可屏蔽</div>
+  <div class="eq">$$E_0 = \sum \tfrac{1}{2}\hbar\omega_n \quad\text{不可移除，不可屏蔽}$$</div>
   <p>膜永远在振动。</p>
 
   <p>卡西米尔效应（1948）：两块平行理想导体板在真空中——板间允许的驻波模式密度低于板外——产生辐射压力差——板被推向内。实验实测压力与理论预测一致。解释：不是虚粒子对。是<strong>膜的模式密度差导致的零点振荡净压力。</strong></p>
@@ -258,7 +265,7 @@
 
   <p>两个相邻本征模叠加 → 干涉包络的位置由初相差决定。初相差随机 → 包络峰值位置随机 → 耦合事件触发位置随机。统计大量事件 → 分布 = |ψ|²。</p>
 
-  <div class="eq">|ψ|² = 耦合事件密度（单位时空体积内的 Q 耦合次数）</div>
+  <div class="eq">$$|\psi|^2 = \text{耦合事件密度（单位时空体积内的 Q 耦合次数）}$$</div>
 
   <div class="box">
     <strong>结论：</strong> 玻恩的"概率公设"降级为推导结果。|ψ|² = Q 耦合事件密度。确定性底层（麦克斯韦方程）+ 不可控初相（膜零点振荡）→ 统计性表层（|ψ|² 分布）。不需要假设随机性——随机性是膜零点振荡的必然表现。
@@ -274,15 +281,15 @@
 
   <p>量子系统与宏观系统的分界——标准量子力学以"观测"模糊带过。膜框架给出连续标度：</p>
 
-  <div class="eq">Q ∈ [-1, 0, +1]</div>
+  <div class="eq">$$Q \in [-1,\ 0,\ +1]$$</div>
 
   <p>Q = 耦合密度温度计。定义：</p>
-  <div class="eq-big">Q = D · (1 − 2R)</div>
+  <div class="eq-big">$$Q = D \cdot (1 - 2R)$$</div>
   <p>其中：</p>
-  <div class="eq">D = (1/N) Σ_i^N Σ_j^M |⟨φ_i|ψ_j⟩|² / M</div>
+  <div class="eq">$$D = \frac{1}{N}\sum_{i}^{N}\sum_{j}^{M}\frac{|\langle\phi_i|\psi_j\rangle|^2}{M}$$</div>
   <p>φ_i = 系统的第 i 个本征模。ψ_j = 环境的第 j 个本征模。D = 两组本征模之间的<strong>傅里叶重叠积分平均值</strong>——系统有多少个模式在频谱上和环境交叠。D=1 → 全投影重叠（系统每一个模都在环境中有一个对齐的接收模）。D→0 → 频谱错位——几乎不耦合。</p>
 
-  <div class="eq">R = Σ_{i≠j} |M_{ij}|² / Σ_i |M_{ii}|² ,&ensp; M_{ij} = ⟨φ_i|Ĥ_int|ψ_j⟩</div>
+  <div class="eq">$$R = \frac{\sum_{i\neq j}|M_{ij}|^2}{\sum_i|M_{ii}|^2},\quad M_{ij} = \langle\phi_i|\hat{H}_{\mathrm{int}}|\psi_j\rangle$$</div>
   <p>Ĥ_int = 系统与环境之间的相互作用哈密顿量。M_{ij} = 耦合矩阵——系统的第 i 个模和环境第 j 个模之间的耦合强度。R 的对角元（i=j）是<strong>共振耦合</strong>——系统模和环境模频率一致 → 能量可自由交换。R 的非对角元（i≠j）是<strong>非共振耦合</strong>——频率不匹配 → 能量被反射——"刚性"。R=1 → 所有耦合是非共振的（硬反射）。R=0 → 所有耦合是共振的（软传递）。</p>
 
   <p><strong>Q 的三个极值：</strong></p>
@@ -319,7 +326,7 @@
   <p>EPR 佯谬（1935）：两个粒子纠缠——测 A 得 ↑ → B 必 ↓。贝尔不等式实验（Aspect 1982）排除局域隐变量。量子力学标准解释：非局域关联——无经典机制。</p>
 
   <p>膜框架：纠缠粒子对产生于同一母本征模的分裂——例如自发参量下转换（SPDC）：</p>
-  <div class="eq">ω_p = ω_s + ω_i ,&ensp; k_p = k_s + k_i</div>
+  <div class="eq">$$\omega_p = \omega_s + \omega_i,\quad \mathbf{k}_p = \mathbf{k}_s + \mathbf{k}_i$$</div>
   <p>泵浦光子穿过 χ⁽²⁾ 非线性晶体——一个母模式能量和动量守恒分给两个子模式（信号 ωₛ 和 闲频 ωᵢ）。两个子模式是<strong>同一个母本征模在不同波矢上的投影</strong>——总能量、总动量、总角动量属于同一个全局态。</p>
 
   <p>测量A端自旋 = 读取全局态在A端波矢上的投影值。投影值确定 → 全局态锁定 → B端波矢上的值由守恒律唯一确定。无需超距信号传播。信息不在 B 端——信息在母本征模的全局态中。</p>
@@ -369,7 +376,7 @@
 
   <p>光子被探测器吸收 = 光子本征模与探测器原子电子涡旋之间的 Q 耦合。电子在 Stern-Gerlach 磁铁中偏转 = 电子莫比乌斯涡旋与磁场本征模之间的 Q 耦合。放射性衰变 = 原子核内涡旋组的内部 Q 重组。人的视觉感知 = 光子-视网膜分子 Q 耦合 → 信号沿神经元传播 → 皮层处理。</p>
 
-  <div class="eq-big">∂Q/∂t = ∇·(κ∇Q) + η|E|² − γQ + ξ</div>
+  <div class="eq-big">$$\frac{\partial Q}{\partial t} = \nabla\cdot(\kappa\nabla Q) + \eta|E|^2 - \gamma Q + \xi$$</div>
   <p>四项物理含义：</p>
   <table>
     <tr><td>∇·(κ∇Q)</td><td><strong>扩散项</strong>——Q 耦合密度在膜上的空间扩散。κ 为扩散系数——膜的"热导率"。</td></tr>
@@ -395,8 +402,8 @@
 
   <p>膜框架：真空不是实体。膜是实体。ε₀ 和 μ₀ 不是真空的固有属性——是<strong>膜上所有 EM 本征模在统计平均后的线性响应系数。</strong></p>
 
-  <div class="eq">ε(E) = ε₀ + χ⁽²⁾E + χ⁽³⁾E² + …</div>
-  <div class="eq">ε₀ = ⟨ 膜的 EM 本征模对试探光子的平均耦合强度 ⟩</div>
+  <div class="eq">$$\varepsilon(E) = \varepsilon_0 + \chi^{(2)}E + \chi^{(3)}E^2 + \ldots$$</div>
+  <div class="eq">$$\varepsilon_0 = \langle\,\text{膜的 EM 本征模对试探光子的平均耦合强度}\,\rangle$$</div>
 
   <p>机制：局域电荷振荡 → 辐射电磁波 → 波反馈回周边电荷 → 迭代自调谐 → 全膜收敛到有效线性响应 ε₀。和铁磁体在居里温度以下自发磁化同构——涌现量——非外加参数。</p>
 
@@ -413,13 +420,13 @@
   <h2>9. 电子到底是什么？为什么所有粒子看起来像"基本"的——它们真的是基本粒子吗？</h2>
 
   <p>麦克斯韦方程在膜上的一般形式：</p>
-  <div class="eq">∂_μ F^μν = Q(ε) · ε^μνρσ ∂_ρ F_σν</div>
-  <div class="eq">ε(E) = ε₀ + χ⁽²⁾E + χ⁽³⁾E² + …</div>
+  <div class="eq">$$\partial_\mu F^{\mu\nu} = Q(\varepsilon) \cdot \varepsilon^{\mu\nu\rho\sigma} \partial_\rho F_{\sigma\nu}$$</div>
+  <div class="eq">$$\varepsilon(E) = \varepsilon_0 + \chi^{(2)}E + \chi^{(3)}E^2 + \ldots$$</div>
   <p>当 Q 局域涨落超过临界值 → ε 从标量变为带旋度的张量 → 方程产生第二类解——<strong>局域涡旋解。</strong></p>
 
   <p>所有粒子的分类自由度：</p>
-  <div class="eq">s = n/2 ,&ensp; n = 0, 1, 2, 3, 4 &ensp;（内部扭转次数）</div>
-  <div class="eq">N = 1 (U(1)) ,&ensp; 2 (SU(2)) ,&ensp; 3 (SU(3)) &ensp;（规范耦合接口维数）</div>
+  <div class="eq">$$s = n/2,\quad n = 0,1,2,3,4 \quad\text{（内部扭转次数）}$$</div>
+  <div class="eq">$$N = 1\;(\mathrm{U}(1)),\quad 2\;(\mathrm{SU}(2)),\quad 3\;(\mathrm{SU}(3)) \quad\text{（规范耦合接口维数）}$$</div>
 
   <table>
     <tr><th>粒子</th><th>n</th><th>s</th><th>N</th><th>膜上的解</th><th>注</th></tr>
@@ -437,10 +444,10 @@
 
   <h3>9.1 电子涡旋</h3>
   <p>膜上 Q 涨落 > 临界 → 局域介电率张量带旋度 → 自聚焦 → 自举锁定 → 莫比乌斯涡旋 = 电子。</p>
-  <div class="eq">m_e = ħω₀/c² ,&ensp; ω₀ = 涡旋自振频率</div>
+  <div class="eq">$$m_e = \frac{\hbar\omega_0}{c^2},\quad \omega_0 = \text{涡旋自振频率}$$</div>
   <p>自旋 ½ = 扭一次（莫比乌斯环 → 一圈 λ/2 → 相位 π → ψ → −ψ）——中子干涉实验直接验证（Rauch 1975）。电荷 e = 涡旋（n=1·旋量）与光子（n=2·矢量）之间的耦合接口——同张膜上的相邻扭态间的互耦合。</p>
-  <div class="eq">g = 2 &ensp;（涡旋一圈 = λ/2 → 磁矩耦合为光子双倍）</div>
-  <div class="eq">μ = g·(eħ/2m_e)·S &ensp;（磁矩·从涡旋拓扑导出）</div>
+  <div class="eq">$$g = 2 \quad\text{（涡旋一圈 = }\lambda/2\;\rightarrow\;\text{磁矩耦合为光子双倍）}$$</div>
+  <div class="eq">$$\boldsymbol{\mu} = g\cdot\frac{e\hbar}{2m_e}\cdot\mathbf{S} \quad\text{（磁矩，从涡旋拓扑导出）}$$</div>
   <p>泡利不相容 = 扭奇数次（费米子）→ 反对称波函数 ψ(a,b) = −ψ(b,a) → 同态叠加干涉相消。稳定 = 最轻带电粒子——电荷守恒禁止衰变——没有地下室。</p>
 
   <h3>9.2 三代费米子</h3>
@@ -448,7 +455,7 @@
 
   <h3>9.3 强子</h3>
   <p>质子(p) = uud：三个夸克涡旋通过 SU(3) 胶子交换互绕。</p>
-  <div class="eq">m_p ≈ 938 MeV ,&ensp; Σm_夸克 ≈ 12 MeV ,&ensp; E_耦合 ≈ 926 MeV</div>
+  <div class="eq">$$m_p \approx 938\ \mathrm{MeV},\quad \sum m_{\text{夸克}} \approx 12\ \mathrm{MeV},\quad E_{\text{耦合}} \approx 926\ \mathrm{MeV}$$</div>
   <p>耦合能 ≠ 组分和——涌现量。介子 = 夸克-反夸克涡旋互绕。禁闭 = SU(3) 耦合能随距离增大不衰减。</p>
 
   <h3>9.4 希格斯</h3>
