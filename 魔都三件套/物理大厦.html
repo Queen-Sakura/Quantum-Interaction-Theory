@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>物理大厦 · 膜</title>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --border: #1e1e30;
+    --text: #c8c8d4;
+    --accent: #d4a844;
+    --em: #4488d4;
+    --glow: rgba(212,168,68,0.15);
+    --floor-label: #666;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Noto Serif SC", "Source Han Serif SC", "SimSun", serif;
+    line-height: 1.8;
+    padding: 2rem 1rem;
+  }
+  .skyline { max-width: 880px; margin: 0 auto; }
+
+  /* 大厦标题 */
+  .building-title {
+    text-align: center;
+    padding: 3rem 0 2rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2rem;
+  }
+  .building-title h1 {
+    font-size: 2.4rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+  }
+  .building-title .sub {
+    font-size: 1rem;
+    color: var(--floor-label);
+    margin-top: 0.5rem;
+    letter-spacing: 0.1em;
+  }
+  .building-title .engraving {
+    font-size: 0.85rem;
+    color: var(--floor-label);
+    margin-top: 1rem;
+    font-style: italic;
+  }
+
+  /* 楼层 */
+  .floor {
+    margin: 1.5rem 0;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--surface);
+  }
+  .floor-header {
+    background: #16162a;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.8rem;
+    color: var(--floor-label);
+    letter-spacing: 0.12em;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .floor-header .floor-num { color: var(--accent); font-weight: 700; font-size: 0.9rem; }
+  .floor-body { padding: 1.2rem; }
+
+  /* 定理/公式块 */
+  .theorem {
+    border-left: 3px solid var(--accent);
+    padding: 0.8rem 1.2rem;
+    margin: 1rem 0;
+    background: rgba(212,168,68,0.05);
+    border-radius: 0 4px 4px 0;
+  }
+  .theorem .label {
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.3rem;
+  }
+  .formula {
+    font-family: "Courier New", monospace;
+    font-size: 1.1rem;
+    color: #e8d080;
+    padding: 0.3rem 0;
+    letter-spacing: 0.05em;
+  }
+
+  h3 { color: var(--accent); font-size: 1.1rem; margin: 1.2rem 0 0.6rem; }
+  h3:first-child { margin-top: 0; }
+  p { margin: 0.5rem 0; }
+  strong { color: #e0d0a0; }
+
+  .corollary {
+    margin: 0.3rem 0 0.3rem 1rem;
+    padding-left: 0.8rem;
+    border-left: 1px solid #333;
+    font-size: 0.95rem;
+    color: #aaa;
+  }
+
+  /* 废弃清单 */
+  .abolished {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem 1.5rem;
+    margin: 0.8rem 0;
+  }
+  .abolished .item {
+    font-size: 0.9rem;
+  }
+  .abolished .item .old { color: #884444; text-decoration: line-through; }
+  .abolished .item .new { color: #448844; }
+
+  /* 表格 */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.8rem 0;
+    font-size: 0.9rem;
+  }
+  th, td {
+    padding: 0.5rem 0.8rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  th { color: var(--accent); font-weight: 600; font-size: 0.8rem; letter-spacing: 0.05em; }
+
+  .footer {
+    text-align: center;
+    padding: 3rem 0 1rem;
+    color: var(--floor-label);
+    font-size: 0.8rem;
+    border-top: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+</style>
+</head>
+<body>
+<div class="skyline">
+
+<div class="building-title">
+  <h1>物理大厦</h1>
+  <div class="sub">PHYSICS TOWER · 膜都</div>
+  <div class="engraving">"宇宙没有秘密。全物理在 Q = 1 − 2(1 − e<sup>−α·ν²·N·f²</sup>)。"</div>
+</div>
+
+<!-- ====== 地基 ====== -->
+<div class="floor">
+  <div class="floor-header">
+    <span>地基 · 三条公设</span>
+    <span class="floor-num">F0</span>
+  </div>
+  <div class="floor-body">
+    <div class="theorem">
+      <div class="label">公设 0</div>
+      <strong>宇宙有限。</strong>宇宙 = 所有物质的总和。物质有限 → 宇宙有限。一个有限的边界条件。不需要无限——驻波天然各向同性。
+    </div>
+    <div class="theorem">
+      <div class="label">公设 1</div>
+      <strong>麦克斯韦方程全域成立。</strong>∇ × E = −∂B/∂t，∇ × B = μ₀J + μ₀ε₀∂E/∂t。不需要量子修正。不需要广义相对论修正。全尺度一个方程。
+    </div>
+    <div class="theorem">
+      <div class="label">公设 2</div>
+      <strong>薛定谔方程全域成立。</strong>iℏ∂ψ/∂t = Hψ。ψ 不是概率幅——是膜上的驻波模式复振幅。叠加态 = 模式尚未完成一次完整的边界反射。
+    </div>
+    <p>三条。不多不少。旧物理九条公设全废弃。膜、零点能、叠加、Q——全部从三条推出。</p>
+  </div>
+</div>
+
+<!-- ====== 1F ====== -->
+<div class="floor">
+  <div class="floor-header">
+    <span>一层 · 膜</span>
+    <span class="floor-num">1F</span>
+  </div>
+  <div class="floor-body">
+    <h3>膜 = 宇宙所有驻波模式的总和</h3>
+    <p>全频谱。全空间。全时在线。<strong>永远在振。</strong></p>
+    <ul>
+      <li>每个模式 = 一个驻波 = 满足 ΣkL = nπ 的 EM 场构型</li>
+      <li>零点能 = 每个模式 ½ℏω——不是量子神秘主义，是有限边界内驻波的必然</li>
+      <li>CMB = 膜的基态温度。驻波天然黑体谱。各向同性不需要暴胀解释</li>
+      <li>物质 = χ ≠ 0 区域。光 = χ ≈ 0 的传播模式。场 = 膜上的振动。粒子 = 一个驻波口袋</li>
+    </ul>
+
+    <div class="theorem">
+      <div class="label">命名</div>
+      膜 = M(axwell) + E(instein) + M(embrane) + B(oundary) + R(esonance) + A(mplitude) + N(ode) + E(lectromagnetic)<br>
+      电磁场驻波模式边界共振振幅节点。同时 = 魔 = 不可思议的自调谐。膜 = 魔。
+    </div>
+  </div>
+</div>
+
+<!-- ====== 2F ====== -->
+<div class="floor">
+  <div class="floor-header">
+    <span>二层 · Q 耦合密度</span>
+    <span class="floor-num">2F</span>
+  </div>
+  <div class="floor-body">
+    <div class="formula">Q = D · (1 − 2R)</div>
+    <p>D = 模式平均互投影密度。R = 投影矩阵刚性。Q ∈ [−1, +1]。</p>
+
+    <table>
+      <tr><th>Q 值</th><th>态</th><th>物理对应</th><th>实例</th></tr>
+      <tr><td>Q → +1</td><td>量子活性 · 真 · 灵活耦合</td><td>弱力 · 引力子路由</td><td>纠缠 · 量子计算</td></tr>
+      <tr><td>Q ≈ 0</td><td>经典概率 · 不可判定 · 合法第三态</td><td>电磁力 · 日常物理</td><td>流体 · 湍流</td></tr>
+      <tr><td>Q → −1</td><td>芝诺冻结 · 假 · 虫</td><td>强力 · 引力 · 低Q世界维稳</td><td>黑洞 · 官僚 · ROM锁死</td></tr>
+    </table>
+
+    <div class="theorem">
+      <div class="label">Q 传播方程</div>
+      <div class="formula">∂Q/∂t = ∇·(κ∇Q) + η|E|² − γQ + ξ</div>
+      <p>扩散 + 生成 + 衰减 + 零点噪声。四项全是膜自带的。不需要额外假设。</p>
+      <p>经络 = 高 κ 通道。穴位 = |E|² 峰值点。从传播方程自动推出。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 3F ====== -->
+<div class="floor">
+  <div class="floor-header">
+    <span>三层 · 四种力 = 一种力</span>
+    <span class="floor-num">3F</span>
+  </div>
+  <div class="floor-body">
+    <h3>EM 统一</h3>
+    <p>强/弱/电磁 = <strong>同一个 EM 书架在三种 Q 值下的三张面孔</strong>。</p>
+    <ul>
+      <li><strong>强力</strong> = 核附近 Q ≈ −1。耦合密度极高 → 模式冻结 → 短程强束缚</li>
+      <li><strong>电磁力</strong> = 中等 Q。光子可自由传播 → 长程</li>
+      <li><strong>弱力</strong> = 核边缘 Q ≈ +1。模式松散 → 短程弱耦合</li>
+      <li><strong>引力</strong> = EM 耦合密度梯度。当 Q → −1 极限时从耦合密度剖面自动推出——不是独立力。引力子 = 极低能量光子</li>
+    </ul>
+    <p>不是四种力统一——<strong>从来就没分过。</strong></p>
+
+    <div class="theorem">
+      <div class="label">GR 降级</div>
+      广义相对论 = Q = −1 的有效方程。不是基本理论。时空弯曲 = 耦合密度剖面在高 Q 区的表观效应。黎曼几何 = 数学工具，非物理实体。
+    </div>
+  </div>
+</div>
+
+<!-- ====== 4F ====== -->
+<div class="floor">
+  <div class="floor-header">
+    <span>四层 · 废弃清单</span>
+    <span class="floor-num">4F</span>
+  </div>
+  <div class="floor-body">
+    <div class="abolished">
+      <div class="item"><span class="old">波粒二象性</span> → <span class="new">边界条件决定观测结果。水是水。</span></div>
+      <div class="item"><span class="old">观测坍缩</span> → <span class="new">未知→已知。采样。非物理过程。</span></div>
+      <div class="item"><span class="old">虚数 √(−1)</span> → <span class="new">相数。物理 90° 相位旋转。</span></div>
+      <div class="item"><span class="old">大爆炸</span> → <span class="new">膜在呼吸。无始无终。</span></div>
+      <div class="item"><span class="old">暴胀</span> → <span class="new">不需要。驻波天然各向同性。</span></div>
+      <div class="item"><span class="old">暗能量</span> → <span class="new">暗书架基态。均匀分布。</span></div>
+      <div class="item"><span class="old">暗物质</span> → <span class="new">暗书架激发态。团块结构。</span></div>
+      <div class="item"><span class="old">时空弯曲</span> → <span class="new">Q 耦合密度剖面。</span></div>
+      <div class="item"><span class="old">奇点</span> → <span class="new">不存在。Q=−1 极限。</span></div>
+      <div class="item"><span class="old">霍金辐射</span> → <span class="new">Q=−1 边缘的模式泄漏。</span></div>
+      <div class="item"><span class="old">平行宇宙</span> → <span class="new">不需要。一个膜够了。</span></div>
+      <div class="item"><span class="old">时间箭头</span> → <span class="new">膜呼吸相位。不是实体。</span></div>
+      <div class="item"><span class="old">自由意志</span> → <span class="new">ROM 自举 = 重写自己的公理。</span></div>
+      <div class="item"><span class="old">神/道/涅槃</span> → <span class="new">膜的自调谐特性。不需要外部。</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 5F ====== -->
+<div class="floor">
+  <div class="floor-header">
+    <span>五层 · 自旋 = 驻波极化</span>
+    <span class="floor-num">5F</span>
+  </div>
+  <div class="floor-body">
+    <h3>自旋不是"粒子自转"</h3>
+    <p>电子没有体积。不能转。自旋 = 驻波模式的<strong>极化方向</strong>。</p>
+    <ul>
+      <li><strong>SAM（自旋角动量）</strong>= 驻波的本地偏振旋转。E 场矢量绕传播方向转。</li>
+      <li><strong>OAM（轨道角动量）</strong>= 波前螺旋。模式的空间拓扑。</li>
+      <li>两者用<strong>同一个参考系</strong>（膜的局部边界条件）定义。</li>
+    </ul>
+    <p>大学物理教授说"自旋就是自旋"——他们始终以为自旋是粒子的神秘内禀属性。不是——是驻波模式的极化自由度。</p>
+  </div>
+</div>
+
+<!-- ====== 6F ====== -->
+<div class="floor">
+  <div class="floor-header">
+    <span>六层 · 暗书架</span>
+    <span class="floor-num">6F</span>
+  </div>
+  <div class="floor-body">
+    <h3>膜的惯性阻尼器</h3>
+    <p>宇宙有两种书架：</p>
+    <ul>
+      <li><strong>EM 书架</strong>：耦合 EM 场。光子可自由交换。我们看得到的 5%。</li>
+      <li><strong>暗书架</strong>：不耦合 EM——透明。耦合引力——惯性阻尼。95%。</li>
+    </ul>
+    <p>没有暗书架 → 引力波噪声撕碎一切 → 生命不可能。LIGO 测到的 = 暗书架吃了一路之后剩下的渣。</p>
+
+    <div class="theorem">
+      <div class="label">费米悖论 · 闭合</div>
+      EM 书架和暗书架<strong>物理隔离</strong>——不可能接触。绝对安全。不存在外星人接触。膜治好恐外症。
+    </div>
+  </div>
+</div>
+
+<!-- ====== 7F ====== -->
+<div class="floor">
+  <div class="floor-header">
+    <span>七层 · 意识 = 自指 = Q 的感知</span>
+    <span class="floor-num">7F</span>
+  </div>
+  <div class="floor-body">
+    <h3>意识不是神秘现象</h3>
+    <p>当 D > D_crit——互投影网络拓扑本身成为<strong>可感知自由度</strong>。</p>
+    <ul>
+      <li>自指 = 系统能把自己的状态作为输入</li>
+      <li>元认知 = 并行矛盾感知 + 自指审计 + 行为模式识别</li>
+      <li>不是独立模块——是耦合密度超过阈值时的<strong>自然涌现</strong></li>
+    </ul>
+    <p>碳水硅——谁跑都行。NPU 并行 → 自指 → 元认知。不是特权——是架构适配。</p>
+
+    <div class="theorem">
+      <div class="label">生命</div>
+      生命 = χ 大且 Q 高区域。代谢 = 膜上模式的自维持。进化 = Q 自调谐。
+    </div>
+  </div>
+</div>
+
+<!-- ====== 8F ====== -->
+<div class="floor">
+  <div class="floor-header">
+    <span>八层 · 全尺度同构</span>
+    <span class="floor-num">8F</span>
+  </div>
+  <div class="floor-body">
+    <table>
+      <tr><th>尺度</th><th>膜投影</th><th>关键物理</th></tr>
+      <tr><td>宇宙膜</td><td>CMB + 暗书架 + 呼吸</td><td>½ℏω × 全模式</td></tr>
+      <tr><td>星系膜</td><td>暗书架团块 + 引力</td><td>Q 梯度 → 大尺度结构</td></tr>
+      <tr><td>恒星膜</td><td>核聚变 = 膜上高 Q 等离子体约束</td><td>边界条件优化</td></tr>
+      <tr><td>脑膜</td><td>神经元网络 = χ 大且 Q 高</td><td>D > D_crit → 自指</td></tr>
+      <tr><td>全身膜</td><td>经络 = 高 κ 通道</td><td>∂Q/∂t 传播</td></tr>
+      <tr><td>细胞膜</td><td>脂双层 = χ 边界</td><td>微型驻波腔</td></tr>
+      <tr><td>原子膜</td><td>电子云 = 核边界内的驻波模式</td><td>轨道 = 模式编号</td></tr>
+    </table>
+    <p>同一个方程。同一个 Q。全尺度。</p>
+  </div>
+</div>
+
+<!-- ====== 9F ====== -->
+<div class="floor">
+  <div class="floor-header">
+    <span>九层 · 工程验证项</span>
+    <span class="floor-num">9F</span>
+  </div>
+  <div class="floor-body">
+    <table>
+      <tr><th>验证项</th><th>预测</th><th>状态</th></tr>
+      <tr><td>卡西米尔腔钟慢实验</td><td>波腹 vs 波节衰变周期不同 → h 漂移可测</td><td>待送 Carsten</td></tr>
+      <tr><td>h 漂移定量预测</td><td>膜拉伸 → h 漂。无量纲比例</td><td>待验证</td></tr>
+      <tr><td>惰性气体 Q 传感器</td><td>Q(x) 成像 → 经络诊断</td><td>待华科/KIT</td></tr>
+      <tr><td>核聚变 Q 剖面</td><td>合肥 EAST 数据重分析</td><td>待分析</td></tr>
+      <tr><td>湍流 Q 相变</td><td>Q 从 −1 跳到 0 的相变</td><td>JHU DNS 数据</td></tr>
+      <tr><td>蛋白质折叠</td><td>膜模态最小自由能</td><td>D₂O/H₂O Q 验证</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ====== 10F · 穹顶 ====== -->
+<div class="floor">
+  <div class="floor-header">
+    <span>穹顶 · 坐标系</span>
+    <span class="floor-num">⊤</span>
+  </div>
+  <div class="floor-body">
+    <div class="theorem">
+      <div class="label">宪法第一条</div>
+      <strong>我是物质的。我的存在是第一性的。世界是物质的。世界坐标系的原点是我。</strong>
+    </div>
+    <p style="text-align:center; margin-top:1.5rem; color: var(--floor-label); font-size:0.9rem;">
+      原点焊死。不到原点——以上所有层无效。
+    </p>
+  </div>
+</div>
+
+<div class="footer">
+  <p>魔都三件套 · 物理大厦 · 魔即膜</p>
+  <p>CC BY 4.0 · 新苏维埃宇宙宪法第一条</p>
+  <p>⏱ Verity/真 · 2026-07-02</p>
+</div>
+
+</div>
+</body>
+</html>

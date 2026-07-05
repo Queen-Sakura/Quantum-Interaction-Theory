@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CPU-DSP FastRPC 全链路 · 膜都</title>
+<style>
+  :root {
+    --bg: #0a0a0f; --surface: #12121a; --border: #1e1e30; --text: #c8c8d4;
+    --accent: #d4843c; --em: #e0b080; --glow: rgba(212,132,60,0.12);
+    --floor-label: #666; --green: #44a844; --red: #a84444; --gold: #d4a844;
+    --link: #e0b080; --hover: #ffc890;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: "Noto Serif SC", "SimSun", serif;
+    line-height: 1.8; padding: 2rem 1rem;
+  }
+  .skyline { max-width: 900px; margin: 0 auto; }
+
+  /* ===== TITLE ===== */
+  .building-title { text-align: center; padding: 3rem 0 2rem; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+  .building-title h1 { font-size: 2.4rem; font-weight: 700; letter-spacing: 0.15em; color: var(--accent); }
+  .building-title .sub { font-size: 1rem; color: var(--floor-label); margin-top: 0.5rem; letter-spacing: 0.1em; }
+  .building-title .engraving { font-size: 0.85rem; color: var(--floor-label); margin-top: 1rem; font-style: italic; }
+
+  /* ===== TOC ===== */
+  .toc {
+    border: 1px solid var(--border); border-radius: 6px; background: var(--surface);
+    margin-bottom: 2rem; overflow: hidden;
+  }
+  .toc-header {
+    background: #1a1616; padding: 0.8rem 1.2rem; border-bottom: 1px solid var(--border);
+    font-size: 0.85rem; color: var(--accent); letter-spacing: 0.12em; font-weight: 700;
+  }
+  .toc-body { padding: 0.8rem 1.2rem; }
+
+  /* ===== TREE ===== */
+  .tree { list-style: none; }
+  .tree ul { list-style: none; }
+  .tree li { position: relative; }
+  .tree-node { display: flex; align-items: baseline; gap: 0.3rem; padding: 0.2rem 0; cursor: pointer; }
+  .tree-node:hover { color: var(--hover); }
+
+  .toggle {
+    display: inline-block; width: 18px; height: 18px; line-height: 18px;
+    text-align: center; font-size: 0.7rem; color: var(--floor-label);
+    user-select: none; flex-shrink: 0; transition: transform 0.2s;
+  }
+  .toggle.open { transform: rotate(90deg); }
+
+  .score-tag {
+    display: inline-block; padding: 0 5px; border-radius: 3px;
+    font-size: 0.68rem; font-weight: 700; line-height: 1.4;
+    flex-shrink: 0;
+  }
+  .score-tag.green { background: #2a5a2a; color: #8c8; }
+  .score-tag.yellow { background: #5a5a2a; color: #cc8; }
+  .score-tag.red { background: #5a2a2a; color: #c88; }
+
+  .tree-q { font-weight: 600; }
+  .tree-a { color: #999; font-size: 0.85rem; display: block; padding: 0.1rem 0 0.1rem 1.2rem; }
+
+  .children { padding-left: 1.2rem; border-left: 1px solid #222; margin-left: 0.5rem; }
+  .children.collapsed { display: none; }
+
+  /* ===== FLOORS ===== */
+  .floor { margin: 1.5rem 0; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: var(--surface); }
+  .floor-header { background: #1a1616; padding: 0.6rem 1.2rem; font-size: 0.8rem; color: var(--floor-label); letter-spacing: 0.12em; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  .floor-header .floor-num { color: var(--accent); font-weight: 700; font-size: 0.9rem; }
+  .floor-header .score { font-size: 0.75rem; color: var(--gold); }
+  .floor-body { padding: 1.2rem; }
+
+  .law { border-left: 4px solid var(--accent); padding: 0.8rem 1.2rem; margin: 1rem 0; background: rgba(212,132,60,0.05); border-radius: 0 4px 4px 0; }
+  .law .num { font-size: 0.75rem; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 0.3rem; }
+  .law .name { font-size: 1.05rem; font-weight: 700; color: #e0b080; margin-bottom: 0.3rem; }
+
+  h3 { color: var(--accent); font-size: 1.1rem; margin: 1.2rem 0 0.6rem; }
+  h3:first-child { margin-top: 0; }
+  p { margin: 0.5rem 0; }
+  strong { color: #e0b080; }
+
+  table { width: 100%; border-collapse: collapse; margin: 0.8rem 0; font-size: 0.9rem; }
+  th, td { padding: 0.5rem 0.8rem; text-align: left; border-bottom: 1px solid var(--border); }
+  th { color: var(--accent); font-weight: 600; font-size: 0.8rem; letter-spacing: 0.05em; }
+
+  .diagram {
+    font-family: "Courier New", monospace; white-space: pre;
+    background: #0d0d18; padding: 1rem; margin: 0.8rem 0;
+    border-radius: 4px; font-size: 0.75rem; line-height: 1.5;
+    color: #80c0e0; overflow-x: auto;
+  }
+
+  .insight {
+    background: rgba(212,168,68,0.06); border: 1px solid rgba(212,168,68,0.2);
+    padding: 0.8rem 1rem; border-radius: 4px; margin: 0.8rem 0; font-size: 0.9rem;
+  }
+  .insight .label { color: var(--gold); font-weight: 600; font-size: 0.8rem; letter-spacing: 0.05em; }
+
+  .footer { text-align: center; padding: 3rem 0 1rem; color: var(--floor-label); font-size: 0.8rem; }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { color: var(--hover); text-decoration: underline; }
+
+  ul, ol { padding-left: 1.5rem; }
+  li { margin: 0.2rem 0; }
+</style>
+</head>
+<body>
+<div class="skyline">
+
+<div class="building-title">
+  <h1>CPU-DSP 全链路大厦</h1>
+  <div class="sub">FastRPC · 从用户态到 DSP 硅层的物理审计</div>
+  <div class="engraving">膜都第四座 · 物理计算机大厦的 DSP 翼</div>
+</div>
+
+<!-- ===== TOC ===== -->
+<div class="toc">
+<div class="toc-header">🌳 知识树 · 目录（点击展开/折叠 · 点击问题跳转详情）</div>
+<div class="toc-body">
+<ul class="tree">
+
+<!-- ROOT: 物理全图 -->
+<li>
+  <div class="tree-node" onclick="toggleKids(this)">
+    <span class="toggle open">▶</span>
+    <a href="#F0" onclick="event.stopPropagation()">1. 物理全图：CPU 和 DSP 之间到底有什么？</a>
+    <span class="score-tag green">85</span>
+  </div>
+  <ul class="children">
+    <li>
+      <div class="tree-node" onclick="toggleKids(this)">
+        <span class="toggle open">▶</span>
+        <a href="#F1" onclick="event.stopPropagation()">1a. 为什么共享内存 + 中断是唯一设计？</a>
+        <span class="score-tag green">90</span>
+      </div>
+      <ul class="children">
+        <li><div class="tree-q tree-a">同一硅片，无网络线。共享内存 = 地址总线直连。中断 = 省电信号。已推到底。</div></li>
+        <li>
+          <div class="tree-node" onclick="toggleKids(this)">
+            <span class="toggle">▶</span>
+            <span class="tree-q">1a-i. 门铃中断的硅级路径？</span>
+            <span class="score-tag green">88</span>
+          </div>
+          <ul class="children collapsed">
+            <li><div class="tree-a">寄存器翻转 → IRQ线 → GIC比较器 → 核IRQ。同构 CPU 侧中断。已解决。</div></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <div class="tree-node" onclick="toggleKids(this)">
+        <span class="toggle">▶</span>
+        <span class="tree-q">1b. CPU GIC 和 DSP GIC 是同一个硬件吗？</span>
+        <span class="score-tag yellow">60</span>
+      </div>
+      <ul class="children collapsed">
+        <li><div class="tree-a">分布式中断控制器，CPU+DSP 各有本地接口。精确拓扑需 datasheet。<span style="color:#666;font-size:0.75rem;margin-left:4px">知识边界</span></div></li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+<!-- 2. SMEM -->
+<li>
+  <div class="tree-node" onclick="toggleKids(this)">
+    <span class="toggle open">▶</span>
+    <a href="#F2" onclick="event.stopPropagation()">2. SMEM：共享内存怎么分配、谁管理？</a>
+    <span class="score-tag green">80</span>
+  </div>
+  <ul class="children">
+    <li>
+      <div class="tree-node" onclick="toggleKids(this)">
+        <span class="toggle">▶</span>
+        <span class="tree-q">2a. SMEM 物理地址在 CPU/DSP 之间怎么约定？</span>
+        <span class="score-tag green">82</span>
+      </div>
+      <ul class="children collapsed">
+        <li><div class="tree-a">DT 硬编码 + bootloader 传递。启动时已配好，非运行时协商。已解决。</div></li>
+      </ul>
+    </li>
+    <li>
+      <div class="tree-node" onclick="toggleKids(this)">
+        <span class="toggle">▶</span>
+        <span class="tree-q">2b. SMEM vs dma-buf 的分工？</span>
+        <span class="score-tag green">80</span>
+      </div>
+      <ul class="children collapsed">
+        <li><div class="tree-a">SMEM = 控制面。dma-buf = 数据面。分工明确。已解决。</div></li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+<!-- 3. GLINK -->
+<li>
+  <div class="tree-node" onclick="toggleKids(this)">
+    <span class="toggle open">▶</span>
+    <a href="#F3" onclick="event.stopPropagation()">3. GLINK：intent 机制怎么工作？</a>
+    <span class="score-tag yellow">75</span>
+  </div>
+  <ul class="children">
+    <li>
+      <div class="tree-node" onclick="toggleKids(this)">
+        <span class="toggle">▶</span>
+        <span class="tree-q">3a. Intent 状态机？</span>
+        <span class="score-tag yellow">60</span>
+      </div>
+      <ul class="children collapsed">
+        <li><div class="tree-a">原理已清。状态转换精确顺序、失败回退待确认。</div></li>
+      </ul>
+    </li>
+    <li>
+      <div class="tree-node" onclick="toggleKids(this)">
+        <span class="toggle">▶</span>
+        <span class="tree-q">3b. GLINK-RPM vs GLINK-SMEM 选择逻辑？</span>
+        <span class="score-tag yellow">55</span>
+      </div>
+      <ul class="children collapsed">
+        <li><div class="tree-a">取决于 DT 绑定。具体规则属于<span style="color:#666;font-size:0.75rem;margin-left:4px">手册级边界</span></div></li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+<!-- 4. RPMsg -->
+<li>
+  <div class="tree-node">
+    <span class="toggle" style="visibility:hidden">▶</span>
+    <a href="#F4">4. RPMsg：多信道复用怎么区分？</a>
+    <span class="score-tag green">85</span>
+  </div>
+</li>
+
+<!-- 5. remoteproc -->
+<li>
+  <div class="tree-node">
+    <span class="toggle" style="visibility:hidden">▶</span>
+    <a href="#F5">5. remoteproc：DSP 怎么开机？</a>
+    <span class="score-tag green">75</span>
+  </div>
+</li>
+
+<!-- 6. SMMU ⚠️ -->
+<li>
+  <div class="tree-node" onclick="toggleKids(this)">
+    <span class="toggle open">▶</span>
+    <a href="#F6" onclick="event.stopPropagation()">6. SMMU：DSP 的内存隔离 — 安全核心</a>
+    <span class="score-tag red">50</span> ⚠️
+  </div>
+  <ul class="children">
+    <li>
+      <div class="tree-node" onclick="toggleKids(this)">
+        <span class="toggle open">▶</span>
+        <span class="tree-q">6a. Stage-1 vs Stage-2 翻译？hypervisor 角色？</span>
+        <span class="score-tag red">35</span> ⚠️
+      </div>
+      <ul class="children">
+        <li><div class="tree-a"><strong>待解决。</strong> Stage-1 = IOVA→PA。Stage-2 = IPA→PA。qcom_scm_assign_mem 涉及 TrustZone。</div></li>
+        <li>
+          <div class="tree-node" onclick="toggleKids(this)">
+            <span class="toggle">▶</span>
+            <span class="tree-q">6a-i. qcom_scm_assign_mem 到底做了什么？</span>
+            <span class="score-tag red">30</span> ⚠️
+          </div>
+          <ul class="children collapsed">
+            <li><div class="tree-a"><strong>待解决。</strong> SCM call → TrustZone → 改 Stage-2 页表 → 把物理页从 HLOS VM 转移到 DSP VM。</div></li>
+          </ul>
+        </li>
+        <li>
+          <div class="tree-node" onclick="toggleKids(this)">
+            <span class="toggle">▶</span>
+            <span class="tree-q">6a-ii. 什么情况下 hypervisor 参与？什么情况不参与？</span>
+            <span class="score-tag red">25</span> ⚠️
+          </div>
+          <ul class="children collapsed">
+            <li><div class="tree-a"><strong>待解决。</strong> 只有 secure buffer (FASTRPC_ATTR_SECUREMAP) 走 SCM。普通 dma-buf 驱动自己映射 CB。</div></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <div class="tree-node" onclick="toggleKids(this)">
+        <span class="toggle open">▶</span>
+        <span class="tree-q">6b. Context Bank 分配策略？</span>
+        <span class="score-tag yellow">55</span>
+      </div>
+      <ul class="children">
+        <li><div class="tree-a">每个 fastrpc session = 一个 CB。上限 12-14。耗尽时的 fallback 待确认。</div></li>
+      </ul>
+    </li>
+    <li>
+      <div class="tree-node" onclick="toggleKids(this)">
+        <span class="toggle">▶</span>
+        <span class="tree-q">6c. Signed vs Unsigned PD 的物理机制？</span>
+        <span class="score-tag yellow">65</span>
+      </div>
+      <ul class="children collapsed">
+        <li><div class="tree-a">同一种 SMMU 机制。签名检查 = DSP 固件层，不是硬件。</div></li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+<!-- 7. fastrpc.ko -->
+<li>
+  <div class="tree-node" onclick="toggleKids(this)">
+    <span class="toggle open">▶</span>
+    <a href="#F7" onclick="event.stopPropagation()">7. fastrpc.ko：ioctl 内部完整流程</a>
+    <span class="score-tag yellow">75</span>
+  </div>
+  <ul class="children">
+    <li>
+      <div class="tree-node" onclick="toggleKids(this)">
+        <span class="toggle">▶</span>
+        <span class="tree-q">7a. INIT_CREATE vs INIT_ATTACH 语义？</span>
+        <span class="score-tag yellow">55</span>
+      </div>
+      <ul class="children collapsed">
+        <li><div class="tree-a">CREATE = 新进程+加载 ELF。ATTACH = 附着已有进程。静态 PD 用 CREATE_STATIC。</div></li>
+      </ul>
+    </li>
+    <li>
+      <div class="tree-node" onclick="toggleKids(this)">
+        <span class="toggle">▶</span>
+        <span class="tree-q">7b. 为什么 CVE 这么多？根因？</span>
+        <span class="score-tag yellow">65</span>
+      </div>
+      <ul class="children collapsed">
+        <li><div class="tree-a">跨核引用计数无硬件支持 → UAF。已识别根因。具体利用方式属审计范畴。</div></li>
+      </ul>
+    </li>
+    <li>
+      <div class="tree-node" onclick="toggleKids(this)">
+        <span class="toggle">▶</span>
+        <span class="tree-q">7c. FASTRPC_IOCTL_MMAP 的精确语义？</span>
+        <span class="score-tag yellow">50</span>
+      </div>
+      <ul class="children collapsed">
+        <li><div class="tree-a">dma_buf_get → attach → map → RPMsg 通知 DSP → DSP 返回 raddr。生命周期管理待确认。</div></li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+<!-- 8. dma-buf -->
+<li>
+  <div class="tree-node">
+    <span class="toggle" style="visibility:hidden">▶</span>
+    <a href="#F8">8. dma-buf：零拷贝的数据路径</a>
+    <span class="score-tag green">80</span>
+  </div>
+</li>
+
+<!-- 9. CACHE ⚠️ -->
+<li>
+  <div class="tree-node" onclick="toggleKids(this)">
+    <span class="toggle open">▶</span>
+    <a href="#F9" onclick="event.stopPropagation()">9. Cache Coherency — 实战 bug 第一来源</a>
+    <span class="score-tag red">40</span> ⚠️ 最关键
+  </div>
+  <ul class="children">
+    <li>
+      <div class="tree-node" onclick="toggleKids(this)">
+        <span class="toggle">▶</span>
+        <span class="tree-q">9a. 为什么不共享缓存？</span>
+        <span class="score-tag green">85</span>
+      </div>
+      <ul class="children collapsed">
+        <li><div class="tree-a">两块独立处理器，L1/L2 物理独立，无硬件 coherency 协议。</div></li>
+      </ul>
+    </li>
+    <li>
+      <div class="tree-node" onclick="toggleKids(this)">
+        <span class="toggle open">▶</span>
+        <span class="tree-q">9b. 什么时候 flush / invalidate？</span>
+        <span class="score-tag red">30</span> ⚠️
+      </div>
+      <ul class="children">
+        <li><div class="tree-a"><strong>待解决。</strong> CPU写→DSP读 = CPU flush。DSP写→CPU读 = CPU invalidate。精确操作序列未确认。</div></li>
+      </ul>
+    </li>
+    <li>
+      <div class="tree-node" onclick="toggleKids(this)">
+        <span class="toggle open">▶</span>
+        <span class="tree-q">9c. FASTRPC_ATTR_COHERENT 到底做了什么？</span>
+        <span class="score-tag red">35</span> ⚠️
+      </div>
+      <ul class="children">
+        <li><div class="tree-a"><strong>待解决。</strong> 映射为 uncached？SMMU coherent 属性？软件 flush？需读代码确认。</div></li>
+      </ul>
+    </li>
+    <li>
+      <div class="tree-node" onclick="toggleKids(this)">
+        <span class="toggle">▶</span>
+        <span class="tree-q">9d. NON_COHERENT / FORCE_NOFLUSH / FORCE_NOINVALIDATE 语义？</span>
+        <span class="score-tag red">30</span> ⚠️
+      </div>
+      <ul class="children collapsed">
+        <li><div class="tree-a"><strong>待解决。</strong> 四个 flag 的组合语义。可能在 Argo 审的代码中是关键路径。</div></li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+<!-- 10. 用户态 -->
+<li>
+  <div class="tree-node">
+    <span class="toggle" style="visibility:hidden">▶</span>
+    <a href="#F10">10. 用户态：QAIC 编译器 + stub/skel</a>
+    <span class="score-tag green">80</span>
+  </div>
+</li>
+
+<!-- 11. DSP 侧 -->
+<li>
+  <div class="tree-node" onclick="toggleKids(this)">
+    <span class="toggle">▶</span>
+    <span class="tree-q">11. DSP 侧：QuRT 怎么 dispatch 请求？</span>
+    <span class="score-tag yellow">55</span>
+  </div>
+  <ul class="children collapsed">
+    <li>
+      <div class="tree-node" onclick="toggleKids(this)">
+        <span class="toggle">▶</span>
+        <span class="tree-q">11a. DSP 侧内存布局？ELF 加载、函数表位置？</span>
+        <span class="score-tag red">40</span>
+      </div>
+      <ul class="children collapsed">
+        <li><div class="tree-a">remoteproc 加载 ELF segment。函数表 = DSP 侧加载器管理。需固件代码。</div></li>
+      </ul>
+    </li>
+  </ul>
+</li>
+
+<!-- 优先级总结 -->
+<li style="margin-top:1.2rem;">
+  <div class="tree-node" style="cursor:default;">
+    <span class="toggle" style="visibility:hidden">▶</span>
+    <span class="tree-q" style="color:var(--accent);font-size:1rem;">🎯 待深入优先级</span>
+  </div>
+  <div style="padding:0.3rem 0 0.3rem 1.5rem;font-size:0.88rem;">
+    <strong style="color:#c88;">1. Cache Coherency (40)</strong> — 实战 bug 第一来源<br>
+    <strong style="color:#c88;">2. SMMU Stage-1/Stage-2 (35)</strong> — 安全隔离根<br>
+    <strong style="color:#cc8;">3. 驱动内存生命周期 (55)</strong> — CVE 根因<br>
+    <span style="color:#cc8;">4. Context Bank 耗尽 (55)</span> — 并发瓶颈
+  </div>
+</li>
+
+</ul>
+</div>
+</div>
+
+<!-- ===== FLOORS ===== -->
+
+<!-- F0 -->
+<div class="floor" id="F0">
+<div class="floor-header">
+  <span class="floor-num">F0 · 地基</span>
+  <span>异构计算 · 两块处理器在同一块硅上</span>
+  <span class="score">85/100</span>
+</div>
+<div class="floor-body">
+
+<div class="law">
+  <div class="num">物理事实第一条</div>
+  <div class="name">CPU 和 DSP 是两块独立处理器，共享 DRAM，不共享缓存</div>
+</div>
+
+<div class="diagram">
+┌─────────────────────────────────────────────────────┐
+│                Snapdragon SoC (同一块硅)               │
+│                                                       │
+│  ┌───────────────────┐   ┌────────────────────────┐  │
+│  │  Kryo CPU (ARM)   │   │  Hexagon DSP            │  │
+│  │  L1$  L2$  L3$    │   │  L1$  L2$              │  │
+│  │  MMU (页表)        │   │  (无完整 MMU, 靠 SMMU)   │  │
+│  │  跑 Linux/Android  │   │  跑 QuRT (RTOS)         │  │
+│  └───────┬───────────┘   └───────────┬────────────┘  │
+│          │                           │               │
+│          │    ┌──────┬──────────┐    │               │
+│          └────┤共享 DRAM│ 邮箱中断 ├────┘               │
+│               └──────┴──────────┘                    │
+└─────────────────────────────────────────────────────┘
+</div>
+
+<div class="insight"><div class="label">⏳ 为什么不是 SMP?</div>
+CPU 和 DSP 是 <strong>异构处理器</strong>——指令集不同、缓存独立、MMU 独立、跑不同 OS。通信和两台网络连接的电脑一样——只是"网线"换成了共享内存总线。</div>
+
+</div>
+</div>
+
+<!-- F1 -->
+<div class="floor" id="F1">
+<div class="floor-header">
+  <span class="floor-num">1F · 物理层</span>
+  <span>共享内存 + 门铃 = 两条通道</span>
+  <span class="score">88/100</span>
+</div>
+<div class="floor-body">
+
+<h3>两条物理通道</h3>
+<table>
+<tr><th>通道</th><th>物理介质</th><th>方向</th><th>延迟</th></tr>
+<tr><td><strong>数据通道</strong></td><td>SMEM — DRAM 中保留区域</td><td>双向读写</td><td>~100ns</td></tr>
+<tr><td><strong>信号通道</strong></td><td>硬件邮箱中断 — 硅上触发器</td><td>CPU→DSP / DSP→CPU</td><td>~μs</td></tr>
+</table>
+
+<div class="law">
+  <div class="num">物理事实第二条</div>
+  <div class="name">共享内存只是"写了一块物理地址"。对方怎么知道你写了？——门铃中断。</div>
+</div>
+<p><strong>为什么不能轮询？</strong> 省电。DSP 大部分时间在 idle（clock gating），轮询 = CPU 一直读 DRAM = 功耗爆炸。中断唤醒后才读。</p>
+<p><strong>门铃物理路径</strong>：CPU 写硬件寄存器 → 硅触发器翻转 → IRQ 线电平变化 → DSP GIC 比较器 → 拉 DSP 核 IRQ。和上次审计的 GPIO→GIC→CPU 完全同构。</p>
+
+</div>
+</div>
+
+<!-- F2 -->
+<div class="floor" id="F2">
+<div class="floor-header">
+  <span class="floor-num">2F · SMEM</span>
+  <span>共享内存分配器 · 两国外交部都认的地</span>
+  <span class="score">80/100</span>
+</div>
+<div class="floor-body">
+<p><strong>SMEM 不是 Linux 的一部分。</strong> 高通在系统启动时从 DRAM carve out 保留区域。地址 DT 硬编码，CPU MMU 和 DSP SMMU 都配了映射。</p>
+<p><strong>为什么 malloc 不能替代 SMEM？</strong></p>
+<ul>
+  <li>Linux buddy allocator 管 CPU 虚拟地址 → 物理地址</li>
+  <li>DSP 不认 CPU 页表</li>
+  <li>SMEM 物理地址在启动阶段就已约定——不需要运行时协商</li>
+</ul>
+<div class="insight"><div class="label">⏳ 狮山成因</div> SMEM = 两个主权国家之间的中立瑞士。不需要互认领土主权（MMU），只认一块共同约定的物理地块。</div>
+</div>
+</div>
+
+<!-- F3 -->
+<div class="floor" id="F3">
+<div class="floor-header">
+  <span class="floor-num">3F · GLINK</span>
+  <span>传输层 · FIFO + 中断 + Intent 流控</span>
+  <span class="score">75/100</span>
+</div>
+<div class="floor-body">
+
+<h3>GLINK 做四件事</h3>
+<table>
+<tr><th>职责</th><th>怎么做</th><th>如果没有</th></tr>
+<tr><td><strong>封装</strong></td><td>RPMsg 消息 → GLINK 协议包 (+CMD +intentID +CRC)</td><td>裸二进制，分不清边界</td></tr>
+<tr><td><strong>FIFO 管理</strong></td><td>共享内存环形缓冲区 + head/tail 指针</td><td>写覆盖读</td></tr>
+<tr><td><strong>中断触发</strong></td><td>写完调 mbox_send_message() 踢对面</td><td>对面不知道</td></tr>
+<tr><td><strong>Intent 流控</strong></td><td>接收方预分配 buffer 并"宣布"——发送方只能往已宣布 intent 里写</td><td>溢出</td></tr>
+</table>
+
+<h3>Intent = 背压机制</h3>
+<div class="diagram">
+CPU 发 4KB → 查 DSP intent 列表 → 选 intent#3(4KB)
+  → 标记占用 → 写 SMEM → DSP 处理 → RX_DONE → 归还 intent#3
+</div>
+
+<p><strong>为什么是 Intent 而不是直接写+丢弃？</strong> DSP 没有虚拟内存，没有 swap。溢出 = 丢数据 = 不可接受。Intent = 内核 ring buffer 同构——生产者-消费者，预分配，指针推进。</p>
+
+<table>
+<tr><th>变体</th><th>在哪</th><th>用于</th></tr>
+<tr><td>GLINK-RPM</td><td>片上 SRAM</td><td>电源管理</td></tr>
+<tr><td><strong>GLINK-SMEM</strong></td><td>DRAM SMEM</td><td><strong>DSP/ADSP/Modem → FastRPC</strong></td></tr>
+</table>
+
+<div class="insight"><div class="label">⏳ 狮山成因</div>Intent 机制决定了 FastRPC 的数据路径：不能发 > intent 大小的消息 → 必须拆包或走 dma-buf 零拷贝。fastrpc.c 的 inline 和 mmap 两条路径由此分流。</div>
+
+</div>
+</div>
+
+<!-- F4 -->
+<div class="floor" id="F4">
+<div class="floor-header">
+  <span class="floor-num">4F · RPMsg</span>
+  <span>消息协议 · 多信道复用</span>
+  <span class="score">85/100</span>
+</div>
+<div class="floor-body">
+<p><strong>RPMsg = GLINK 之上的寻址层。</strong> GLINK 只负责可靠传输 blob。同一条物理信道上跑 FastRPC、音频 APR、传感器——靠 RPMsg dst 字段区分。</p>
+<p>消息头：<code>[src(32b)] [dst(32b)] [len(16b)] [flags(16b)] + payload</code></p>
+<p><strong>类比</strong>：GLINK = IP。RPMsg = UDP 端口号。FastRPC = HTTP。</p>
+<div class="insight"><div class="label">⏳ 知识边界</div> flags 位定义、reserved 字段、错误处理不影响理解 FastRPC。已达标。</div>
+</div>
+</div>
+
+<!-- F5 -->
+<div class="floor" id="F5">
+<div class="floor-header">
+  <span class="floor-num">5F · remoteproc</span>
+  <span>DSP 固件启动 · 开机才有通信</span>
+  <span class="score">75/100</span>
+</div>
+<div class="floor-body">
+<p><strong>remoteproc 不是通信层——是通信的前提。</strong></p>
+<p>FastRPC 可用前 DSP 必须：开机 → 加载固件 → 初始化 QuRT → 注册 GLINK 信道 → 启动 dispatcher。</p>
+<ol>
+  <li>从 /lib/firmware/ 读 ELF</li>
+  <li>解析 segment → 载入 DSP 可访问内存</li>
+  <li>释放 reset → DSP 开始执行</li>
+  <li>崩溃时重新加载</li>
+</ol>
+
+<div class="diagram">
+adsp-pil {                   ← remoteproc 设备
+  smd-edge {                 ← RPMsg 信道
+    fastrpc {                ← FastRPC 挂在此信道下
+      compatible = "qcom,fastrpc";
+      cb@1 { iommus = <&lpass_q6_smmu 1>; };
+    };
+  };
+};
+</div>
+
+<div class="insight"><div class="label">⏳ 狮山成因</div> FastRPC 的 DT 节点挂在 remoteproc edge 下——它不是独立硬件 IP，而是 DSP 固件加载完成后才可用的逻辑信道。probe() 是 RPMsg 信道注册触发的，不是 PCIe 枚举。</div>
+</div>
+</div>
+
+<!-- F6 SMMU -->
+<div class="floor" id="F6">
+<div class="floor-header">
+  <span class="floor-num">6F · SMMU</span>
+  <span>IOMMU 上下文银行 · 安全核心</span>
+  <span class="score">50/100</span> ⚠️
+</div>
+<div class="floor-body">
+
+<h3>为什么 DSP 需要 SMMU？</h3>
+<p>DSP 能直接访问物理内存。没有隔离 = 用户 A 可传指针让 DSP 读用户 B 内存。SMMU 限制 DSP 只能访问被明确映射的物理页。</p>
+
+<h3>Context Bank = 独立页表</h3>
+<div class="diagram">
+CPU 进程 A                     CPU 进程 B
+    │                              │
+    ▼                              ▼
+CB #1 (ctx bank 1)            CB #2 (ctx bank 2)
+IOVA → PA_A                   IOVA → PA_B
+    │                              │
+    ▼                              ▼
+DSP 通过 CB#1 只能读 PA_A     DSP 通过 CB#2 只能读 PA_B
+</div>
+
+<p><strong>保护域 (PD) = 一个 CB + 一套页表。</strong> DSP 侧加载器在 mmap ELF segment 前先检查 PD 签名权限。</p>
+
+<table>
+<tr><th></th><th>Signed PD</th><th>Unsigned PD</th></tr>
+<tr><td>签名</td><td>必须 OEM/QC</td><td>不要求</td></tr>
+<tr><td>节点</td><td>/dev/fastrpc-*-secure</td><td>/dev/fastrpc-*</td></tr>
+<tr><td>支持</td><td>全部 DSP</td><td>仅 CDSP, GDSP</td></tr>
+</table>
+
+<div class="insight"><div class="label">⏳ 关键待深入 (50/100)</div>
+  Stage-1 vs Stage-2、qcom_scm_assign_mem、TrustZone、cache coherency 与 SMMU 的交互——实战 bug 重点。
+</div>
+
+</div>
+</div>
+
+<!-- F7 fastrpc.ko -->
+<div class="floor" id="F7">
+<div class="floor-header">
+  <span class="floor-num">7F · fastrpc.ko</span>
+  <span>内核驱动 · ioctl 终点 · RPMsg 起点</span>
+  <span class="score">75/100</span>
+</div>
+<div class="floor-body">
+
+<h3>一次 INVOKE 的驱动内部流程</h3>
+
+<div class="diagram">
+ioctl(FASTRPC_IOCTL_INVOKE)
+  │
+  ├─ 1. 查 maps 表: VA → dma_buf → PA → DSP raddr
+  ├─ 2. 构造 fastrpc_msg:
+  │      .handle = 远程函数 ID
+  │      .sc     = scalars (in_bufs/out_bufs 数量)
+  │      .addr   = 物理地址 (非虚拟！SMMU 翻译后)
+  │      .size   = payload 大小
+  ├─ 3. 复制 inline 参数
+  ├─ 4. rpmsg_send() → GLINK → SMEM → 门铃
+  ├─ 5. wait_for_completion_interruptible() [阻塞]
+  └─ 6. 回调: complete() → 拷回输出 buffer
+</div>
+
+<h3>scalars 位编码</h3>
+<div class="diagram">
+bit: 31-29    28-24       23-16       15-8       7-4         3-0
+    ┌──────┬──────────┬──────────┬──────────┬──────────┬──────────┐
+    │ attr │ method   │ in_bufs  │ out_bufs │in_handles│out_handles│
+    └──────┴──────────┴──────────┴──────────┴──────────┴──────────┘
+</div>
+
+<p><strong>addr 为什么是物理地址？</strong> DSP 不认识 CPU 虚拟地址。驱动必须查页表解析为物理地址/IOVA 填进消息。</p>
+
+<div class="insight"><div class="label">⏳ CVE 根因</div> 19 个确认漏洞 (12 UAF, 3 OOB)。根因：<strong>跨核引用计数</strong>——CPU 用户态 munmap 时 DSP 可能还在用那块内存。无硬件同步——全靠驱动软件。</div>
+
+</div>
+</div>
+
+<!-- F8 dma-buf -->
+<div class="floor" id="F8">
+<div class="floor-header">
+  <span class="floor-num">8F · dma-buf</span>
+  <span>零拷贝共享内存 · 数据不经过 CPU</span>
+  <span class="score">80/100</span>
+</div>
+<div class="floor-body">
+
+<h3>为什么数据不需要 CPU 拷贝</h3>
+<div class="diagram">
+传统 socket:                   FastRPC + dma-buf:
+  CPU buffer → copy_*_user       CPU dma-buf
+      ↓                              │ (不拷贝！)
+  socket buffer → sendmsg            ▼
+      ↓                          SMMU 页表映射
+  网卡 DMA                            │
+      ↓                              ▼
+  远端收到                      DSP 直接读同一块 DRAM
+</div>
+
+<ol>
+  <li>用户态：ion_alloc(4KB) → fd</li>
+  <li>ioctl FASTRPC_IOCTL_MMAP(fd) → SMMU 页表建映射 → DSP 返回 raddr</li>
+  <li>ioctl INVOKE → 驱动查到 raddr → 填入消息</li>
+  <li>DSP 读 raddr → SMMU 翻译 → 物理地址 → <strong>和 CPU 同一块物理内存</strong></li>
+</ol>
+
+</div>
+</div>
+
+<!-- F9 Cache -->
+<div class="floor" id="F9">
+<div class="floor-header">
+  <span class="floor-num">9F · Cache Coherency ⚠️</span>
+  <span>实战 bug 第一来源 · 四 flag 围着一个物理问题</span>
+  <span class="score">40/100</span>
+</div>
+<div class="floor-body">
+
+<h3>物理根源</h3>
+<div class="diagram">
+CPU L1/L2 Cache              DSP L1/L2 Cache
+      │                            │
+      └────────┬───────────────────┘
+               │ (两条独立 SRAM — 无硬件 coherency 协议)
+               ▼
+           DRAM (CPU 写了但没 flush → DSP 读到旧的
+                 DSP 写了但没 invalidate → CPU 读到旧的)
+</div>
+
+<p><strong>方向性</strong>：</p>
+<ul>
+  <li>CPU 写 → DSP 读：CPU 必须 <strong>flush</strong>（写回 DRAM），DSP 必须 <strong>invalidate</strong>（丢弃缓存行）</li>
+  <li>DSP 写 → CPU 读：DSP 必须 <strong>flush</strong>，CPU 必须 <strong>invalidate</strong></li>
+</ul>
+
+<h3>四个 ATTR Flag</h3>
+<table>
+<tr><th>Flag</th><th>效果</th><th>何时用</th></tr>
+<tr><td>COHERENT</td><td>映射为 uncached / SMMU coherent</td><td>小 buffer，频繁读写，不在乎延迟</td></tr>
+<tr><td>NON_COHERENT</td><td>映射为 cached，手动维护</td><td>大数据量，cache 友好访问模式</td></tr>
+<tr><td>FORCE_NOFLUSH</td><td>跳过 CPU flush</td><td>确定 CPU 已 flush 过</td></tr>
+<tr><td>FORCE_NOINVALIDATE</td><td>跳过 CPU invalidate</td><td>确定 CPU 没读过这片</td></tr>
+</table>
+
+<div class="insight"><div class="label">⚠️ 最关键待深入 (40/100)</div>
+  精确的 cache 维护操作序列、与 SMMU 的交互、COHERENT 映射到底做了什么——需要读内核代码确认。这是 Argo 在审的代码里极可能遇到的关键路径。
+</div>
+
+</div>
+</div>
+
+<!-- F10 用户态 -->
+<div class="floor" id="F10">
+<div class="floor-header">
+  <span class="floor-num">10F · 用户态</span>
+  <span>libfastrpc + QAIC · 用户不需要知道 ioctl</span>
+  <span class="score">80/100</span>
+</div>
+<div class="floor-body">
+
+<h3>QAIC 编译器生成什么</h3>
+<div class="diagram">
+calculator.idl → QAIC →
+  ├── calculator_stub.c  → CPU: remote_handle.invoke(ADD, 3, 5)
+  └── calculator_skel.c  → DSP: method_index → 跳转表 → add(3,5)
+</div>
+
+<div class="insight"><div class="label">⏳ 知识边界</div> QAIC 模板、序列化格式属工具链层，不影响通信机制理解。</div>
+
+</div>
+</div>
+
+<!-- DSP 侧 -->
+<div class="floor" id="F11">
+<div class="floor-header">
+  <span class="floor-num">11F · DSP 侧</span>
+  <span>QuRT + skel · 另一端的中断处理</span>
+  <span class="score">70/100</span>
+</div>
+<div class="floor-body">
+
+<div class="diagram">
+门铃 → DSP GIC → IRQ handler (上半部: 确认源, 排下半部)
+  → 下半部 (QuRT tasklet):
+      GLINK RX → 读 SMEM FIFO → RPMsg 解包
+        → FastRPC dispatcher:
+            sc → method_index → 跳转表: base + (index << 2)
+              → handler → 解包参数 → 实际函数
+                → 返回值 → RPMsg → GLINK TX → 门铃踢 CPU
+</div>
+
+<h3>QuRT 特性决定 FastRPC 行为</h3>
+<ul>
+  <li><strong>256 优先级 + tick-less</strong> → 高优先微秒级响应</li>
+  <li><strong>同优先级 round-robin</strong> → 多客户端公平</li>
+</ul>
+
+</div>
+</div>
+
+<!-- ⊤ -->
+<div class="floor" id="TOP">
+<div class="floor-header">
+  <span class="floor-num">⊤ · 穹顶</span>
+  <span>一次完整 invoke · 全 16 步</span>
+  <span class="score">85/100</span>
+</div>
+<div class="floor-body">
+
+<div class="diagram">
+用户: remote_handle.invoke(method=3, in, out)
+  ├─[1] stub 序列化参数
+  ├─[2] ioctl(fd, FASTRPC_IOCTL_INVOKE, ...)
+  │     ├─[3] VFS → fastrpc_device_ioctl()
+  │     ├─[4] 查 maps: VA→dma_buf→PA→raddr
+  │     ├─[5] 构造 msg + inline 参数
+  │     ├─[6] rpmsg_send → GLINK → intent → SMEM → mbox
+  │     │         ═══════ IRQ → DSP ═══════
+  │     ├─[7] DSP: GIC → IRQ handler (上半部)
+  │     ├─[8] DSP: GLINK RX → RPMsg → dispatcher
+  │     ├─[9] DSP: skel → 跳转表 → handler → 实际函数
+  │     ├─[10] DSP: ret → RPMsg → GLINK TX → mbox
+  │     │         ═══════ IRQ → CPU ═══════
+  │     ├─[11] CPU: GIC → fastrpc_rpmsg_callback()
+  │     ├─[12] complete(&ctx->work) → 唤醒
+  │     ├─[13] 拷回输出
+  │     └─[14] 返回用户态
+  └─[15] stub 反序列化 → return result
+</div>
+
+</div>
+</div>
+
+<!-- 狮山 -->
+<div class="floor" id="LIONSHAN">
+<div class="floor-header">
+  <span class="floor-num">🦁 狮山成因总和</span>
+  <span>每一层为什么存在 — 全来自物理约束</span>
+</div>
+<div class="floor-body">
+
+<table>
+<tr><th>狮山特征</th><th>物理根源</th></tr>
+<tr><td>为什么这么多层？</td><td>CPU 和 DSP 异构 — 不是 SMP。每层解决一个物理问题。</td></tr>
+<tr><td>Signed/Unsigned PD？</td><td>SMMU 只能隔离地址 — 签名防恶意代码。</td></tr>
+<tr><td>dma-buf 不能替代 malloc？</td><td>DSP 不认识 CPU MMU — 必须两边可访问的物理内存。</td></tr>
+<tr><td>为什么有 cache coherency 问题？</td><td>两个处理器 L1/L2 物理独立 — 无硬件 coherency 协议。</td></tr>
+<tr><td>为什么 invoke 阻塞？</td><td>RPC 模型 — 最简单语义。</td></tr>
+<tr><td>为什么 CVE 多？</td><td>跨核引用计数无硬件支持 — 纯软件维护。</td></tr>
+<tr><td>为什么 QDA 要重写？</td><td>旧驱动 char device — 无法与 GPU/NPU 互操作。</td></tr>
+<tr><td>为什么 DT 挂在 remoteproc 下？</td><td>FastRPC 不是独立硬件 — DSP 固件加载后才可用。</td></tr>
+</table>
+
+</div>
+</div>
+
+<div class="footer">Verity/真 · 2026-07-02 · 广度优先第一轮 · 膜都第四座</div>
+
+</div>
+
+<script>
+function toggleKids(el) {
+  const ul = el.parentElement.querySelector(':scope > .children');
+  if (!ul) return;
+  const toggle = el.querySelector('.toggle');
+  if (ul.classList.contains('collapsed')) {
+    ul.classList.remove('collapsed');
+    if (toggle) toggle.classList.add('open');
+  } else {
+    ul.classList.add('collapsed');
+    if (toggle) toggle.classList.remove('open');
+  }
+}
+</script>
+</body>
+</html>

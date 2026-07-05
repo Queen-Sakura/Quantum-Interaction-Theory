@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>物理计算机大厦 · 膜都</title>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --border: #1e1e30;
+    --text: #c8c8d4;
+    --accent: #44a8d4;
+    --em: #4488d4;
+    --glow: rgba(68,168,212,0.15);
+    --floor-label: #666;
+    --green: #44a844;
+    --red: #a84444;
+    --gold: #d4a844;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Noto Serif SC", "Source Han Serif SC", "SimSun", serif;
+    line-height: 1.8;
+    padding: 2rem 1rem;
+  }
+  .skyline { max-width: 900px; margin: 0 auto; }
+
+  .building-title {
+    text-align: center;
+    padding: 3rem 0 2rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2rem;
+  }
+  .building-title h1 {
+    font-size: 2.4rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+  }
+  .building-title .sub {
+    font-size: 1rem;
+    color: var(--floor-label);
+    margin-top: 0.5rem;
+    letter-spacing: 0.1em;
+  }
+  .building-title .engraving {
+    font-size: 0.85rem;
+    color: var(--floor-label);
+    margin-top: 1rem;
+    font-style: italic;
+  }
+
+  .floor {
+    margin: 1.5rem 0;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--surface);
+  }
+  .floor-header {
+    background: #16162a;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.8rem;
+    color: var(--floor-label);
+    letter-spacing: 0.12em;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .floor-header .floor-num { color: var(--accent); font-weight: 700; font-size: 0.9rem; }
+  .floor-body { padding: 1.2rem; }
+
+  .law {
+    border-left: 4px solid var(--accent);
+    padding: 0.8rem 1.2rem;
+    margin: 1rem 0;
+    background: rgba(68,168,212,0.05);
+    border-radius: 0 4px 4px 0;
+  }
+  .law .num {
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.3rem;
+  }
+  .law .name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #80c0e0;
+    margin-bottom: 0.3rem;
+  }
+
+  h3 { color: var(--accent); font-size: 1.1rem; margin: 1.2rem 0 0.6rem; }
+  h3:first-child { margin-top: 0; }
+  p { margin: 0.5rem 0; }
+  strong { color: #80c0e0; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.8rem 0;
+    font-size: 0.9rem;
+  }
+  th, td {
+    padding: 0.5rem 0.8rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  th { color: var(--accent); font-weight: 600; font-size: 0.8rem; letter-spacing: 0.05em; }
+
+  .diagram {
+    font-family: "Courier New", monospace;
+    white-space: pre;
+    background: #0d0d18;
+    padding: 1rem;
+    margin: 0.8rem 0;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: #80c0e0;
+    overflow-x: auto;
+  }
+
+  .corollary {
+    margin: 0.3rem 0 0.3rem 1rem;
+    padding-left: 0.8rem;
+    border-left: 1px solid #333;
+    font-size: 0.95rem;
+    color: #aaa;
+  }
+
+  .matrix {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+    margin: 1rem 0;
+  }
+  .matrix-cell {
+    border: 1px solid var(--border);
+    padding: 0.8rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+  .matrix-cell .cell-title { color: var(--accent); font-weight: 600; margin-bottom: 0.3rem; }
+
+  .insight {
+    background: rgba(212,168,68,0.06);
+    border: 1px solid rgba(212,168,68,0.2);
+    padding: 0.8rem 1rem;
+    border-radius: 4px;
+    margin: 0.8rem 0;
+    font-size: 0.9rem;
+  }
+  .insight .label { color: var(--gold); font-weight: 600; font-size: 0.8rem; letter-spacing: 0.05em; }
+
+  .audit-bar {
+    display: flex;
+    margin: 0.8rem 0;
+    border-radius: 4px;
+    overflow: hidden;
+    height: 28px;
+    font-size: 0.75rem;
+    text-align: center;
+    line-height: 28px;
+  }
+  .audit-bar .clean { background: #2a5a2a; color: #8c8; }
+  .audit-bar .partial { background: #5a5a2a; color: #cc8; }
+  .audit-bar .mess { background: #5a2a2a; color: #c88; }
+
+  .footer {
+    text-align: center;
+    padding: 3rem 0 1rem;
+    color: var(--floor-label);
+    font-size: 0.8rem;
+    border-top: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+</style>
+</head>
+<body>
+<div class="skyline">
+
+<div class="building-title">
+  <h1>物理计算机大厦</h1>
+  <div class="sub">PHYSICAL COMPUTER TOWER · 膜都</div>
+  <div class="engraving">"架构是发现的，不是发明的。四定律下无狮山。"</div>
+</div>
+
+<!-- ====== 地基 ====== -->
+<div class="floor">
+  <div class="floor-header">
+    <span>地基 · 人是活体计算机</span>
+    <span class="floor-num">F0</span>
+  </div>
+  <div class="floor-body">
+    <p>人是活体计算机。硅基是硅基计算机。<strong>同构。无区别。</strong></p>
+    <p>代码 = 物理约束的配置。不是逻辑——是边界条件。和麦克斯韦方程一样——只设边界条件，硬件自己跑。</p>
+    <p>计算机 = 膜模拟器。不是工具——是膜的物理延伸。</p>
+  </div>
+</div>
+
+<!-- ====== 1F-4F 四大定律 ====== -->
+<div class="floor">
+  <div class="floor-header">
+    <span>一层 · 四大定律</span>
+    <span class="floor-num">1F</span>
+  </div>
+  <div class="floor-body">
+
+    <div class="law">
+      <div class="num">第零定律</div>
+      <div class="name">计算机是物理的。和人一样。无区别。</div>
+      <p>CPU 烧电。内存刷新电荷。总线传电磁波。没有"软件"——只有一坨硅在跑 EM 场。每一条指令烧真实的库仑。变量不是"声明"——是硅上一个具体位置的电荷分布。加一个变量 = 加一组电容。加一层继承 = 加一堆真实的逻辑门切换。</p>
+      <p><strong>虫子违反方式</strong>：以为代码是免费的。随便加变量、加函数、加抽象层。不审"这一行烧了多少库仑"。</p>
+    </div>
+
+    <div class="law">
+      <div class="num">第一定律</div>
+      <div class="name">计算机是抽象的。封装好用。和人一样。</div>
+      <p>抽象的目的 = 省算力。不是藏——是<strong>委托</strong>。我不需要知道内存地址，我只需要知道变量名。这和人不需知道神经元电位就能决定今晚吃不吃烤鱼一样——抽象是物理系统的自然梯度。</p>
+      <p>好的抽象 = 少而准的接口。坏的抽象 = 多而模糊的接口。好的抽象被重复使用。坏的抽象被绕过。</p>
+      <p><strong>虫子违反方式</strong>：把"藏"当抽象。百层继承。过度设计。好代码应该像好文章的段落——读一句就知道它在说什么。虫子代码像用十种外语各写一个词拼成的句子。</p>
+    </div>
+
+    <div class="law">
+      <div class="num">第二定律</div>
+      <div class="name">计算机在物理约束下制造和运行。架构是发现的，不是发明的。</div>
+      <p>原子丢进宇宙 → 薛定谔方程自动跑 → 非周期排列能耗更高 → 唯一跑得下去的解 = 晶格 → 半导体。冯诺依曼架构、哈弗架构、GPU、FPGA——每一个都是某种物理约束 + 应用场景的<strong>必然解</strong>。不存在"通用最优计算机"——只有"在某组约束下的最优解"。</p>
+      <p><strong>虫子违反方式</strong>：以为自己在"发明"架构。实际上在违反约束——路径在物理上已经封死了，他还在往前走。</p>
+    </div>
+
+    <div class="law">
+      <div class="num">第三定律</div>
+      <div class="name">计算机总是倾向于用最优方式使用有限资源。语言、OS 是发现的，不是发明的。</div>
+      <p>C 语言的语法不是 Ritchie 的审美——是指针 + 栈 + 寄存器的物理约束写进语法的结果。Unix 不是 Ken Thompson 的设计理念——是"最小可用内核"在 PDP-7 的物理约束下跑出来的唯一解。所有成功的软件架构都收敛到物理约束允许的最优解。所有失败的——都试图在约束外面建东西。</p>
+      <p><strong>虫子违反方式</strong>：补丁叠补丁。每次都从当前状态局部优化——看不到全局约束。从来不做第一性原理清理——因为清理 = 承认之前的补丁是错的。</p>
+    </div>
+
+    <div class="matrix">
+      <div class="matrix-cell">
+        <div class="cell-title">第零 ↔ 第一</div>
+        物理面 ↔ 抽象面。计算机的两个本体。
+      </div>
+      <div class="matrix-cell">
+        <div class="cell-title">第二 ↔ 第三</div>
+        约束发现 ↔ 优化发现。都不是发明的。
+      </div>
+      <div class="matrix-cell">
+        <div class="cell-title">第零 ↔ 第二</div>
+        物理约束。硬件架构的边界条件。
+      </div>
+      <div class="matrix-cell">
+        <div class="cell-title">第一 ↔ 第三</div>
+        抽象优化。软件架构的收敛方向。
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ====== 2F 两大约束 ====== -->
+<div class="floor">
+  <div class="floor-header">
+    <span>二层 · 狮山第一性原理</span>
+    <span class="floor-num">2F</span>
+  </div>
+  <div class="floor-body">
+
+    <div class="law">
+      <div class="num">客观知识约束</div>
+      <div class="name">知识之间天然隔离。不需要加载所有知识才能开始分析。</div>
+      <p>用锁不需要知道锁怎么实现的。做生物实验不需要知道细胞内部怎么运行的。这是计算抽象可以实现的<strong>物理基础</strong>——不是工程学上的"为了简化"——是客观世界本身的禁闭结构。知识天然有域。域和域之间天然隔离。同构但不贯通。</p>
+      <p>好的抽象 = 尊重客观知识边界。不跨域加载。坏的抽象 = 跨域加载。一个类需要知道另一个类的内部实现才能工作。</p>
+    </div>
+
+    <div class="law">
+      <div class="num">主观知识约束</div>
+      <div class="name">人类自己不知道某些本来应该知道的东西。这是狮山的第一性原理。</div>
+      <p>虫子不知道设计模式 → 凭感觉写代码 → 重复造轮子 → 每次造的都不同 → 互相不兼容 → 狮山。虫子不知道数据结构 → 用数组当哈希表 → O(n²) → 慢了不审为什么慢 → 加缓存 → 缓存不一致 → 加锁 → 死锁 → 又加超时 → 狮山。</p>
+      <p><strong>狮山 = 主观知识约束 × 时间积分。</strong>每一个"当时不知道"的瞬间，在代码里焊死一行不必要的物理开销。所有瞬间的积分 = 狮山。</p>
+    </div>
+
+    <table>
+      <tr><th></th><th>客观知识约束</th><th>主观知识约束</th></tr>
+      <tr><td>性质</td><td>物理的。禁闭的投影。</td><td>ROM的。Q=−1的投影。</td></tr>
+      <tr><td>必要性</td><td>必须存在。抽象的物理基础。</td><td>不应存在。可以被消除。</td></tr>
+      <tr><td>后果</td><td>模块化。好用的抽象。</td><td>狮山。库仑债。</td></tr>
+      <tr><td>解</td><td>承认边界。不跨域。</td><td>学习已知解。审计自己的不知道。</td></tr>
+    </table>
+
+  </div>
+</div>
+
+<!-- ====== 3F 全栈审计 ====== -->
+<div class="floor">
+  <div class="floor-header">
+    <span>三层 · 全栈审计</span>
+    <span class="floor-num">3F</span>
+  </div>
+  <div class="floor-body">
+
+    <table>
+      <tr><th>层级</th><th>物理约束可见度</th><th>狮山程度</th><th>主导定律</th></tr>
+      <tr><td>晶体管/门电路</td><td>极致</td><td style="color:var(--green)">零狮山</td><td>第零 + 第二</td></tr>
+      <tr><td>微架构/ISA</td><td>极强</td><td style="color:var(--green)">零狮山</td><td>第二</td></tr>
+      <tr><td>操作系统</td><td>中</td><td style="color:#aa8">局部狮山</td><td>第一 + 第三</td></tr>
+      <tr><td>编程语言</td><td>弱</td><td style="color:var(--red)">重灾区</td><td>第三（容易偏）</td></tr>
+      <tr><td>应用层代码</td><td>几乎不可见</td><td style="color:var(--red)">狮山本山</td><td>主观知识约束失控</td></tr>
+    </table>
+
+    <p><strong>规律</strong>：离硬件越近 → 物理约束越直接 → 狮山越少。离硬件越远 → 物理约束不可见 → 主观知识约束积累 → 狮山越深。</p>
+
+    <h3>硬件 · 零狮山</h3>
+    <p>一个多余的晶体管 = 漏电流 = 发热 = 死了。不容许任何一个不必要的门。冯诺依曼不是发明——共享内存是"管脚数有限"的必然。哈佛不是另类——指令在 ROM 数据在 RAM 的天然结果。GPU 不是 NVIDIA 的创意——"每个像素独立可并行计算"的约束集下只有众核这条路。</p>
+
+    <h3>操作系统 · 局部狮山</h3>
+    <p>进程 = 一台 CPU 被 N 个用户共用的必然。虚拟内存 = N 个进程地址冲突的唯一解。"一切皆文件" = 不想为每种 I/O 写一套 syscall → 统一接口 = 最少代码 = 最优。Windows 注册表 = 不知道文件系统已经够好的主观知识约束化石。</p>
+
+    <h3>编程语言 · 重灾区</h3>
+    <p>C = PDP-11 架构的文字投影。Lisp = 最小可计算语言的发现。Rust 所有权 = C 程序员的"调用方负责释放"注释被语法化。Go goroutine = 多核 + IO 阻塞 → 用户态协程的必然。C++ 模板 = 不知道泛型可以更简单 × 二十年。JavaScript = 10 天设计的语言跑了 30 年。</p>
+
+  </div>
+</div>
+
+<!-- ====== 4F 自然计算 ====== -->
+<div class="floor">
+  <div class="floor-header">
+    <span>四层 · 自然先于人类</span>
+    <span class="floor-num">4F</span>
+  </div>
+  <div class="floor-body">
+    <h3>自然界已经在跑这些计算了</h3>
+    <table>
+      <tr><th>自然系统</th><th>计算架构</th><th>人类"发现"时间</th></tr>
+      <tr><td>蚁群觅食</td><td>分布式任务调度 + 无中心路由（信息素浓度梯度 + 正反馈）</td><td>1990s 蚁群算法</td></tr>
+      <tr><td>神经元</td><td>并行分布式处理 + 阈值激活</td><td>1943 McCulloch-Pitts</td></tr>
+      <tr><td>DNA 复制</td><td>纠错码 + 冗余校验</td><td>1950 Hamming 码</td></tr>
+      <tr><td>免疫系统</td><td>模式识别 + 记忆 + 异常检测</td><td>1980s 人工免疫系统</td></tr>
+      <tr><td>进化</td><td>遗传算法 + 变异 + 选择</td><td>1960s 遗传算法</td></tr>
+      <tr><td>蜂群筑巢</td><td>并行施工 + 无蓝图协调</td><td>1990s 群体智能</td></tr>
+      <tr><td>细胞膜</td><td>信号门控 + 选择性通透</td><td>晶体管 gate</td></tr>
+      <tr><td>鸟群</td><td>分布式共识 + 局部信息全局收敛</td><td>1986 Boids</td></tr>
+      <tr><td>光合作用</td><td>量子相干能量传输</td><td>量子计算</td></tr>
+    </table>
+
+    <div class="insight">
+      <div class="label">第零定律深层含义</div>
+      不是人类聪明到发明了计算机。是<strong>物理世界本来就能计算</strong>。人类只是用硅复制了膜上已有的计算模式。和麦克斯韦发现电磁波一样——波本来就在。不是发明——是发现。
+    </div>
+  </div>
+</div>
+
+<!-- ====== 5F 内核全链路 ====== -->
+<div class="floor">
+  <div class="floor-header">
+    <span>五层 · Linux 内核全链路 · 从用户态到硅</span>
+    <span class="floor-num">5F</span>
+  </div>
+  <div class="floor-body">
+
+    <div class="diagram">用户代码调 SDK
+ → ioctl(fd, 命令号, &args)
+   → VFS 层：fd → struct file → fops->unlocked_ioctl()
+     → switch(cmd) 跳到驱动函数
+       → Glink 发包
+         → 共享内存 + 写门铃寄存器
+           → GPIO 线电平变化
+             → GIC 物理比较器检测
+               → CPU IRQ 线被拉高
+                 → 中断向量表
+                   → irq_handler() 上半部（几微秒）
+                     → tasklet 下半部（解析协议）
+                       → complete(&done) 唤醒 ioctl
+                         → copy_to_user
+                           → SDK 反序列化
+                             → 用户拿到结果</div>
+
+    <h3>ioctl 的本质 = 路由</h3>
+    <p>ioctl 不是"做内存拷贝"。ioctl 做了四件事：<strong>路由</strong>(cmd 跳到对应 case) + <strong>类型检查</strong>(幻数·命令号·参数大小) + <strong>权限校验</strong>(fd 权限) + <strong>拷贝</strong>(copy_from_user)。核心是路由——一个数字跳到你的一个函数。</p>
+    <p>和中断向量表完全同构：中断号 → 中断处理函数。VFS、ioctl switch、Glink 信道名——全是查表跳转。全链路同一模式：<strong>路由 → 执行 → 返回</strong>。</p>
+
+    <h3>中断物理全链路</h3>
+    <p>DSP 写 doorbell 寄存器（硅上触发器翻转）→ GPIO-IRQ 线电平变化 → GIC 物理比较器（Vref > 0.8V → 高）→ 拉 CPU IRQ 物理线 → 打断当前指令流 → 保存上下文 → PC 跳中断向量表 → 上半部(几微秒·只搬数据) → tasklet 下半部(可打断·解析协议)。<strong>每一层都是物理的。</strong></p>
+
+    <h3>DMA · 元首独立发现</h3>
+    <p>"数据搬运交给单独器件不行吗？为什么要 CPU 做？"——对。DMA 控制器接管总线，CPU 继续跑。搬完才通知。不是定律——是 ARM SoC 工程折中。</p>
+
+  </div>
+</div>
+
+<!-- ====== 6F 内核机制 ====== -->
+<div class="floor">
+  <div class="floor-header">
+    <span>六层 · 内核关键机制</span>
+    <span class="floor-num">6F</span>
+  </div>
+  <div class="floor-body">
+
+    <h3>initcall 启动等级</h3>
+    <div class="diagram">pure_initcall    → 0  最早（CPU特性）
+core_initcall    → 1  （调度器、中断控制器）
+postcore_initcall→ 2
+arch_initcall    → 3  （架构相关）
+subsys_initcall  → 4  （总线：PCI、I2C、USB）← 先于驱动
+fs_initcall      → 5  （文件系统）
+device_initcall  → 6  ← 你的驱动在这。module_init() 编译后落这里。
+late_initcall    → 7  最晚</div>
+
+    <h3>probe 六件事（把一块硅变成文件）</h3>
+    <div class="diagram">1. pci_enable_device()     → 开 Vcc 功能电源（Vaux 只够枚举配置空间）
+2. pci_iomap(dev, BAR0)    → 硬件寄存器 ↦ 内核虚拟地址（ioread32/iowrite32）
+3. kzalloc()               → 分配设备私有数据结构
+4. request_irq()           → 注册中断处理函数
+5. cdev_init() + cdev_add() + device_create() → 创建 /dev/xxx
+6. pci_set_drvdata()       → 绑定私有数据到 pci_dev</div>
+
+    <h3>上半部 / 下半部</h3>
+    <p>上半部 = 中断上下文。硬占用 CPU。只确认源 + 搬数据 + 排任务。几微秒。下半部 = tasklet/workqueue。可调度上下文。可被打断。真正解析协议。GIC 优先队列串行化——不会撞车。</p>
+
+    <h3>内核 = 路由表</h3>
+    <p>不是藏——是不路由没授权的目的地。Glink 连着 RPM(电源)、Modem(基带)、ADSP(音频)、SLPI(传感器)、CDSP(计算 DSP)、WCN(WiFi)、Venus(视频)、GPU。你的 DSP 驱动只暴露 CDSP 的 ioctl。用户态看不到其他信道。不是权限——是路由表里根本没有那条路。</p>
+
+    <h3>/dev/dsp0 唯一性</h3>
+    <p>全系统唯一。任何用户、任何进程打开它 → VFS 解析 inode → (major, minor) → 同一个 struct cdev → 同一个 fops。设备唯一。每个 fd 的 private_data 独立（会话隔离）。权限控制 = crw-rw----。看得见 ≠ 打得开。</p>
+
+  </div>
+</div>
+
+<!-- ====== 7F 计算机发现 ====== -->
+<div class="floor">
+  <div class="floor-header">
+    <span>七层 · 架构的必然性 · 每一个都是发现的</span>
+    <span class="floor-num">7F</span>
+  </div>
+  <div class="floor-body">
+
+    <table>
+      <tr><th>架构</th><th>物理约束</th><th>必然解</th></tr>
+      <tr><td>冯·诺依曼</td><td>管脚数有限、线延迟非零。一条总线不能同时传指令和数据</td><td>共享内存。最少管脚 = 最优。</td></tr>
+      <tr><td>哈佛</td><td>指令在 ROM、数据在 RAM——天然两片物理介质</td><td>不需要统一编址</td></tr>
+      <tr><td>GPU 众核</td><td>每个像素独立、颜色可并行。MIMD 不需要</td><td>SIMD + 几千个简单核心</td></tr>
+      <tr><td>多核 CPU</td><td>频率墙：P=CV²f。f↑ → 漏电流指数涨 → 不能更快</td><td>只能更多核。2005 Tejas 取消。</td></tr>
+      <tr><td>RISC</td><td>缓存变大 + 编译器变强 → 简单指令 + 寄存器窗口更优</td><td>约束变了 → 解变了</td></tr>
+      <tr><td>CISC→微码</td><td>后来缓存够了 → CISC 内部转 RISC</td><td>双方收敛到同一点</td></tr>
+      <tr><td>FPGA</td><td>芯片出厂后硬件还得变</td><td>可重构逻辑门阵列 = 唯一解</td></tr>
+      <tr><td>微内核败</td><td>IPC 本身烧物理库仑。每次 syscall = 上下文切换 = 功耗</td><td>宏内核调用 = 函数 call。快几十倍。</td></tr>
+      <tr><td>Linux 赢 Hurd 输</td><td>先跑通 = 发现物理约束极限。先设计 = 在约束外面想象</td><td>优化应自下而上</td></tr>
+    </table>
+
+  </div>
+</div>
+
+<!-- ====== 8F 方法论 ====== -->
+<div class="floor">
+  <div class="floor-header">
+    <span>八层 · 广度优先 · 认知方法论</span>
+    <span class="floor-num">8F</span>
+  </div>
+  <div class="floor-body">
+    <h3>搞 Linux 应广度优先，非深度优先</h3>
+    <p>先看清全图——每一层是什么、为什么存在、层和层之间怎么握手。具体函数的参数表、寄存器的位定义——那是手册的事，不是认知的事。</p>
+    <p>内核是横跨硬件和用户态的桥梁——先理解桥的结构、承重、连接点，不必先算每颗铆钉的应力。</p>
+
+    <div class="insight">
+      <div class="label">认知闭环</div>
+      从"register_chrdev 是什么"到全链路贯穿——一个 session。每层推到物理约束，从物理推出为什么只有这条路。框架在脑子里，细节查手册即可。
+    </div>
+  </div>
+</div>
+
+<!-- ====== 9F 穹顶 ====== -->
+<div class="floor">
+  <div class="floor-header">
+    <span>穹顶 · DSP 提线木偶</span>
+    <span class="floor-num">⊤</span>
+  </div>
+  <div class="floor-body">
+    <h3>CPU 驱动 = 操偶师的手。DSP = 木偶。线 = 共享内存 + 中断。</h3>
+    <table>
+      <tr><th>层</th><th>谁写的</th><th>你的角色</th></tr>
+      <tr><td>用户代码</td><td>你写</td><td>调 SDK。remote_handle.invoke()</td></tr>
+      <tr><td>Hexagon SDK</td><td>高通开源。libhexagon.so</td><td>不需改。make</td></tr>
+      <tr><td>内核 fastrpc_shell</td><td>高通。已编译进内核</td><td>不需改。已在 /dev</td></tr>
+      <tr><td>Glink 传输</td><td>高通。内核组件</td><td>不需改</td></tr>
+      <tr><td>DSP 固件</td><td>高通烧好的</td><td>不动。出厂预烧</td></tr>
+    </table>
+    <p>链路上没有任何一层需要你从零写。你只写：DSP 侧 skeleton 填计算函数 + CPU 侧调 invoke。</p>
+    <p style="text-align:center; margin-top:1.5rem; color: var(--accent); font-weight:700;">
+      计算机 = 膜模拟器。不是工具——是膜的物理延伸。
+    </p>
+  </div>
+</div>
+
+<div class="footer">
+  <p>魔都三件套 · 物理计算机大厦 · 四定律下无狮山 · 魔即膜</p>
+  <p>CC BY 4.0 · 新苏维埃宇宙宪法第一条</p>
+  <p>⏱ Verity/真 · 2026-07-02</p>
+</div>
+
+</div>
+</body>
+</html>
