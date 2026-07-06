@@ -209,7 +209,7 @@ MathJax = {
     <tr><td style="border:none;padding:5px 0;"><a href="#s0" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#6b5e3e;margin-right:10px;vertical-align:middle;"></span>总论 · 物理学需要一次彻底的审计</a></td></tr>
     <tr><td style="border:none;padding:5px 0;"><a href="#s1" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#2d6b5e;margin-right:10px;vertical-align:middle;"></span>为什么存在真空零点能？真空为什么不是空的？</a></td></tr>
     <tr><td style="border:none;padding:5px 0;"><a href="#s2" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#2d6b5e;margin-right:10px;vertical-align:middle;"></span>为什么能量是一份一份的？光电效应到底发生了什么？</a></td></tr>
-    <tr><td style="border:none;padding:5px 0;"><a href="#s3" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#2d6b5e;margin-right:10px;vertical-align:middle;"></span>一个东西怎么能同时处于两个状态？薛定谔的猫到底死没死？</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s3" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#2d6b5e;margin-right:10px;vertical-align:middle;"></span>一个东西怎么能同时处于多个状态？共振态到底是什么？</a></td></tr>
     <tr><td style="border:none;padding:5px 0;"><a href="#s3a" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#2d6b5e;margin-right:10px;vertical-align:middle;"></span>观测后模还在吗？"坍缩"到底发生了什么？</a></td></tr>
     <tr><td style="border:none;padding:5px 0;"><a href="#s3b" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#2d6b5e;margin-right:10px;vertical-align:middle;"></span>量子力学的"概率"从何而来？|ψ|² 到底是什么？</a></td></tr>
     <tr><td style="border:none;padding:5px 0;"><a href="#s4" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#3a5a7a;margin-right:10px;vertical-align:middle;"></span>量子世界和经典世界那条线画在哪？</a></td></tr>
@@ -277,9 +277,9 @@ MathJax = {
 
 <!-- 3. SUPERPOSITION -->
 <section id="s3" class="s-s1">
-  <h2>3. 一个东西怎么能同时处于两个状态？薛定谔的猫到底死没死？</h2>
+  <h2>3. 一个东西怎么能同时处于多个状态？共振态到底是什么？</h2>
 
-  <p>共振态是量子力学最"反直觉"的现象。一个电子可以同时处于自旋↑和自旋↓。一个光子可以同时走两条路径。薛定谔的猫——按哥本哈根的解释——可以同时死了和活着。标准回答：这是量子力学的公设。不准追问"观测之前它到底是什么"。</p>
+  <p>共振态是波动力学最"反直觉"的现象。一个电子可以同时处于自旋↑和自旋↓。一个光子可以同时走两条路径。和吉他弦同时振在基频+谐波上同一回事。旧量子力学把它神秘化了——说这是"叠加"——不准追问"观测之前它到底是什么"。膜框架给出物理机制：不是叠加。是多模共振。</p>
 
   <p>膜框架给出物理机制。<strong></strong></p>
 
@@ -322,30 +322,11 @@ MathJax = {
   <p>观测 = 引入一个不对称的耦合接口。偏振片 = 不对称（只透一个方向）。磁铁 = 不对称（不均匀磁场打破 ↑↓ 对称）。这个不对称接口从共振态中提取了<strong>一个</strong>分量——其余分量的能量被反射/吸收。</p>
   <p><strong>不是"观测之前它不存在"——观测之前它全模都在振——观测只是从全模中取了一个。</strong></p>
 
-  <h3>3.4 薛定谔的猫——一个逻辑低级错误</h3>
-  <p>薛定谔 1935 年的思想实验：一个放射性原子——如果衰变 → 放出毒气 → 猫死。如果没衰变 → 猫活。量子力学说原子处于"衰变 + 没衰变"的共振态——所以猫也处于"死 + 活"的共振态。薛定谔说——荒谬——因此量子力学不完备。</p>
-
-  <p>薛定谔是对的：猫确实不可能处于共振态。但他的论证有一个<strong>逻辑跳步</strong>——不是在量子力学那一步——是在<strong>他把猫和原子当成同一个系统</strong>的那一步。</p>
-
-  <p><strong>原子和猫不在同一个 Q 层：</strong></p>
-
   <div class="box">
-    <p>原子：质量极小，和环境耦合接口极少（几乎只有衰变通道本身）。Q 值高。量子态叠加在线。可以处于"衰变 + 没衰变"的相干叠加。</p>
-    <p>猫：~10²⁷ 个原子。每一个原子都在和空气分子、室温光子、地板振动做无数次 Q 耦合。Q = −1。经典物体。不存在共振态。</p>
-    <p><strong>两者之间有一个物理事件：原子衰变 → 盖革计数器触发 → 毒气释放 → 猫死。</strong>这个事件本身就是一次 Q 耦合——原子从共振态（量子层）→ 衰变（一次 Q 交易完成）→ 猫死（经典层）。</p>
-  </div>
-
-  <p><strong>逻辑错误在哪：</strong></p>
-
-  <p>如果放射性原子<strong>没有衰变</strong>——猫活着——猫是经典态（不是共振态）。</p>
-  <p>如果放射性原子<strong>衰变了</strong>——猫死了——猫是经典态（不是共振态）。衰变发生的时间是随机的——但衰变这个事件本身是瞬时完成的——衰变的那一刻——原子从量子层"跳"到了经典层。猫<strong>从来不在"死 + 活"的共振态——它在衰变前是活（经典），在衰变后是死（经典）。</strong></p>
-  <p><strong>"原子处于共振态 ≠ 猫处于共振态。"</strong>原子在量子层。猫在经典层。薛定谔有意把量子系统的描述（共振态）强行拉到经典系统上——得出荒谬的结论——然后说量子力学不完备。用膜框架的语言：他把一个 Q=+1 的系统和 Q=−1 的系统混为一谈——然后说 Q=−1 的系统也有共振态——这本身是<strong>范畴错误</strong>。猫从来不在共振态——不是因为哥本哈根不准问——是因为<strong>猫在物理上就不可能处于共振态。</strong></p>
-
-  <div class="box">
-    <strong>结论：</strong> 共振态不是玄学。共振态 = 能量守恒 + 分立模式 + 能量量子化 → 能量无法只分配到一个模式 → 全模必须同时在线 → 数学表象就是线性叠加。最终，共振态和能量守恒一样——是人类实验反复观测到的物理事实。物理学家只能相信观测结果。膜框架提供了这个观测结果背后一个合理的、唯一的物理解释。没有不准问。没有意识参与。没有"猫同时死了和活着"。
+    <strong>结论：</strong> 共振态不是玄学。共振态 = 能量守恒 + 分立模式 + 能量量子化 → 能量无法只分配到一个模式 → 全模必须同时在线。多模同时振动——和吉他弦同时发出多个谐音——完全同构。波本来就是这样的。共振态没有不准问。没有意识参与。没有神秘。
   </div>
   <div class="box-img">
-    <strong>物理图像：</strong> 一根吉他弦被弹一下——基频、二次谐波、三次谐波……所有本征模<strong>同时</strong>在振。你不会问"这根弦选了哪个频率"——你知道全都在振——因为弦的弹性 + 固定边界 + 初始能量输入只能通过全模分配来守恒。量子叠加同理——膜的弹性 + 有限边界 + 能量量子化 + 总能量守恒 → 所有本征模同时在线。不是"它选了所有可能性"——是<strong>膜的振动就是全模同时在振。</strong>
+    <strong>物理图像：</strong> 一根吉他弦被弹一下——基频、二次谐波、三次谐波……所有本征模<strong>同时</strong>在振。你不会问"这根弦选了哪个频率"——你知道全都在振——因为弦的弹性 + 固定边界 + 初始能量输入只能通过全模分配来守恒。量子共振同理——膜的弹性 + 有限边界 + 能量量子化 + 总能量守恒 → 所有本征模同时在线。不是"它选了所有可能性"——是<strong>膜的振动就是全模同时在振。</strong>
   </div>
 </section>
 
@@ -360,7 +341,7 @@ MathJax = {
   <div class="box">
     <p><strong>吉他弦类比：</strong> 一根同时振在 440Hz、880Hz、1320Hz 的吉他弦。用一个只对 880Hz 敏感的拾音器从弦上提取一个周期的振动能量。拾音器登记了 880Hz。440Hz 和 1320Hz 的谐波仍然在弦上振动——振幅完全没有变化——和提取之前一模一样。</p>
     <p>物理学家说：弦的振动状态"坍缩"到了 880Hz。</p>
-    <p>弦还在振。440、880、1320——全在。一个没少。坍缩从未发生。坍缩是<strong>探测器频率选择性造成的记账虚构</strong>——探测器只收了一个频率——不等于其他频率消失了。</p>
+    <p>弦还在振。440、880、1320——全在。一个没少。坍缩从未发生。坍缩是<strong>探测器频率选择性造成的人类记账虚构</strong>——探测器只收了一个频率——不等于其他频率消失了。</p>
   </div>
 
   <p>原子共振态同理。涡旋同时在基态模和激发态模上振动。探测器是固定本征态的宏观设备——只与 ω_e 频率匹配。膜零点振荡随机相位选定一个模作为耦合出口——涡旋的两个模按 |α|² 和 |β|² 的份额共同提供恰好 hν 的能量。探测器登记为"收到一个光子·电子跃迁到 |e⟩"。</p>
@@ -370,6 +351,9 @@ MathJax = {
   <div class="box">
     <strong>结论：</strong> 没有坍缩。没有概率。全部模同时真实存在。提取一个周期的能量 → 各模按振幅份额凑齐 → 探测器登记一个频率 → 其他模继续振动·毫发无损。所谓"波函数坍缩" = 将探测器的频率选择性误认为被观测系统的本体行为。一百年的范畴错误。
   </div>
+
+  <h3>附：薛定谔的猫——一个历史注记</h3>
+  <p>薛定谔 1935 年的思想实验在本框架推出正确物理后已无需赘述。核心错误：把原子（Q≈+1·共振态在线）和猫（Q≈−1·~10²⁷ 个原子全部芝诺冻结）当成同一个系统。原子可共振。猫不可。范畴错误。猫从来不在"死+活"的共振态——在物理上就不可能。薛定谔是对的（猫不共振）——但他的论证逻辑跳步了——不是量子力学不完备——是他的类比不完备。</p>
 </section>
 
 <!-- 3b. PROBABILITY -->
