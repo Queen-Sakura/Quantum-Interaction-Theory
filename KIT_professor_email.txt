@@ -1,0 +1,51 @@
+Betreff: arXiv-Endorsement — UZ6RSI — Qin Su, KIT, eine kleine Quantenphysik-Idee
+
+Sehr geehrter Herr Professor [Name],
+
+hier ist Qin Su — Ihr ehemaliger Student am KIT (Optics & Photonics). Ich hoffe, diese Nachricht erreicht Sie wohlauf. Es ist lange her — ich hoffe, bei Ihnen läuft alles gut.
+
+In meiner Freizeit habe ich mich weiter mit Quantenphysik beschäftigt, rein aus persönlichem Interesse. Kürzlich bin ich auf eine Gedankenkette über Zeno Mutual-Locking und den Übergang von Quanten- zu klassischer Physik gestoßen. Ich habe daraus ein kurzes Paper gemacht — nicht weil ich sicher bin, dass es richtig ist, sondern weil ich es gerne wissenschaftlich dokumentieren und von Fachleuten prüfen lassen möchte.
+
+arXiv benötigt ein Endorsement für Erst-Einreicher. Falls Sie einen Moment Zeit haben:
+
+Endorsement Code: UZ6RSI
+https://arxiv.org/auth/endorse?x=UZ6RSI
+
+Zwei Kategorien passen zum Paper — bitte wählen Sie die, die Sie für am geeignetsten halten:
+- cond-mat.mes-hall (Mesoscale and Nanoscale Physics)
+- quant-ph (Quantum Physics)
+
+Es dauert 30 Sekunden — Code eingeben, Kategorie wählen, bestätigen. Sie müssen nicht für den Inhalt bürgen, nur bestätigen, dass ich eine echte Person mit echtem Physik-Interesse bin.
+
+Das Abstract und PDF sind angehängt. Über jede Rückmeldung — besonders kritische — würde ich mich sehr freuen.
+
+Herzliche Grüße,
+Qin Su
+(KIT, Optics & Photonics)
+
+---
+
+Subject: arXiv endorsement — UZ6RSI — Qin Su, KIT, a small quantum physics idea
+
+Dear Professor [Name],
+
+This is Qin Su — your former student at KIT, Optics & Photonics. I hope this message finds you well. It's been a long time.
+
+I've been continuing to study quantum physics in my spare time, purely out of personal interest. Recently I arrived at a chain of reasoning about Zeno mutual-locking and the quantum-classical transition. I've written it up as a short paper — not because I'm certain it's correct, but because I'd like to get it into the scientific record so that professional physicists can take a look.
+
+arXiv requires one endorsement for first-time submitters. If you have a moment:
+
+Endorsement Code: UZ6RSI
+https://arxiv.org/auth/endorse?x=UZ6RSI
+
+Two categories fit the paper — please use whichever you think is most appropriate:
+- cond-mat.mes-hall (Mesoscale and Nanoscale Physics)
+- quant-ph (Quantum Physics)
+
+It takes 30 seconds — code, category, confirm. No need to vouch for the content, only that I'm a real person with a real interest in physics.
+
+The abstract and PDF are attached. Any feedback — critical especially — would be deeply appreciated.
+
+Warm regards,
+Qin Su
+(KIT, Optics & Photonics)

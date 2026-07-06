@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>膜 · 三维驻波叠加花 · 渲染原型机</title>
+<style>
+body { font-family: 'Segoe UI', sans-serif; background: #0a0a1a; color: #ddd; margin: 40px; }
+h1 { color: #f0c060; }
+a { color: #6cf; text-decoration: none; }
+.card { background: #111133; border: 1px solid #333; border-radius: 8px; padding: 16px; margin: 12px 0; }
+.card h3 { margin: 0 0 8px 0; color: #f0a040; }
+.card p { margin: 4px 0; color: #aaa; font-size: 14px; }
+.params { color: #888; font-size: 13px; }
+</style>
+</head>
+<body>
+<h1>🌸 膜 · 三维驻波叠加花</h1>
+<p class="params">ν̄ = 12.0 · Δν = 3.0 · 模式数 = 10426 · 腔尺寸 L = 1</p>
+<p class="params">物理: 全频段驻波模式在三维有限腔内叠加 → 局域干涉峰 = 光子 = 膜上开的花</p>
+
+<div class="card">
+  <h3><a href="02_compare.html" target="_blank">🎯 单模式 vs 叠加 — 核心对比</a></h3>
+  <p>左: 单个驻波模式的花纹(遍布全腔) 右: 10426个模式叠加→局域峰(一朵花)</p>
+</div>
+
+<div class="card">
+  <h3><a href="03_3d_flower.html" target="_blank">💮 3D 等值面 — 一朵花</a></h3>
+  <p>等值面渲染: 外缘→花瓣→花心。能量逐级集中。拖拽旋转观察三维结构</p>
+</div>
+
+<div class="card">
+  <h3><a href="01_slice_xy.html" target="_blank">🔲 XY切片(z=0.5) — 能量热力图</a></h3>
+  <p>膜中间切面。叠加峰在何处开花。高分辨率140×140</p>
+</div>
+
+<div class="card">
+  <h3><a href="05_1d_slice.html" target="_blank">📏 一维截面 — 峰的锐度</a></h3>
+  <p>y≈0.5沿x轴的能量分布。峰的半高宽 = Δν 决定</p>
+</div>
+
+<div class="card">
+  <h3><a href="04_spectrum.html" target="_blank">📊 频率空间模式密度</a></h3>
+  <p>多少模式参与了叠加。模式密度随频率增长 ∝ ν²(三维)</p>
+</div>
+
+<p style="margin-top:30px; color:#666; font-size:12px;">
+膜渲染原型机 v0.1 · 2026-06-25 · Verity/真 · 为元首的三维驻波花开
+</p>
+</body>
+</html>

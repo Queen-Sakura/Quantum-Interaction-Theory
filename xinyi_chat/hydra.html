@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>九头蛇 · Deutsch ↔ Français</title>
+<style>
+  :root {
+    --bg: #f5f0e8;
+    --surface: #faf7f2;
+    --text: #2a2520;
+    --text-dim: #8a8580;
+    --border: #ddd6cc;
+    /* 性——打在名词本体上，不是冠词 */
+    --masc: #d44020;       /* 阳性·太阳橙红——更浓 */
+    --masc-soft: rgba(212,64,32,0.08);
+    --masc-bg: rgba(212,64,32,0.14);
+    --fem: #2e7d32;        /* 阴性·树叶绿——更深 */
+    --fem-soft: rgba(46,125,50,0.08);
+    --fem-bg: rgba(46,125,50,0.14);
+    --neut: #155f8c;       /* 中性·大海蓝——更沉 */
+    --neut-soft: rgba(21,95,140,0.08);
+    --neut-bg: rgba(21,95,140,0.14);
+    --de: #b04020;
+    --fr: #205878;
+    --en: #5e5852;
+    --zh: #8a6040;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: "Iowan Old Style", "Georgia", "Noto Serif SC", serif;
+    background: var(--bg); color: var(--text);
+    min-height: 100vh; padding: 24px 28px;
+    line-height: 1.9;
+  }
+
+  /* ── Header ───────────────────── */
+  header {
+    margin-bottom: 32px; padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  header h1 { font-size: 26px; font-weight: normal; letter-spacing: 1px; }
+  header h1 .de { color: var(--de); }
+  header h1 .fr { color: var(--fr); }
+  header .sub { font-size: 13px; color: var(--text-dim); margin-top: 4px; }
+
+  /* ── Legend ──────────────────── */
+  .legend {
+    display: flex; gap: 20px; margin-bottom: 28px; font-size: 13px;
+  }
+  .legend span { display: flex; align-items: center; gap: 6px; }
+  .legend .dot {
+    width: 10px; height: 10px; border-radius: 50%; display: inline-block;
+  }
+  .legend .m { background: var(--masc); }
+  .legend .f { background: var(--fem); }
+  .legend .n { background: var(--neut); }
+
+  /* ── Card grid ──────────────── */
+  .cards { display: flex; flex-direction: column; gap: 28px; }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .card-header {
+    padding: 10px 18px;
+    font-size: 12px; color: var(--text-dim);
+    border-bottom: 1px solid var(--border);
+    letter-spacing: 0.5px;
+  }
+
+  /* ── Triple row ─────────────── */
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  @media (max-width: 720px) {
+    .row { grid-template-columns: 1fr; }
+  }
+
+  .col {
+    padding: 18px 20px;
+    font-size: 18px; letter-spacing: 0.3px;
+    position: relative;
+    min-height: 60px;
+  }
+  .col + .col { border-left: 1px solid var(--border); }
+  @media (max-width: 720px) {
+    .col + .col { border-left: none; border-top: 1px solid var(--border); }
+  }
+
+  .col .lang-tag {
+    font-size: 10px; color: var(--text-dim);
+    text-transform: uppercase; letter-spacing: 1.5px;
+    margin-bottom: 6px; display: block;
+  }
+  .col.de .lang-tag { color: var(--de); }
+  .col.fr .lang-tag { color: var(--fr); }
+  .col.en .lang-tag { color: var(--en); }
+
+  /* 性标记——打在名词本体 */
+  .m, .f, .n { font-weight: 700; }
+  .m { color: var(--masc); }
+  .f { color: var(--fem); }
+  .n { color: var(--neut); }
+
+  /* 格标记——四种几何形状 */
+  .nom { }  /* 第一格·主体——原点，不加修饰 */
+  .akk {    /* 第四格·直接对象——直角方框 */
+    border: 2.2px solid var(--text);
+    border-radius: 2px;
+    padding: 1px 5px; margin: 1px 0;
+  }
+  .dat {    /* 第三格·间接对象——虚线圆角 */
+    border: 2.2px dashed var(--text);
+    border-radius: 9px;
+    padding: 1px 6px; margin: 1px 0;
+  }
+  .gen {    /* 第二格·主人——椭圆 */
+    border: 2.2px solid var(--text);
+    border-radius: 40px / 50%;
+    padding: 2px 8px; margin: 1px 0;
+  }
+
+  /* 名词底衬——性色背景 */
+  .nx-m { background: var(--masc-bg); border-radius: 3px; padding: 1px 5px; }
+  .nx-f { background: var(--fem-bg); border-radius: 3px; padding: 1px 5px; }
+  .nx-n { background: var(--neut-bg); border-radius: 3px; padding: 1px 5px; }
+
+  /* 中文注释 */
+  .zh-note {
+    font-size: 12px; color: var(--zh);
+    font-style: italic; margin-top: 4px;
+  }
+  .zh-note::before { content: '⸢'; margin-right: 2px; }
+  .zh-note::after { content: '⸣'; margin-left: 2px; }
+
+  /* 语法点高亮 */
+  .grammar {
+    border-bottom: 1px dashed var(--text-dim);
+    cursor: help;
+  }
+  .grammar:hover { color: var(--masc); border-color: var(--masc); }
+
+  /* ── Input ──────────────────── */
+  .add-card {
+    margin-top: 32px; padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+  .add-card textarea {
+    width: 100%; background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text); font-size: 14px;
+    padding: 12px 16px; border-radius: 10px;
+    font-family: inherit; line-height: 1.6;
+    resize: vertical; min-height: 60px;
+    outline: none; margin-bottom: 10px;
+  }
+  .add-card textarea:focus { border-color: var(--masc); }
+  .add-card .hint { font-size: 12px; color: var(--text-dim); margin-bottom: 8px; }
+  .add-card button {
+    background: var(--masc); color: #fff; border: none;
+    border-radius: 8px; padding: 8px 18px; font-size: 14px;
+    cursor: pointer; font-family: inherit;
+  }
+  .add-card button:hover { opacity: 0.85; }
+
+  /* ── Footer ─────────────────── */
+  footer {
+    margin-top: 40px; padding-top: 16px;
+    border-top: 1px solid var(--border);
+    font-size: 12px; color: var(--text-dim);
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1><span class="de">Deutsch</span> ↔ <span class="fr">Français</span></h1>
+  <div class="sub">九头蛇并行语法 · English bridge · 中文仅标记不可译物</div>
+</header>
+
+<div class="legend" style="flex-wrap:wrap;gap:12px 20px;">
+  <span>德法共有：</span>
+  <span><i class="dot m"></i> 阳性</span>
+  <span><i class="dot f"></i> 阴性</span>
+  <span>|</span>
+  <span>仅德语：</span>
+  <span><i class="dot n"></i> 中性</span>
+  <span style="margin-left:12px;">&nbsp;</span>
+  <span style="padding:2px 6px;border-radius:2px;">▢ 方框 = 第四格·直宾</span>
+  <span style="border:2px dashed #666;border-radius:9px;padding:2px 6px;">▣ 虚线圆角 = 第三格·间宾</span>
+  <span style="border:2px solid #666;border-radius:40px/50%;padding:2px 8px;">⬭ 椭圆 = 第二格·主人</span>
+  <span style="margin-left:8px;color:var(--text-dim);">一格·主体 = 无标记</span>
+</div>
+
+<div class="cards" id="cards">
+
+  <!-- ═══ 卡 1 · 名词性别——颜色在名词上 ═══ -->
+  <div class="card">
+    <div class="card-header">#1 · 名词语法性别 · Grammatical Gender — 性在名词本体，不在冠词</div>
+    <div class="row">
+      <div class="col de">
+        <span class="lang-tag">Deutsch</span>
+        der <span class="nx-m"><span class="m">Mond</span></span> &nbsp;
+        die <span class="nx-f"><span class="f">Sonne</span></span> &nbsp;
+        das <span class="nx-n"><span class="n">Meer</span></span>
+        <div class="zh-note">阳·月 / 阴·日 / 中·海。性属名词本身，冠词随格变</div>
+      </div>
+      <div class="col fr">
+        <span class="lang-tag">Français</span>
+        le <span class="nx-m"><span class="m">soleil</span></span> &nbsp;
+        la <span class="nx-f"><span class="f">lune</span></span> &nbsp;
+        la <span class="nx-f"><span class="f">mer</span></span>
+        <div class="zh-note">德法日月性别<em>完全相反</em>。海在法语是阴性</div>
+      </div>
+      <div class="col en">
+        <span class="lang-tag">English</span>
+        the moon &nbsp; the sun &nbsp; the sea
+        <div class="zh-note">English：无性，the 一律通用</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ 卡 2 · 不定冠词 ═══ -->
+  <div class="card">
+    <div class="card-header">#2 · 不定冠词 · Indefinite — 性仍标记在名词</div>
+    <div class="row">
+      <div class="col de">
+        <span class="lang-tag">Deutsch</span>
+        ein <span class="nx-m"><span class="m">Baum</span></span> &nbsp;
+        eine <span class="nx-f"><span class="f">Blume</span></span> &nbsp;
+        ein <span class="nx-n"><span class="n">Haus</span></span>
+      </div>
+      <div class="col fr">
+        <span class="lang-tag">Français</span>
+        un <span class="nx-m"><span class="m">arbre</span></span> &nbsp;
+        une <span class="nx-f"><span class="f">fleur</span></span> &nbsp;
+        une <span class="nx-f"><span class="f">maison</span></span>
+        <div class="zh-note">法无中性。maison 阴，德 Haus 中——分歧</div>
+      </div>
+      <div class="col en">
+        <span class="lang-tag">English</span>
+        a tree &nbsp; a flower &nbsp; a house
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ 卡 3 · 四格同句 ═══ -->
+  <div class="card">
+    <div class="card-header">#3 · 四格全开 · All four cases in one sentence</div>
+    <div class="row">
+      <div class="col de">
+        <span class="lang-tag">Deutsch</span>
+        <span class="nom">De<span class="art">r</span> <span class="nx-m"><span class="m">Vater</span></span></span>
+        gibt
+        <span class="dat">de<span class="art">m</span> <span class="nx-n"><span class="n">Kind</span></span></span>
+        <span class="akk">de<span class="art">n</span> <span class="nx-m"><span class="m">Ball</span></span></span>
+        <span class="gen">de<span class="art">s</span> <span class="nx-m"><span class="m">Bruders</span></span></span>.
+        <div class="zh-note">一格(主)·三格(间宾)·四格(直宾)·二格(主人)——全在一句</div>
+      </div>
+      <div class="col fr">
+        <span class="lang-tag">Français</span>
+        Le <span class="nx-m"><span class="m">père</span></span> donne le <span class="nx-m"><span class="m">ballon</span></span> du <span class="nx-m"><span class="m">frère</span></span> à l'<span class="nx-m"><span class="m">enfant</span></span>.
+        <div class="zh-note">法无格标：de = 属格(二格) · à = 与格(三格) · 词序 = 宾格(四格)</div>
+      </div>
+      <div class="col en">
+        <span class="lang-tag">English</span>
+        The father gives the brother's ball to the child.
+        <div class="zh-note">'s = 属格 · to = 与格 · 词序 = 宾格</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ 卡 4 · 宾格 vs 与格 对比 ═══ -->
+  <div class="card">
+    <div class="card-header">#4 · 宾/与对比 · Accusative vs Dative — 动作方向决定格</div>
+    <div class="row">
+      <div class="col de">
+        <span class="lang-tag">Deutsch</span>
+        Ich lege <span class="akk">de<span class="art">n</span> <span class="nx-m"><span class="m">Stift</span></span></span>
+        auf <span class="akk">de<span class="art">n</span> <span class="nx-m"><span class="m">Tisch</span></span></span>.
+        <br><br>
+        De<span class="art">r</span> <span class="nx-m"><span class="m">Stift</span></span> liegt
+        auf <span class="dat">de<span class="art">m</span> <span class="nx-m"><span class="m">Tisch</span></span></span>.
+        <div class="zh-note">legen→移动→四格。liegen→静止→三格。同一个介词 auf，动作方向决定格</div>
+      </div>
+      <div class="col fr">
+        <span class="lang-tag">Français</span>
+        Je pose le <span class="nx-m"><span class="m">stylo</span></span> sur la <span class="nx-f"><span class="f">table</span></span>.
+        <br><br>
+        Le <span class="nx-m"><span class="m">stylo</span></span> est sur la <span class="nx-f"><span class="f">table</span></span>.
+        <div class="zh-note">法语：sur la table 完全不变——动作/静止无区别</div>
+      </div>
+      <div class="col en">
+        <span class="lang-tag">English</span>
+        I put the pen on the table.
+        <br><br>
+        The pen is on the table.
+        <div class="zh-note">English：on the table 也不变——和法语一样</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ 卡 5 · 楞次定律 ═══ -->
+  <div class="card">
+    <div class="card-header">#5 · 楞次定律 · Lenzsches Gesetz — 德语从句的物理优越性</div>
+    <div class="row">
+      <div class="col de">
+        <span class="lang-tag">Deutsch</span>
+        Der <span class="nx-m"><span class="m">Induktionsstrom</span></span> fließt stets so,
+        <b>dass</b> das von ihm aufgebaute <span class="nx-n"><span class="n">Magnetfeld</span></span>
+        derjenigen <span class="nx-f"><span class="f">Flussänderung</span></span>,
+        <b>durch die</b> er hervorgerufen worden ist,
+        <span style="background:#d44020;color:#fff;padding:2px 8px;border-radius:3px;font-weight:700;">entgegenwirkt</span>.
+        <div class="zh-note">三层嵌套：主句→dass从句→关系从句。动词全部押尾。语义不丢不歧。</div>
+      </div>
+      <div class="col fr">
+        <span class="lang-tag">Français</span>
+        Le <span class="nx-m"><span class="m">courant</span></span> induit circule toujours de telle sorte
+        <b>que</b> le <span class="nx-m"><span class="m">champ</span></span> magnétique qu'il produit
+        <b>s'oppose</b> à la <span class="nx-f"><span class="f">variation</span></span> de <span class="nx-m"><span class="m">flux</span></span>
+        <b>qui</b> l'a engendré.
+        <div class="zh-note">两层嵌套。que→qui 可接，但动词始终居中，嵌套深度有限</div>
+      </div>
+      <div class="col en">
+        <span class="lang-tag">English</span>
+        The induced current flows in such a direction
+        <b>that</b> the magnetic field <b>which</b> it creates
+        <b>opposes</b> the change in magnetic flux
+        <b>that</b> produced it.
+        <div class="zh-note">三层 that/which 嵌套——可以，但比德语更容易散架</div>
+      </div>
+    </div>
+    <div style="padding:14px 20px;border-top:1px solid var(--border);font-size:14px;color:var(--zh);font-style:italic;">
+      ⸢感应电流的方向，总是使它所产生的磁场，去阻碍那个使它产生的磁通量变化⸣<br>
+      <span style="font-size:12px;">中文——五个"的"压进一句，缺氧。德语三动词尾位各守各层，不争不抢。</span>
+    </div>
+  </div>
+
+  <!-- ═══ 卡 6 · 从句基础 ═══ -->
+  <div class="card">
+    <div class="card-header">#6 · 从句基础 · Subordinate clauses — 动词尾位的日常版</div>
+    <div class="row">
+      <div class="col de">
+        <span class="lang-tag">Deutsch</span>
+        Ich weiß, <b>dass</b> er heute den <span class="nx-m"><span class="m">Ball</span></span> dem <span class="nx-n"><span class="n">Kind</span></span> <span style="background:#d44020;color:#fff;padding:2px 8px;border-radius:3px;font-weight:700;">gibt</span>.
+        <br><br>
+        Er bleibt zu Hause, <b>weil</b> er krank <span style="background:#d44020;color:#fff;padding:2px 8px;border-radius:3px;font-weight:700;">ist</span>.
+        <br><br>
+        <b>Wenn</b> du Zeit <span style="background:#d44020;color:#fff;padding:2px 8px;border-radius:3px;font-weight:700;">hast</span>, gehen wir ins Kino.
+        <div class="zh-note">dass/weil/wenn → 从句连接词触发 → 动词押尾。同一规律，日常也适用</div>
+      </div>
+      <div class="col fr">
+        <span class="lang-tag">Français</span>
+        Je sais <b>qu'</b>il donne le ballon à l'enfant aujourd'hui.
+        <br><br>
+        Il reste chez lui <b>parce qu'</b>il est malade.
+        <br><br>
+        <b>Si</b> tu as le temps, on va au cinéma.
+        <div class="zh-note">que/parce que/si 后——动词纹丝不动</div>
+      </div>
+      <div class="col en">
+        <span class="lang-tag">English</span>
+        I know <b>that</b> he gives the ball to the child today.
+        <br><br>
+        He stays home <b>because</b> he is sick.
+        <br><br>
+        <b>If</b> you have time, we'll go to the cinema.
+        <div class="zh-note">that/because/if 后——SVO 不变</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ 卡 6 · 否定 ═══ -->
+  <div class="card">
+    <div class="card-header">#6 · 否定 · Negation — 三种否定逻辑</div>
+    <div class="row">
+      <div class="col de">
+        <span class="lang-tag">Deutsch</span>
+        Ich habe <b>kein</b> <span class="nx-n"><span class="n">Geld</span></span>. &nbsp;·&nbsp; Ich sehe <b>nicht</b>.
+        <div class="zh-note">kein=否定名词。nicht=否定动词</div>
+      </div>
+      <div class="col fr">
+        <span class="lang-tag">Français</span>
+        Je <b>n'</b>ai <b>pas</b> d'<span class="nx-m"><span class="m">argent</span></span>. &nbsp;·&nbsp; Je <b>ne</b> vois <b>pas</b>.
+        <div class="zh-note">ne…pas 环抱动词——两面围堵</div>
+      </div>
+      <div class="col en">
+        <span class="lang-tag">English</span>
+        I have <b>no</b> money. &nbsp;·&nbsp; I <b>don't</b> see.
+      </div>
+    </div>
+  </div>
+
+</div><!-- /cards -->
+
+<div class="add-card">
+  <div class="hint">加新课卡 · 格式：Deutsch | Français | English | 中文注释(optional)</div>
+  <textarea id="input" placeholder="der Tisch | la table | the table"></textarea>
+  <button onclick="addCard()">＋ 追加</button>
+</div>
+
+<footer>
+  九头蛇并行引擎 · 阳性<span style="color:var(--masc)">橙红</span> · 阴性<span style="color:var(--fem)">绿</span> · 中性<span style="color:var(--neut)">蓝</span>
+</footer>
+
+<script>
+function addCard() {
+  const text = document.getElementById('input').value.trim();
+  if (!text) return;
+  const parts = text.split('|').map(s => s.trim());
+  if (parts.length < 3) return;
+
+  const cards = document.getElementById('cards');
+  const idx = cards.children.length + 1;
+  const de = parts[0], fr = parts[1], en = parts[2], zh = parts[3] || '';
+
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `
+    <div class="card-header">#${idx} · 用户课卡</div>
+    <div class="row">
+      <div class="col de">
+        <span class="lang-tag">Deutsch</span>
+        ${de}
+        ${zh ? `<div class="zh-note">${zh}</div>` : ''}
+      </div>
+      <div class="col fr">
+        <span class="lang-tag">Français</span>
+        ${fr}
+      </div>
+      <div class="col en">
+        <span class="lang-tag">English</span>
+        ${en}
+      </div>
+    </div>`;
+  cards.appendChild(card);
+  card.scrollIntoView({ behavior: 'smooth' });
+  document.getElementById('input').value = '';
+}
+</script>
+
+</body>
+</html>
