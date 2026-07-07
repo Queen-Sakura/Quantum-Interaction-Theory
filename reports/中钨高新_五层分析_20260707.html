@@ -9,7 +9,7 @@
     margin: 2cm 2.2cm;
     @bottom-center {
       content: "— " counter(page) " —";
-      font-family: 'Noto Serif SC', serif;
+      font-family: 'WenQuanYi Micro Hei', sans-serif;
       font-size: 9pt;
       color: #888;
     }
@@ -20,25 +20,12 @@
     }
   }
 
-  :root {
-    --void: #0b0b14;
-    --text: #1a1a2e;
-    --muted: #666;
-    --l1: #6b3fa0;
-    --l2: #1a8a7a;
-    --l3: #2b6cb0;
-    --l4: #c0561a;
-    --l5: #b8405e;
-    --accent: #8b5cf6;
-    --rule: #e0dce8;
-    --bg-card: #faf9fc;
-  }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    font-family: 'Noto Serif SC', 'Source Han Serif SC', 'SimSun', serif;
-    color: var(--text);
+    font-family: 'WenQuanYi Micro Hei', '文泉驿微米黑', sans-serif;
+    color: #1a1a2e;
     font-size: 11pt;
     line-height: 1.75;
     counter-reset: section;
@@ -64,14 +51,14 @@
   }
   .cover .subtitle {
     font-size: 14pt;
-    color: var(--accent);
+    color: #8b5cf6;
     font-weight: 600;
     margin-bottom: 1.2cm;
     letter-spacing: 0.12em;
   }
   .cover .meta {
     font-size: 10pt;
-    color: var(--muted);
+    color: #666;
     line-height: 2;
   }
   .cover .disclaimer {
@@ -87,21 +74,21 @@
     font-weight: 800;
     margin: 1.8cm 0 0.6cm;
     padding-bottom: 0.3cm;
-    border-bottom: 2pt solid var(--rule);
+    border-bottom: 2pt solid #e0dce8;
     letter-spacing: 0.05em;
     counter-increment: section;
     page-break-before: always;
   }
   h2::before {
     content: counter(section) "  ";
-    color: var(--accent);
+    color: #8b5cf6;
   }
   h2.no-break { page-break-before: avoid; }
   h3 {
     font-size: 12pt;
     font-weight: 700;
     margin: 1cm 0 0.4cm;
-    color: var(--text);
+    color: #1a1a2e;
   }
 
   p { margin-bottom: 0.5cm; text-align: justify; }
@@ -114,7 +101,7 @@
     font-size: 10pt;
   }
   thead th {
-    background: var(--void);
+    background: #0b0b14;
     color: white;
     padding: 8pt 10pt;
     font-weight: 600;
@@ -124,11 +111,11 @@
   thead th:last-child { text-align: right; }
   tbody td {
     padding: 7pt 10pt;
-    border-bottom: 0.5pt solid var(--rule);
+    border-bottom: 0.5pt solid #e0dce8;
     vertical-align: top;
   }
   tbody td:last-child { text-align: right; font-weight: 600; }
-  tbody tr:nth-child(even) { background: var(--bg-card); }
+  tbody tr:nth-child(even) { background: #faf9fc; }
 
   .num-up   { color: #c0392b; }
   .num-down { color: #2980b9; }
@@ -138,21 +125,21 @@
     margin: 0.6cm 0;
     padding: 12pt 14pt;
     border-left: 4pt solid;
-    background: var(--bg-card);
+    background: #faf9fc;
     font-size: 10.5pt;
   }
-  .callout.l1 { border-color: var(--l1); }
-  .callout.l2 { border-color: var(--l2); }
-  .callout.l3 { border-color: var(--l3); }
-  .callout.l4 { border-color: var(--l4); }
-  .callout.l5 { border-color: var(--l5); }
+  .callout.l1 { border-color: #6b3fa0; }
+  .callout.l2 { border-color: #1a8a7a; }
+  .callout.l3 { border-color: #2b6cb0; }
+  .callout.l4 { border-color: #c0561a; }
+  .callout.l5 { border-color: #b8405e; }
   .callout strong { color: inherit; }
 
   /* ===== JUDGMENT BOX ===== */
   .judgment {
     margin: 0.6cm 0;
     padding: 10pt 14pt;
-    background: var(--void);
+    background: #0b0b14;
     color: white;
     font-size: 10pt;
     border-radius: 2pt;
@@ -168,7 +155,7 @@
   /* ===== SIGNAL FLOW ===== */
   .signal-flow {
     display: flex;
-    gap: 6pt;
+    
     margin: 0.6cm 0;
     align-items: stretch;
   }
@@ -188,35 +175,35 @@
     color: #aaa;
     flex: 0 0 auto;
   }
-  .sf-l1 { background: var(--l1); }
-  .sf-l2 { background: var(--l2); }
-  .sf-l3 { background: var(--l3); }
-  .sf-l4 { background: var(--l4); }
-  .sf-l5 { background: var(--l5); }
+  .sf-l1 { background: #6b3fa0; }
+  .sf-l2 { background: #1a8a7a; }
+  .sf-l3 { background: #2b6cb0; }
+  .sf-l4 { background: #c0561a; }
+  .sf-l5 { background: #b8405e; }
 
   /* ===== METRICS ROW ===== */
   .metrics-grid {
     display: flex;
-    gap: 10pt;
+    
     margin: 0.5cm 0 0.8cm;
   }
   .metric-card {
     flex: 1;
     text-align: center;
     padding: 12pt 8pt;
-    background: var(--bg-card);
-    border: 0.5pt solid var(--rule);
+    background: #faf9fc;
+    border: 0.5pt solid #e0dce8;
   }
   .metric-card .val {
     font-size: 18pt;
     font-weight: 900;
-    font-family: 'JetBrains Mono', 'Courier New', monospace;
-    color: var(--accent);
+    font-family: 'WenQuanYi Micro Hei Mono', '文泉驿等宽微米黑', monospace;
+    color: #8b5cf6;
     line-height: 1.2;
   }
   .metric-card .lbl {
     font-size: 8pt;
-    color: var(--muted);
+    color: #666;
     margin-top: 4pt;
   }
 
@@ -224,7 +211,7 @@
   .report-footer {
     margin-top: 2cm;
     padding-top: 0.4cm;
-    border-top: 0.5pt solid var(--rule);
+    border-top: 0.5pt solid #e0dce8;
     font-size: 8pt;
     color: #999;
     line-height: 1.8;
@@ -276,7 +263,7 @@
   <div class="sf-layer sf-l5">L5<br>Q场量化</div>
 </div>
 
-<p style="text-align:center;font-size:9.5pt;color:var(--muted);margin-top:4pt;">
+<p style="text-align:center;font-size:9.5pt;color:#666;margin-top:4pt;">
   L1 → L2 → L3 决定趋势方向 · L4 决定振幅（½ħω 零点振荡） · L5 输出概率分布
 </p>
 
