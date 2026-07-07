@@ -3,644 +3,597 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Argo 金融节点 · 五层分析架构</title>
+<title>Argo 金融节点 · 五层因果分析架构</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
-
+  /* ═══════════ TOKENS ═══════════ */
   :root {
-    --bg: #0a0a0f;
-    --surface: #12121a;
-    --surface2: #1a1a28;
-    --border: #252535;
-    --text: #c8c8d4;
-    --text-dim: #6a6a7a;
-    --accent: #a78bfa;
-    --accent2: #7c3aed;
-    --green: #34d399;
-    --yellow: #fbbf24;
-    --red: #f87171;
-    --cyan: #22d3bb;
-    --blue: #60a5fa;
-    --pink: #f472b6;
-    --orange: #fb923c;
+    --void: #090914;
+    --panel: #111128;
+    --border: #1e1e3c;
+    --border-subtle: #181835;
+    --text: #e2e8f0;
+    --muted: #8892a8;
+    --faint: #4a5068;
+    /* layer accents */
+    --l1-physics: #b794f4;
+    --l2-policy:  #4fd1c5;
+    --l3-firm:    #63b3ed;
+    --l4-sentiment: #f6ad55;
+    --l5-quant:   #f687b3;
+    --success: #68d391;
+    --danger:  #fc8181;
+    --radius: 6px;
+    --radius-lg: 10px;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
+  html { scroll-behavior: smooth; }
   body {
-    background: var(--bg);
+    background: var(--void);
     color: var(--text);
-    font-family: 'Noto Sans SC', sans-serif;
-    line-height: 1.8;
-    overflow-x: hidden;
+    font-family: 'Inter', 'Noto Sans SC', sans-serif;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
   }
 
-  /* ── Cosmic background ── */
-  .cosmos {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    pointer-events: none; z-index: 0;
+  /* ── Ambient atmosphere ── */
+  body::before {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
     background:
-      radial-gradient(ellipse at 20% 50%, rgba(124,58,237,0.06) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 20%, rgba(34,211,187,0.04) 0%, transparent 50%),
-      radial-gradient(ellipse at 50% 80%, rgba(96,165,250,0.04) 0%, transparent 50%);
+      radial-gradient(ellipse 80% 60% at 50% 30%, rgba(183,148,244,0.04) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 85% 70%, rgba(79,209,197,0.03) 0%, transparent 60%);
   }
 
-  .container { max-width: 960px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+  .container { max-width: 1040px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
 
-  /* ── Hero ── */
+  /* ═══════════ HERO ═══════════ */
   .hero {
-    text-align: center; padding: 80px 0 60px;
+    padding: 72px 0 56px;
     border-bottom: 1px solid var(--border);
-    margin-bottom: 60px;
+    margin-bottom: 0;
   }
-  .hero-badge {
-    display: inline-block; padding: 4px 16px; border-radius: 20px;
-    background: rgba(167,139,250,0.12); border: 1px solid rgba(167,139,250,0.25);
-    color: var(--accent); font-size: 0.82rem; letter-spacing: 0.08em;
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+    letter-spacing: 0.14em; color: var(--l1-physics); text-transform: uppercase;
     margin-bottom: 24px;
   }
+  .hero-eyebrow::before {
+    content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--l1-physics); box-shadow: 0 0 6px var(--l1-physics);
+  }
   .hero h1 {
-    font-size: 2.8rem; font-weight: 900; letter-spacing: 0.04em;
-    background: linear-gradient(135deg, var(--accent) 0%, var(--cyan) 50%, var(--blue) 100%);
+    font-family: 'Noto Serif SC', serif;
+    font-size: clamp(2.2rem, 5vw, 3.2rem);
+    font-weight: 900; letter-spacing: 0.03em;
+    line-height: 1.2; margin-bottom: 16px;
+    color: var(--text);
+  }
+  .hero h1 em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--l1-physics), var(--l5-quant));
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     background-clip: text;
-    margin-bottom: 12px;
   }
-  .hero .subtitle {
-    font-size: 1.1rem; color: var(--text-dim); font-weight: 300;
-    letter-spacing: 0.06em;
+  .hero-lede {
+    font-size: 1.08rem; color: var(--muted); max-width: 620px; line-height: 1.8;
   }
-  .hero .subtitle span { color: var(--accent); }
 
-  /* ── Section headers ── */
-  .section-header {
-    display: flex; align-items: center; gap: 16px; margin: 64px 0 32px;
+  /* ═══════════ ARCHITECTURE — signature ═══════════ */
+  .arch-section { margin: 64px 0; }
+  .arch-section h2 {
+    font-family: 'Noto Serif SC', serif; font-size: 1.5rem; font-weight: 700;
+    margin-bottom: 8px;
   }
-  .section-num {
-    width: 48px; height: 48px; border-radius: 12px;
+  .arch-section .sec-note { color: var(--muted); font-size: 0.9rem; margin-bottom: 40px; }
+
+  /* Five-column signal flow diagram */
+  .signal-flow {
+    display: flex; align-items: stretch; gap: 0;
+    background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .sf-layer {
+    flex: 1; padding: 28px 20px; position: relative;
+    display: flex; flex-direction: column; gap: 10px;
+    cursor: default; transition: background 0.2s;
+  }
+  .sf-layer:hover { background: rgba(255,255,255,0.015); }
+  .sf-layer + .sf-layer { border-left: 1px solid var(--border-subtle); }
+
+  .sf-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .sf-icon { font-size: 1.6rem; }
+  .sf-name { font-weight: 700; font-size: 0.95rem; line-height: 1.3; }
+  .sf-role { font-size: 0.74rem; color: var(--muted); line-height: 1.5; }
+
+  .sf-layer:nth-child(1) .sf-num, .sf-layer:nth-child(1) .sf-icon { color: var(--l1-physics); }
+  .sf-layer:nth-child(2) .sf-num, .sf-layer:nth-child(2) .sf-icon { color: var(--l2-policy); }
+  .sf-layer:nth-child(3) .sf-num, .sf-layer:nth-child(3) .sf-icon { color: var(--l3-firm); }
+  .sf-layer:nth-child(4) .sf-num, .sf-layer:nth-child(4) .sf-icon { color: var(--l4-sentiment); }
+  .sf-layer:nth-child(5) .sf-num, .sf-layer:nth-child(5) .sf-icon { color: var(--l5-quant); }
+
+  .sf-converge {
     display: flex; align-items: center; justify-content: center;
-    font-size: 1.2rem; font-weight: 700; font-family: 'JetBrains Mono', monospace;
-  }
-  .section-header h2 {
-    font-size: 1.6rem; font-weight: 700; letter-spacing: 0.04em;
-  }
-
-  /* ── Architecture diagram ── */
-  .arch-diagram {
-    background: var(--surface);
-    border: 1px solid var(--border); border-radius: 16px;
-    padding: 48px 32px; margin: 32px 0;
-    position: relative;
-  }
-  .arch-layers { display: flex; flex-direction: column; gap: 12px; }
-  .arch-layer {
-    display: flex; align-items: center; gap: 20px;
-    padding: 20px 24px; border-radius: 10px;
-    position: relative;
-  }
-  .arch-layer .layer-num {
-    width: 40px; height: 40px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 900; font-size: 1rem; font-family: 'JetBrains Mono', monospace;
-    flex-shrink: 0;
-  }
-  .arch-layer .layer-content { flex: 1; }
-  .arch-layer .layer-name { font-weight: 700; font-size: 1.05rem; }
-  .arch-layer .layer-desc { font-size: 0.85rem; color: var(--text-dim); margin-top: 2px; }
-  .arch-layer .layer-icon { font-size: 1.6rem; flex-shrink: 0; }
-
-  .l1 { background: rgba(167,139,250,0.08); border: 1px solid rgba(167,139,250,0.2); }
-  .l1 .layer-num { background: rgba(167,139,250,0.2); color: var(--accent); }
-  .l2 { background: rgba(34,211,187,0.08); border: 1px solid rgba(34,211,187,0.2); }
-  .l2 .layer-num { background: rgba(34,211,187,0.2); color: var(--cyan); }
-  .l3 { background: rgba(96,165,250,0.08); border: 1px solid rgba(96,165,250,0.2); }
-  .l3 .layer-num { background: rgba(96,165,250,0.2); color: var(--blue); }
-  .l4 { background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.2); }
-  .l4 .layer-num { background: rgba(251,191,36,0.2); color: var(--yellow); }
-  .l5 { background: rgba(244,114,182,0.08); border: 1px solid rgba(244,114,182,0.2); }
-  .l5 .layer-num { background: rgba(244,114,182,0.2); color: var(--pink); }
-
-  .arch-arrows {
-    position: absolute; left: 50%; transform: translateX(-50%);
-    display: flex; flex-direction: column; align-items: center;
-  }
-  .arch-merge {
-    text-align: center; margin-top: 8px; color: var(--pink);
-    font-size: 0.82rem; font-weight: 500;
-  }
-  .arch-merge-line {
-    width: 2px; height: 32px; background: linear-gradient(to bottom, var(--accent), var(--pink));
-    margin: 0 auto;
+    padding: 0 8px; color: var(--muted);
+    font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;
+    writing-mode: vertical-lr;
   }
 
-  /* ── Layer detail cards ── */
+  .signal-flow-legend {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 48px;
+  }
+  .legend-chip {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+    padding: 4px 10px; border-radius: 20px; letter-spacing: 0.06em;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .legend-chip.l1 { background: rgba(183,148,244,0.1); color: var(--l1-physics); border: 1px solid rgba(183,148,244,0.2); }
+  .legend-chip.l2 { background: rgba(79,209,197,0.1); color: var(--l2-policy); border: 1px solid rgba(79,209,197,0.2); }
+  .legend-chip.l3 { background: rgba(99,179,237,0.1); color: var(--l3-firm);   border: 1px solid rgba(99,179,237,0.2); }
+  .legend-chip.l4 { background: rgba(246,173,85,0.1); color: var(--l4-sentiment); border: 1px solid rgba(246,173,85,0.2); }
+  .legend-chip.l5 { background: rgba(246,135,179,0.1); color: var(--l5-quant);   border: 1px solid rgba(246,135,179,0.2); }
+
+  /* ═══════════ LAYER DETAIL CARDS ═══════════ */
   .layer-detail {
-    background: var(--surface);
-    border: 1px solid var(--border); border-radius: 14px;
-    padding: 36px 32px; margin: 24px 0;
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 36px 32px; margin-bottom: 20px;
     border-left: 3px solid;
+    transition: border-color 0.2s, background 0.2s;
   }
-  .layer-detail.l1 { border-left-color: var(--accent); }
-  .layer-detail.l2 { border-left-color: var(--cyan); }
-  .layer-detail.l3 { border-left-color: var(--blue); }
-  .layer-detail.l4 { border-left-color: var(--yellow); }
-  .layer-detail.l5 { border-left-color: var(--pink); }
+  .layer-detail:hover { background: rgba(255,255,255,0.008); }
+  .layer-detail.l1 { border-left-color: var(--l1-physics); }
+  .layer-detail.l2 { border-left-color: var(--l2-policy); }
+  .layer-detail.l3 { border-left-color: var(--l3-firm); }
+  .layer-detail.l4 { border-left-color: var(--l4-sentiment); }
+  .layer-detail.l5 { border-left-color: var(--l5-quant); }
 
   .layer-detail h3 {
-    font-size: 1.25rem; font-weight: 700; margin-bottom: 16px;
-    display: flex; align-items: center; gap: 10px;
+    font-family: 'Noto Serif SC', serif; font-size: 1.2rem; font-weight: 700;
+    margin-bottom: 6px; display: flex; align-items: center; gap: 10px;
   }
-  .layer-detail h3 .dot {
-    width: 10px; height: 10px; border-radius: 50%; display: inline-block;
+  .layer-detail h3 .badge {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.66rem;
+    padding: 2px 8px; border-radius: 3px; letter-spacing: 0.08em;
   }
-  .layer-detail .sub-items { margin: 12px 0 0 16px; }
-  .layer-detail .sub-items li {
-    margin: 8px 0; font-size: 0.94rem;
-    list-style: none; position: relative; padding-left: 20px;
+  .layer-detail.l1 h3 .badge { background: rgba(183,148,244,0.15); color: var(--l1-physics); }
+  .layer-detail.l2 h3 .badge { background: rgba(79,209,197,0.15); color: var(--l2-policy); }
+  .layer-detail.l3 h3 .badge { background: rgba(99,179,237,0.15); color: var(--l3-firm); }
+  .layer-detail.l4 h3 .badge { background: rgba(246,173,85,0.15); color: var(--l4-sentiment); }
+  .layer-detail.l5 h3 .badge { background: rgba(246,135,179,0.15); color: var(--l5-quant); }
+
+  .layer-detail .summary { color: var(--muted); font-size: 0.9rem; margin-bottom: 20px; }
+
+  .layer-detail .items {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
   }
-  .layer-detail .sub-items li::before {
-    content: '▸'; position: absolute; left: 0; color: var(--text-dim); font-size: 0.7rem; top: 4px;
+  .layer-detail .item {
+    font-size: 0.88rem; padding: 14px 16px;
+    background: rgba(0,0,0,0.2); border-radius: var(--radius);
+    border: 1px solid transparent; transition: border-color 0.2s;
+  }
+  .layer-detail .item:hover { border-color: var(--border); }
+  .layer-detail .item strong { display: block; margin-bottom: 3px; font-weight: 600; }
+  .layer-detail .item span { color: var(--muted); font-size: 0.82rem; line-height: 1.6; }
+
+  @media (max-width: 640px) {
+    .layer-detail .items { grid-template-columns: 1fr; }
+    .signal-flow { flex-direction: column; }
+    .sf-converge { writing-mode: horizontal-tb; padding: 8px 0; }
   }
 
-  /* ── Q equation card ── */
+  /* ═══════════ Q EQUATION CARD ═══════════ */
   .eq-card {
-    background: var(--surface2);
-    border: 1px solid var(--border); border-radius: 14px;
-    padding: 36px; margin: 32px 0;
-    font-family: 'JetBrains Mono', monospace;
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 40px 36px; margin: 32px 0;
+    position: relative; overflow: hidden;
   }
-  .eq-card .eq-label {
-    font-size: 0.75rem; color: var(--pink); letter-spacing: 0.1em;
-    text-transform: uppercase; margin-bottom: 16px;
+  .eq-card::after {
+    content: ''; position: absolute; top: 0; right: 0; width: 200px; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(183,148,244,0.02));
+    pointer-events: none;
+  }
+  .eq-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.66rem;
+    color: var(--l5-quant); letter-spacing: 0.14em; text-transform: uppercase;
+    margin-bottom: 20px;
   }
   .eq-main {
-    font-size: 1.2rem; color: var(--text); text-align: center;
-    padding: 20px 0; letter-spacing: 0.04em;
-    border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
-    margin: 16px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(0.9rem, 2vw, 1.15rem);
+    padding: 28px 0; line-height: 1.8;
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+    margin-bottom: 20px;
+    color: var(--text); word-break: break-all;
   }
-  .eq-main .highlight { color: var(--accent); }
-  .eq-main .highlight2 { color: var(--cyan); }
-  .eq-main .highlight3 { color: var(--yellow); }
-  .eq-note { font-size: 0.82rem; color: var(--text-dim); margin-top: 12px; font-family: 'Noto Sans SC', sans-serif; }
+  .eq-main .hl-physics  { color: var(--l1-physics); }
+  .eq-main .hl-policy   { color: var(--l2-policy); }
+  .eq-main .hl-firm     { color: var(--l3-firm); }
+  .eq-main .hl-sent     { color: var(--l4-sentiment); }
+  .eq-main .hl-quant    { color: var(--l5-quant); }
+  .eq-main .hl-neutral  { color: var(--muted); }
 
-  /* ── Data flow diagram ── */
-  .flow {
-    display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;
-    margin: 32px 0;
+  .eq-terms {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;
+    font-size: 0.82rem;
   }
-  .flow-node {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
-    padding: 20px 12px; text-align: center;
+  .eq-terms dt {
+    font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 0.85rem;
+    margin-bottom: 2px;
   }
-  .flow-node .fn-icon { font-size: 1.8rem; margin-bottom: 8px; }
-  .flow-node .fn-name { font-weight: 700; font-size: 0.9rem; }
-  .flow-node .fn-to { font-size: 0.72rem; color: var(--text-dim); margin-top: 6px; }
-  .flow-arrow {
-    display: flex; align-items: center; justify-content: center;
-    color: var(--text-dim); font-size: 1.2rem;
-  }
+  .eq-terms dd { color: var(--muted); margin: 0 0 10px 0; font-size: 0.8rem; line-height: 1.6; }
 
-  /* ── Case study ── */
+  /* ═══════════ CASE STUDY ═══════════ */
   .case-study {
-    background: linear-gradient(135deg, rgba(124,58,237,0.08), rgba(34,211,187,0.04));
-    border: 1px solid rgba(124,58,237,0.25); border-radius: 16px;
-    padding: 40px 32px; margin: 32px 0;
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); overflow: hidden; margin: 48px 0;
   }
-  .case-study h3 {
-    font-size: 1.15rem; font-weight: 700; margin-bottom: 20px;
-    color: var(--accent);
+  .case-header {
+    padding: 28px 32px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px;
   }
-  .case-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .case-header h3 { font-family: 'Noto Serif SC', serif; font-weight: 700; font-size: 1.2rem; }
+  .case-header .ticker {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;
+    color: var(--muted); letter-spacing: 0.06em;
+  }
+  .case-body { padding: 28px 32px; }
+  .case-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+  @media (max-width: 640px) { .case-grid { grid-template-columns: 1fr; } }
+
   .case-cell {
-    background: rgba(0,0,0,0.25); border-radius: 10px; padding: 20px;
+    background: rgba(0,0,0,0.25); border-radius: var(--radius); padding: 18px 20px;
+    border: 1px solid transparent; transition: border-color 0.2s;
   }
-  .case-cell .cc-label { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
-  .case-cell .cc-value { font-size: 1.05rem; font-weight: 500; }
+  .case-cell:hover { border-color: var(--border); }
+  .case-cell .clabel {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.64rem;
+    letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px;
+  }
+  .case-cell .cvalue { font-size: 0.92rem; line-height: 1.7; }
 
-  /* ── Footer ── */
+  .price-table { width: 100%; font-size: 0.88rem; border-collapse: collapse; }
+  .price-table td { padding: 8px 0; border-bottom: 1px solid var(--border-subtle); }
+  .price-table td:first-child { color: var(--muted); width: 140px; }
+  .price-table td:last-child { text-align: right; font-family: 'JetBrains Mono', monospace; }
+
+  /* ═══════════ FEEDBACK LOOP ═══════════ */
+  .feedback-loop {
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+    flex-wrap: wrap; margin: 40px 0; padding: 32px 20px;
+    background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  }
+  .fl-node {
+    text-align: center; padding: 16px 20px; border-radius: var(--radius);
+    background: rgba(0,0,0,0.25); min-width: 90px;
+  }
+  .fl-node .fl-icon { font-size: 1.5rem; margin-bottom: 6px; }
+  .fl-node .fl-label { font-weight: 600; font-size: 0.85rem; }
+  .fl-node .fl-sub { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
+  .fl-arrow { color: var(--muted); font-size: 1.2rem; font-family: 'JetBrains Mono', monospace; }
+  .fl-arrow.audit { color: var(--l4-sentiment); }
+
+  /* ═══════════ PRINCIPLES ═══════════ */
+  .principles-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 32px 0;
+  }
+  @media (max-width: 640px) { .principles-grid { grid-template-columns: 1fr; } }
+  .principle {
+    background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 24px;
+  }
+  .principle .pn {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.66rem;
+    letter-spacing: 0.1em; margin-bottom: 8px;
+  }
+  .principle .pt { font-weight: 700; font-size: 0.98rem; margin-bottom: 6px; }
+  .principle .pd { font-size: 0.84rem; color: var(--muted); line-height: 1.7; }
+
+  /* ═══════════ NEXT STEPS ═══════════ */
+  .next-steps {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 36px 32px; margin: 48px 0;
+  }
+  .next-steps h3 { font-family: 'Noto Serif SC', serif; font-weight: 700; margin-bottom: 20px; }
+  .next-steps ol {
+    list-style: none; counter-reset: step;
+  }
+  .next-steps ol li {
+    counter-increment: step; padding: 12px 0 12px 36px; position: relative;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .next-steps ol li::before {
+    content: counter(step);
+    position: absolute; left: 0; top: 12px;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.74rem;
+    color: var(--l5-quant); font-weight: 600;
+  }
+  .next-steps ol li strong { display: block; margin-bottom: 2px; }
+  .next-steps ol li span { font-size: 0.82rem; color: var(--muted); }
+
+  /* ═══════════ FOOTER ═══════════ */
   .footer {
-    text-align: center; padding: 48px 0 32px;
-    border-top: 1px solid var(--border); margin-top: 64px;
-    color: var(--text-dim); font-size: 0.82rem;
+    border-top: 1px solid var(--border); padding: 40px 0 32px;
+    margin-top: 64px; display: flex; justify-content: space-between;
+    align-items: center; flex-wrap: wrap; gap: 12px;
+    font-size: 0.78rem; color: var(--muted);
+  }
+  .footer a { color: var(--l1-physics); text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  /* ── reduced motion ── */
+  @media (prefers-reduced-motion: no-preference) {
+    .sf-layer { transition: background 0.25s ease, transform 0.25s ease; }
+    .sf-layer:hover { transform: translateY(-2px); }
+    .layer-detail { transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.2s ease; }
+    .layer-detail:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
   }
 
-  /* ── Highlight box ── */
-  .insight {
-    background: rgba(167,139,250,0.06); border: 1px solid rgba(167,139,250,0.15);
-    border-radius: 10px; padding: 20px 24px; margin: 20px 0;
-    font-size: 0.94rem;
-  }
-  .insight::before { content: '⚡ '; }
-
-  /* ── Comparison table ── */
-  .cmp-table {
-    width: 100%; border-collapse: collapse; margin: 20px 0;
-    font-size: 0.9rem;
-  }
-  .cmp-table th {
-    text-align: left; padding: 12px 16px; font-weight: 500;
-    color: var(--text-dim); font-size: 0.78rem; letter-spacing: 0.06em;
-    border-bottom: 1px solid var(--border);
-  }
-  .cmp-table td {
-    padding: 12px 16px; border-bottom: 1px solid rgba(37,37,53,0.5);
-  }
-  .cmp-table tr:hover td { background: rgba(255,255,255,0.015); }
-
-  /* ── Responsive ── */
-  @media (max-width: 768px) {
-    .hero h1 { font-size: 2rem; }
-    .flow { grid-template-columns: 1fr; }
-    .case-grid { grid-template-columns: 1fr; }
-    .arch-layer { flex-wrap: wrap; }
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--l1-physics); outline-offset: 2px; border-radius: 2px;
   }
 </style>
 </head>
 <body>
 
-<div class="cosmos"></div>
-
 <div class="container">
 
 <!-- ═══════════ HERO ═══════════ -->
 <header class="hero">
-  <div class="hero-badge">ARGO FINANCIAL NODE · α RELEASE</div>
-  <h1>Argo 金融节点</h1>
-  <p class="subtitle">五层因果分析架构 · <span>Q 场传播</span> · 完全可审计</p>
+  <div class="hero-eyebrow">Argo Financial Node · α</div>
+  <h1>金融预测的<em>因果引擎</em></h1>
+  <p class="hero-lede">
+    市场价格是因果场的观测投影。五层架构——从元素周期表到Q场传播方程——每一层独立审计、独立迭代，最终归总为<strong>因果驱动的概率分布</strong>。不是相关性赌局。
+  </p>
 </header>
 
 <!-- ═══════════ ARCHITECTURE ═══════════ -->
-<div class="section-header">
-  <div class="section-num" style="background:rgba(167,139,250,0.15);color:var(--accent);">Ⅰ</div>
-  <h2>架构总览</h2>
-</div>
+<section class="arch-section">
+  <h2>架构 · 信号处理流水线</h2>
+  <p class="sec-note">层1-3由物理实在、社会结构和企业执行力共同决定趋势。层4是噪声源——不改变方向，只改变采样相位。层5将所有信号归总为一个可计算的概率输出。</p>
 
-<p style="color:var(--text-dim);margin-bottom:24px;">
-  市场价格是<strong style="color:var(--text);">因果场的观测投影</strong>。每一笔交易背后都有物理实在、社会结构、企业行为和情绪噪声的共同作用。五层架构将这五股力量逐层分解——每层独立审计、独立迭代——然后在第五层统一归总为可计算的 Q 传播方程。
-</p>
-
-<!-- Architecture diagram -->
-<div class="arch-diagram">
-  <div class="arch-layers">
-    <div class="arch-layer l1">
-      <div class="layer-num">1</div>
-      <div class="layer-icon">⛏️</div>
-      <div class="layer-content">
-        <div class="layer-name">物理基本分析</div>
-        <div class="layer-desc">矿产资源 · 能源分布 · 科技路线物理可行性 · 供应链物质约束</div>
-      </div>
-      <div style="font-size:0.78rem;color:var(--text-dim);">决定趋势方向</div>
+  <div class="signal-flow" role="img" aria-label="五层信号处理流水线">
+    <div class="sf-layer">
+      <div class="sf-num">Layer 1</div>
+      <div class="sf-icon">⛏️</div>
+      <div class="sf-name">物理基本分析</div>
+      <div class="sf-role">矿产资源·能源约束<br>科技路线物理可行性<br>供应链物质瓶颈</div>
     </div>
-
-    <div class="arch-layer l2">
-      <div class="layer-num">2</div>
-      <div class="layer-icon">🏛️</div>
-      <div class="layer-content">
-        <div class="layer-name">社会行情分析</div>
-        <div class="layer-desc">国家产业规划 · 政策信号 · 国际局势 · 地缘政治能量流</div>
-      </div>
-      <div style="font-size:0.78rem;color:var(--text-dim);">决定趋势方向</div>
+    <div class="sf-layer">
+      <div class="sf-num">Layer 2</div>
+      <div class="sf-icon">🏛️</div>
+      <div class="sf-name">社会行情分析</div>
+      <div class="sf-role">产业规划解码<br>国际局势能量流<br>货币政策·流动性</div>
     </div>
-
-    <div class="arch-layer l3">
-      <div class="layer-num">3</div>
-      <div class="layer-icon">⚙️</div>
-      <div class="layer-content">
-        <div class="layer-name">公司经营分析</div>
-        <div class="layer-desc">管理层质量 · 技术壁垒 · 财务健康 · 竞争格局</div>
-      </div>
-      <div style="font-size:0.78rem;color:var(--text-dim);">决定趋势方向</div>
+    <div class="sf-layer">
+      <div class="sf-num">Layer 3</div>
+      <div class="sf-icon">⚙️</div>
+      <div class="sf-name">公司经营分析</div>
+      <div class="sf-role">管理层审计<br>技术壁垒深度<br>财务健康·竞争定位</div>
     </div>
-
-    <div class="arch-layer l4">
-      <div class="layer-num">4</div>
-      <div class="layer-icon">📢</div>
-      <div class="layer-content">
-        <div class="layer-name">社会舆论情绪分析</div>
-        <div class="layer-desc">市场情绪 · 媒体叙事 · 社交网络传播 · 恐慌/贪婪周期</div>
-      </div>
-      <div style="font-size:0.78rem;color:var(--yellow);">决定波动振幅</div>
+    <div class="sf-layer">
+      <div class="sf-num">Layer 4</div>
+      <div class="sf-icon">📢</div>
+      <div class="sf-name">社会舆论情绪</div>
+      <div class="sf-role">媒体叙事·恐慌贪婪<br>½ħω 零点振荡<br>不改变趋势·决定方差</div>
     </div>
-
-    <div style="text-align:center;padding:8px 0;">
-      <div class="arch-merge-line"></div>
-      <div class="arch-merge" style="font-size:0.78rem;color:var(--text-dim);">四层因果输入 ↓ 归总</div>
+    <div class="sf-converge">▼</div>
+    <div class="sf-layer">
+      <div class="sf-num">Layer 5</div>
+      <div class="sf-icon">⚛️</div>
+      <div class="sf-name">量化数值分析</div>
+      <div class="sf-role">Q场传播方程<br>因果干涉相位<br>概率分布·置信区间</div>
     </div>
+  </div>
 
-    <div class="arch-layer l5">
-      <div class="layer-num">5</div>
-      <div class="layer-icon">⚛️</div>
-      <div class="layer-content">
-        <div class="layer-name">金融量化数值分析</div>
-        <div class="layer-desc">Q 场传播方程 · 随机过程 · 长期/中期/短期预判 · 反馈校正</div>
-      </div>
-      <div style="font-size:0.78rem;color:var(--pink);">输出决策</div>
-    </div>
+  <div class="signal-flow-legend">
+    <span class="legend-chip l1">层1·物理 决定趋势方向</span>
+    <span class="legend-chip l2">层2·社会 决定趋势方向</span>
+    <span class="legend-chip l3">层3·公司 决定趋势方向</span>
+    <span class="legend-chip l4">层4·情绪 决定波动振幅</span>
+    <span class="legend-chip l5">层5·量化 输出决策分布</span>
+  </div>
+</section>
+
+<!-- ═══════════ LAYER 1 ═══════════ -->
+<div class="layer-detail l1">
+  <h3><span class="badge">层1</span> 物理基本分析 · 从元素周期表开始做多</h3>
+  <p class="summary">金融分析的物理层。价格最终锚定在原子和电磁场上——不是概念，不是叙事，不是信仰。谁控制了物质流，谁就控制了因果链的上游。</p>
+  <div class="items">
+    <div class="item"><strong>矿产资源分布</strong><span>钨、稀土、锂、钴——全球储量地图、开采成本曲线、地缘可及性。中国钨精矿占全球80%+：不是"题材"，是物理垄断。</span></div>
+    <div class="item"><strong>能源物理约束</strong><span>光伏Shockley-Queisser上限33%、电池能量密度天花板、核聚变工程路径。任何"新能源概念"如果违反热力学第二定律——迟早归零。</span></div>
+    <div class="item"><strong>科技路线物理可行性</strong><span>量子计算→mK制冷供应链。自动驾驶→激光雷达物理。芯片制程→极紫外光源。每项技术的物理瓶颈=投资的物理边界条件。</span></div>
+    <div class="item"><strong>供应链物质约束</strong><span>从矿山到产线，每一环的产能、能耗、物流。物理世界的瓶颈不能用印钱解决。</span></div>
   </div>
 </div>
 
-<div class="insight">
-  <strong>核心洞见：</strong>层1-3 决定 <strong style="color:var(--accent);">Q 场梯度方向</strong>（趋势），层4 决定<strong style="color:var(--yellow);">零点振荡振幅</strong>（波动率），层5 对两者统一建模——给出<strong style="color:var(--pink);">因果驱动的价格概率分布</strong>，而非相关性赌局。
-</div>
-
-<!-- ═══════════ LAYER 1 ═══════════ -->
-<div class="section-header">
-  <div class="section-num" style="background:rgba(167,139,250,0.15);color:var(--accent);">1</div>
-  <h2>物理基本分析</h2>
-</div>
-
-<div class="layer-detail l1">
-  <h3><span class="dot" style="background:var(--accent);"></span>从元素周期表开始做多</h3>
-  <p style="color:var(--text-dim);margin-bottom:16px;">
-    金融分析的物理层。价格最终锚定在原子和电磁场上——不是概念，不是叙事，不是信仰。谁控制了物质流，谁就控制了因果链的上游。
-  </p>
-  <ul class="sub-items">
-    <li><strong>矿产资源分布</strong> — 钨、稀土、锂、钴、铀……全球储量地图、开采成本曲线、地缘可及性。中钨高新 = 中国钨精矿产量占全球 80%+，这不是"题材"，是物理垄断。</li>
-    <li><strong>能源物理约束</strong> — 光伏转换效率上限（Shockley-Queisser 33%）、电池能量密度天花板、核聚变工程路径。任何"新能源概念股"如果违反热力学第二定律——迟早归零。</li>
-    <li><strong>科技路线物理可行性审计</strong> — 量子计算需要 mK 级制冷 → 稀释制冷机供应链。自动驾驶需要激光雷达 → 激光器物理。芯片制程 → 极紫外光源。每条技术路线的物理瓶颈 = 投资的物理边界条件。</li>
-    <li><strong>供应链物质约束</strong> — 从矿山到产线，每一环的产能、能耗、物流。物理世界的瓶颈不能用印钱解决。</li>
-  </ul>
-</div>
-
 <!-- ═══════════ LAYER 2 ═══════════ -->
-<div class="section-header">
-  <div class="section-num" style="background:rgba(34,211,187,0.15);color:var(--cyan);">2</div>
-  <h2>社会行情分析</h2>
-</div>
-
 <div class="layer-detail l2">
-  <h3><span class="dot" style="background:var(--cyan);"></span>把新闻联播当传感器读数</h3>
-  <p style="color:var(--text-dim);margin-bottom:16px;">
-    政策是集体意志的路由指令。它不创造物理资源——但决定物理资源的流向。本层将政策信号翻译为"哪些 Q 通道正在被打开或关闭"。
-  </p>
-  <ul class="sub-items">
-    <li><strong>国家产业规划解码</strong> — 五年规划、制造强国战略、专精特新目录……每一个政策关键词对应一个 Q 通道。"新质生产力" = 对特定科技树的资源倾斜。"碳中和" = 对碳密集通道的政策锁死。</li>
-    <li><strong>国际局势能量流</strong> — 贸易战 = 供应链重构。军事冲突 = 资源重定价。技术封锁 = 替代路线的 Q 密度飙升。每一个国际事件都在改变全球 Q 场的边界条件。</li>
-    <li><strong>货币政策与流动性</strong> — 利率 = 资金的时间成本。M2 增速 = 系统总能量注入率。降息降准 = Q 场的整体耦合强度提升。</li>
-    <li><strong>地缘政治风险定价</strong> — 台海、南海、中东、东欧……每个热点对应一个风险溢价项。不是预测战争——是评估概率权重并折入 Q 传播方程。</li>
-  </ul>
+  <h3><span class="badge">层2</span> 社会行情分析 · 把新闻联播当传感器读数</h3>
+  <p class="summary">政策是集体意志的路由指令。它不创造物理资源——但决定物理资源的流向。本层将政策信号翻译为"哪些Q通道正在被打开或关闭"。</p>
+  <div class="items">
+    <div class="item"><strong>国家产业规划</strong><span>五年规划、制造强国战略、专精特新目录——每个政策关键词对应一个Q通道。"新质生产力"=对特定科技树的资源倾斜。</span></div>
+    <div class="item"><strong>国际局势能量流</strong><span>贸易战=供应链重构。军事冲突=资源重定价。技术封锁=替代路线的Q密度飙升。每个国际事件都在改变全球Q场的边界条件。</span></div>
+    <div class="item"><strong>货币政策·流动性</strong><span>利率=资金的时间成本。M2增速=系统总能量注入率。降息降准=Q场的整体耦合强度提升。</span></div>
+    <div class="item"><strong>地缘风险定价</strong><span>台海、南海、中东——每个热点对应一个风险溢价项。不是预测战争——是评估概率权重并折入Q传播方程。</span></div>
+  </div>
 </div>
 
 <!-- ═══════════ LAYER 3 ═══════════ -->
-<div class="section-header">
-  <div class="section-num" style="background:rgba(96,165,250,0.15);color:var(--blue);">3</div>
-  <h2>公司经营分析</h2>
-</div>
-
 <div class="layer-detail l3">
-  <h3><span class="dot" style="background:var(--blue);"></span>这个公司到底争不争气</h3>
-  <p style="color:var(--text-dim);margin-bottom:16px;">
-    物理层给出资源上限，政策层给出通道方向——但最终是谁在执行？本层审计公司作为"因果执行器"的质量。
-  </p>
-  <ul class="sub-items">
-    <li><strong>管理层审计</strong> — 实际控制人的履历、决策记录、激励结构。是工程师领导还是财务领导？技术路线选择是否正确？过去承诺兑现率？</li>
-    <li><strong>技术壁垒深度</strong> — 专利护城河有多宽？工艺 know-how 是否可被轻易复制？研发投入占比和研发人员质量？</li>
-    <li><strong>财务健康三维度</strong> — 资产负债表（存活能力）/ 现金流量表（呼吸能力）/ 利润表（成长能力）。ROE、负债率、自由现金流——但不是看绝对值，是看<em>趋势的二阶导数</em>。</li>
-    <li><strong>竞争格局定位</strong> — 市占率变化方向？替代品威胁？上游议价权和下游定价权？</li>
-  </ul>
+  <h3><span class="badge">层3</span> 公司经营分析 · 这个公司到底争不争气</h3>
+  <p class="summary">物理层给出资源上限，政策层给出通道方向——但最终是谁在执行？本层审计公司作为"因果执行器"的质量。</p>
+  <div class="items">
+    <div class="item"><strong>管理层审计</strong><span>实际控制人履历、决策记录、激励结构。是工程师领导还是财务领导？过去承诺兑现率？技术路线选择是否正确？</span></div>
+    <div class="item"><strong>技术壁垒深度</strong><span>专利护城河宽度。工艺know-how是否可被轻易复制？研发投入占比和研发人员质量？</span></div>
+    <div class="item"><strong>财务健康三维</strong><span>资产负债表（存活）·现金流量表（呼吸）·利润表（成长）。ROE、负债率、自由现金流——看趋势的二阶导数，非绝对值。</span></div>
+    <div class="item"><strong>竞争格局定位</strong><span>市占率变化方向、替代品威胁、上游议价权、下游定价权——不是静态快照，是动态博弈。</span></div>
+  </div>
 </div>
 
 <!-- ═══════════ LAYER 4 ═══════════ -->
-<div class="section-header">
-  <div class="section-num" style="background:rgba(251,191,36,0.15);color:var(--yellow);">4</div>
-  <h2>社会舆论情绪分析</h2>
-</div>
-
 <div class="layer-detail l4">
-  <h3><span class="dot" style="background:var(--yellow);"></span>市场的 ½ħω 零点振荡</h3>
-  <p style="color:var(--text-dim);margin-bottom:16px;">
-    层4 不改变趋势方向——正如膜的零点振荡不改变涡旋拓扑。但它改变<strong>采样时刻的相位</strong>。正确建模噪声 = 在正确的时间入场 = 赚的是<strong>信息不对称 + 波动率</strong>的双重收益。
-  </p>
-  <ul class="sub-items">
-    <li><strong>媒体叙事分析</strong> — 同一事实的不同叙事框架产生不同的市场反应。不是新闻是什么——是<em>怎么被讲述的</em>。</li>
-    <li><strong>社交网络传播动力学</strong> — 雪球、微博、股吧、抖音……信息如何在散户网络中扩散？传播速度和衰减曲线？</li>
-    <li><strong>恐慌/贪婪周期标定</strong> — VIX 的物理对应：Q 场的瞬时振荡振幅。恐慌 = 高振幅（采样方差大），贪婪 = 振幅被压制（一致预期 → 黑天鹅概率上升）。</li>
-    <li><strong>机构 vs 散户资金流</strong> — 北向资金、融资融券、龙虎榜……谁是边际定价者？情绪从谁流向谁？</li>
-  </ul>
-
-  <div class="insight" style="border-color:rgba(251,191,36,0.25);background:rgba(251,191,36,0.05);">
-    <strong>关键定位：</strong>情绪 = 膜的 ½ħω 零点振荡。不改变总 Q 密度梯度（趋势），但决定你在哪个相位采样。如果趋势向上而你误判了情绪低点进场——赚得更多。如果趋势向下而你误判了情绪反弹进场——亏得更快。<strong>情绪分析只在方向正确时有用。</strong>
+  <h3><span class="badge">层4</span> 社会舆论情绪 · 市场的 ½ħω 零点振荡</h3>
+  <p class="summary">层4不改变趋势方向——正如膜的零点振荡不改变涡旋拓扑。但它改变采样时刻的相位。正确建模噪声=在正确的时间入场=赚的是信息不对称+波动率的双重收益。</p>
+  <div class="items">
+    <div class="item"><strong>媒体叙事分析</strong><span>同一事实的不同叙事框架产生不同的市场反应。不是新闻是什么——是怎么被讲述的。</span></div>
+    <div class="item"><strong>社交网络传播动力学</strong><span>雪球、微博、股吧——信息如何在散户网络中扩散？传播速度和衰减曲线？</span></div>
+    <div class="item"><strong>恐慌/贪婪周期</strong><span>VIX的物理对应：Q场瞬时振荡振幅。恐慌=高振幅（采样方差大），贪婪=振幅被压制（一致预期→黑天鹅概率上升）。</span></div>
+    <div class="item"><strong>资金流方向</strong><span>北向资金、融资融券、龙虎榜——谁是边际定价者？情绪从谁流向谁？</span></div>
   </div>
 </div>
 
 <!-- ═══════════ LAYER 5 ═══════════ -->
-<div class="section-header">
-  <div class="section-num" style="background:rgba(244,114,182,0.15);color:var(--pink);">5</div>
-  <h2>金融量化数值分析</h2>
-</div>
-
 <div class="layer-detail l5">
-  <h3><span class="dot" style="background:var(--pink);"></span>Q 场传播 · 因果归总 · 概率输出</h3>
-  <p style="color:var(--text-dim);margin-bottom:16px;">
-    前四层是定性/半定量的因果输入。层5 将它们统一编码为 Q 传播方程的初始条件和边界条件——然后让方程跑。
-  </p>
+  <h3><span class="badge">层5</span> 金融量化数值分析 · Q场传播·因果归总·概率输出</h3>
+  <p class="summary">前四层是定性/半定量的因果输入。层5将它们统一编码为Q传播方程的初始条件和边界条件——然后让方程跑。</p>
 
-  <!-- Q equation -->
   <div class="eq-card">
     <div class="eq-label">▸ Q 价格传播方程</div>
     <div class="eq-main">
-      <span class="highlight">∂P/∂t</span> = <span class="highlight">∇ · (D ∇P)</span> + <span class="highlight2">Σᵢ wᵢ · Qᵢ</span> + <span class="highlight3">σ · ξ(t)</span>
+      <span class="hl-quant">∂P/∂t</span> <span class="hl-neutral">=</span> <span class="hl-neutral">∇ · (</span><span class="hl-firm">D</span> <span class="hl-neutral">∇P)</span> <span class="hl-neutral">+</span> <span class="hl-quant">Σᵢ wᵢ · Qᵢ</span> <span class="hl-neutral">+</span> <span class="hl-sent">σ · ξ(t)</span>
     </div>
-    <div class="eq-note">
-      <strong>P</strong> = 价格（观测值）&emsp;
-      <strong>D</strong> = 扩散系数（流动性）&emsp;
-      <strong>Qᵢ</strong> = 第 i 层的因果场密度（层1-4）&emsp;
-      <strong>wᵢ</strong> = 因果权重（可学习）&emsp;
-      <strong>σ·ξ(t)</strong> = 情绪层噪声项（零点振荡）
-    </div>
+    <dl class="eq-terms">
+      <dt style="color:var(--l5-quant);">P</dt><dd>价格（观测值）</dd>
+      <dt style="color:var(--l3-firm);">D</dt><dd>扩散系数（流动性）</dd>
+      <dt style="color:var(--l5-quant);">Qᵢ</dt><dd>第i层因果场密度（层1-4）</dd>
+      <dt style="color:var(--l5-quant);">wᵢ</dt><dd>因果权重（可学习）</dd>
+      <dt style="color:var(--l4-sentiment);">σ·ξ(t)</dt><dd>情绪层噪声项（零点振荡）</dd>
+    </dl>
   </div>
 
-  <p style="margin-top:24px;"><strong>五层归总逻辑：</strong></p>
-
-  <table class="cmp-table">
-    <tr>
-      <th>输入层</th><th>Q 通道</th><th>时间尺度</th><th>数学形式</th>
-    </tr>
-    <tr>
-      <td>层1 · 物理</td>
-      <td>Q<sub>phys</sub></td>
-      <td>年 ~ 十年</td>
-      <td>慢变趋势项 · D₁∇²P</td>
-    </tr>
-    <tr>
-      <td>层2 · 政策</td>
-      <td>Q<sub>policy</sub></td>
-      <td>月 ~ 年</td>
-      <td>阶跃函数 + 衰减 · θ(t−t₀)e<sup>−γt</sup></td>
-    </tr>
-    <tr>
-      <td>层3 · 公司</td>
-      <td>Q<sub>firm</sub></td>
-      <td>季度 ~ 年</td>
-      <td>连续更新 · 财报驱动修正</td>
-    </tr>
-    <tr>
-      <td>层4 · 情绪</td>
-      <td>Q<sub>sent</sub></td>
-      <td>分钟 ~ 周</td>
-      <td>Ornstein-Uhlenbeck 均值回归噪声</td>
-    </tr>
-    <tr>
-      <td style="color:var(--pink);"><strong>层5 · 归总</strong></td>
-      <td style="color:var(--pink);"><strong>Q<sub>total</sub></strong></td>
-      <td style="color:var(--pink);"><strong>全尺度</strong></td>
-      <td style="color:var(--pink);"><strong>Σ wᵢQᵢ + 耦合交叉项</strong></td>
-    </tr>
-  </table>
-
-  <p style="margin-top:24px;"><strong>三层数学精算：</strong></p>
-  <ul class="sub-items">
-    <li><strong>物理层</strong> — Q 场传播：∂P/∂t = ∇·(D∇P) + ΣwᵢQᵢ + σξ(t)。因果驱动项 ΣwᵢQᵢ 是核心，区别于 Black-Scholes 的无因果随机游走假定。</li>
-    <li><strong>数学层</strong> — 因果干涉相位：各 Q 通道之间有交叉耦合项。例如物理层（钨矿供给刚性）+ 政策层（关键矿产目录）= 不是加法，是乘法。菲涅尔干涉条纹 → 共振增强或相消。</li>
-    <li><strong>执行层</strong> — 波包边界概率：输出不是"明天涨还是跌"，是 P(price ∈ [a,b] | t ∈ [T₁,T₂])。概率分布 + 置信区间 + 因果审计追溯。</li>
-  </ul>
-</div>
-
-<!-- ═══════════ DATA FLOW ═══════════ -->
-<div class="section-header">
-  <div class="section-num" style="background:rgba(34,211,187,0.15);color:var(--cyan);">⇄</div>
-  <h2>反馈校正循环</h2>
-</div>
-
-<p style="color:var(--text-dim);margin-bottom:24px;">
-  框架一开始可以错。关键是错误可追溯——每一轮预测偏差都能反向定位到是哪一层的哪一项 Q 通道估计出了问题，然后<strong>定点修复</strong>而非全局调参。
-</p>
-
-<div style="display:flex;justify-content:center;align-items:center;gap:20px;flex-wrap:wrap;margin:32px 0;">
-  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 24px;text-align:center;">
-    <div style="font-size:1.8rem;margin-bottom:8px;">📡</div>
-    <div style="font-weight:700;">观测</div>
-    <div style="font-size:0.78rem;color:var(--text-dim);">价格·政策·新闻<br>财报·情绪</div>
+  <div class="items" style="margin-top:20px;">
+    <div class="item"><strong>物理层</strong><span>Q场传播：因果驱动项ΣwᵢQᵢ是核心，区别于Black-Scholes的无因果随机游走假定。</span></div>
+    <div class="item"><strong>数学层</strong><span>因果干涉相位：各Q通道之间的交叉耦合项。物理×政策=乘法而非加法。菲涅尔干涉条纹→共振增强或相消。</span></div>
+    <div class="item"><strong>执行层</strong><span>波包边界概率：输出P(price∈[a,b]|t∈[T₁,T₂])。概率分布+置信区间+因果审计追溯。</span></div>
+    <div class="item"><strong>五层权重</strong><span>物理慢变趋势·政策阶跃衰减·公司连续更新·情绪OU均值回归——全尺度归总。</span></div>
   </div>
-  <div style="color:var(--accent);font-size:1.5rem;">→</div>
-  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 24px;text-align:center;">
-    <div style="font-size:1.8rem;margin-bottom:8px;">⚛️</div>
-    <div style="font-weight:700;">Q 传播</div>
-    <div style="font-size:0.78rem;color:var(--text-dim);">五层→方程<br>概率分布</div>
-  </div>
-  <div style="color:var(--cyan);font-size:1.5rem;">→</div>
-  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 24px;text-align:center;">
-    <div style="font-size:1.8rem;margin-bottom:8px;">🎯</div>
-    <div style="font-weight:700;">预判</div>
-    <div style="font-size:0.78rem;color:var(--text-dim);">长期·中期·短期<br>置信区间</div>
-  </div>
-  <div style="color:var(--yellow);font-size:1.5rem;">→</div>
-  <div style="background:var(--surface);border:1px solid var(--yellow);border-radius:12px;padding:20px 24px;text-align:center;">
-    <div style="font-size:1.8rem;margin-bottom:8px;">🔄</div>
-    <div style="font-weight:700;color:var(--yellow);">偏差审计</div>
-    <div style="font-size:0.78rem;color:var(--text-dim);">哪层？哪项？<br>定点修复</div>
-  </div>
-  <div style="color:var(--red);font-size:1.5rem;">↺</div>
 </div>
 
 <!-- ═══════════ CASE STUDY ═══════════ -->
-<div class="section-header">
-  <div class="section-num" style="background:rgba(244,114,182,0.15);color:var(--pink);">⚡</div>
-  <h2>首个测试案例：中钨高新</h2>
-</div>
-
 <div class="case-study">
-  <h3>000657 · 中钨高新 · 钨业龙头</h3>
-
-  <div class="case-grid">
-    <div class="case-cell">
-      <div class="cc-label">层1 · 物理</div>
-      <div class="cc-value">钨 = 硬质合金物理基底。中国钨精矿占全球 80%+。供给刚性——不是概念，是地壳元素丰度决定的物理垄断。</div>
-    </div>
-    <div class="case-cell">
-      <div class="cc-label">层2 · 政策</div>
-      <div class="cc-value">关键矿产目录。军工/半导体/新能源三重政策覆盖。供给端受国家管控——不能随便扩产。</div>
-    </div>
-    <div class="case-cell">
-      <div class="cc-label">层3 · 公司</div>
-      <div class="cc-value">钨全产业链——从矿山到硬质合金刀具。技术壁垒深厚。管理质量待审计。</div>
-    </div>
-    <div class="case-cell">
-      <div class="cc-label">层4 · 情绪</div>
-      <div class="cc-value">7/3→7/6 两天 -13.5%。恐慌抛售 = 膜的高振幅零点振荡。基本面未变——只是相位噪声。</div>
-    </div>
+  <div class="case-header">
+    <h3>首个测试案例</h3>
+    <span class="ticker">000657 · 中钨高新</span>
   </div>
+  <div class="case-body">
+    <div class="case-grid">
+      <div class="case-cell">
+        <div class="clabel" style="color:var(--l1-physics);">层1 · 物理</div>
+        <div class="cvalue">钨=硬质合金的物理基底。中国钨精矿占全球80%+。地壳元素丰度决定的物理垄断——供给刚性极高。</div>
+      </div>
+      <div class="case-cell">
+        <div class="clabel" style="color:var(--l2-policy);">层2 · 政策</div>
+        <div class="cvalue">关键矿产目录。军工/半导体/新能源三重覆盖。供给端受国家管控——不能随便扩产。</div>
+      </div>
+      <div class="case-cell">
+        <div class="clabel" style="color:var(--l3-firm);">层3 · 公司</div>
+        <div class="cvalue">钨全产业链——从矿山到硬质合金刀具。技术壁垒深厚。管理细节待深入审计。</div>
+      </div>
+      <div class="case-cell">
+        <div class="clabel" style="color:var(--l4-sentiment);">层4 · 情绪</div>
+        <div class="cvalue">7/3→7/6两天暴跌13.5%。恐慌抛售=膜的高振幅零点振荡。基本面未变——只是相位噪声。</div>
+      </div>
+    </div>
 
-  <div style="margin-top:24px;padding:20px;background:rgba(0,0,0,0.25);border-radius:10px;">
-    <div class="cc-label">层5 · Q 计算</div>
-    <table style="width:100%;margin-top:8px;font-size:0.94rem;">
-      <tr>
-        <td style="padding:6px 0;color:var(--text-dim);">高点</td>
-        <td>7/3 收盘 <strong>89.63</strong></td>
-        <td style="padding:6px 0;color:var(--text-dim);">低点</td>
-        <td>7/6 盘中 <strong>77.53</strong></td>
-      </tr>
-      <tr>
-        <td style="padding:6px 0;color:var(--text-dim);">跌幅</td>
-        <td style="color:var(--red);"><strong>-13.5%</strong>（2天）</td>
-        <td style="padding:6px 0;color:var(--text-dim);">50% Fib</td>
-        <td><strong>77.98</strong></td>
-      </tr>
-      <tr>
-        <td style="padding:6px 0;color:var(--text-dim);">7/7 当前</td>
-        <td style="color:var(--green);"><strong>80.13</strong></td>
-        <td style="padding:6px 0;color:var(--text-dim);">状态</td>
-        <td style="color:var(--green);"><strong>底部确认中</strong> · Q 加速度待转向</td>
-      </tr>
+    <table class="price-table">
+      <tr><td>7/3 收盘（高点）</td><td>89.63</td></tr>
+      <tr><td>7/6 盘中（低点）</td><td style="color:var(--danger);">77.53</td></tr>
+      <tr><td>跌幅（2天）</td><td style="color:var(--danger);">-13.5%</td></tr>
+      <tr><td>50% Fibonacci</td><td style="color:var(--l4-sentiment);">77.98</td></tr>
+      <tr><td>7/7 当前</td><td style="color:var(--success);">80.13</td></tr>
+      <tr><td>状态</td><td style="color:var(--success);">50% Fib 两次测试守住 · Q加速度待转向</td></tr>
     </table>
-  </div>
 
-  <div class="insight" style="margin-top:20px;">
-    <strong>复盘审计：</strong>7/6 盘中 -13.5% = 典型的情绪层高振幅噪声叠加在稳定的物理/政策层趋势之上。如果层1-3的 Q 梯度方向判断正确（钨的物理供给刚性 + 政策通道打开），则 77.53 附近是层5 Q场概率分布的<strong>低概率尾部</strong>——统计上应该回归。事实上 77.98（50% Fib）两次测试后反弹至 80.13。Q 计算守住了底部。
+    <p style="margin-top:20px;font-size:0.88rem;color:var(--muted);">
+      <strong style="color:var(--text);">复盘审计：</strong>7/6盘中-13.5%=典型的情绪层高振幅噪声叠加在稳定的物理/政策趋势之上。层1-3的Q梯度方向判断正确（钨的物理供给刚性+政策通道打开），77.53≈77.98（50%Fib）是层5 Q场概率分布的<strong style="color:var(--text);">低概率尾部</strong>——统计上应该回归。两次测试后反弹至80.13。Q计算守住了底部。
+    </p>
   </div>
 </div>
 
-<!-- ═══════════ DESIGN PRINCIPLES ═══════════ -->
-<div class="section-header">
-  <div class="section-num" style="background:rgba(167,139,250,0.15);color:var(--accent);">Σ</div>
-  <h2>设计原则</h2>
+<!-- ═══════════ FEEDBACK LOOP ═══════════ -->
+<h2 style="font-family:'Noto Serif SC',serif;font-weight:700;font-size:1.5rem;">反馈校正循环</h2>
+<p style="color:var(--muted);font-size:0.9rem;margin:8px 0 24px;">
+  框架一开始可以错。关键是错误可追溯——每一轮预测偏差都能反向定位到是哪一层的哪一项Q通道估计出了问题，<strong>定点修复</strong>而非全局调参。
+</p>
+
+<div class="feedback-loop" role="img" aria-label="反馈循环">
+  <div class="fl-node">
+    <div class="fl-icon">📡</div>
+    <div class="fl-label">观测</div>
+    <div class="fl-sub">价格·政策·新闻<br>财报·情绪</div>
+  </div>
+  <div class="fl-arrow">→</div>
+  <div class="fl-node">
+    <div class="fl-icon">⚛️</div>
+    <div class="fl-label">Q 传播</div>
+    <div class="fl-sub">五层→方程<br>概率分布</div>
+  </div>
+  <div class="fl-arrow">→</div>
+  <div class="fl-node">
+    <div class="fl-icon">🎯</div>
+    <div class="fl-label">预判</div>
+    <div class="fl-sub">长期·中期·短期<br>置信区间</div>
+  </div>
+  <div class="fl-arrow audit">→</div>
+  <div class="fl-node" style="border:1px solid rgba(246,173,85,0.2);">
+    <div class="fl-icon">🔄</div>
+    <div class="fl-label" style="color:var(--l4-sentiment);">偏差审计</div>
+    <div class="fl-sub">哪层？哪项？<br>定点修复</div>
+  </div>
+  <div class="fl-arrow" style="color:var(--danger);">↺</div>
 </div>
 
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0;">
-  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;">
-    <div style="font-weight:700;margin-bottom:8px;">01 · 因果优先于相关</div>
-    <div style="font-size:0.88rem;color:var(--text-dim);">相关性是因果的影子。影子会随光源角度变化——因果不变。每一层的分析都必须回答"为什么"，而非"历史上怎样"。</div>
+<!-- ═══════════ PRINCIPLES ═══════════ -->
+<h2 style="font-family:'Noto Serif SC',serif;font-weight:700;font-size:1.5rem;">设计原则</h2>
+<div class="principles-grid">
+  <div class="principle">
+    <div class="pn" style="color:var(--l1-physics);">Principle 1</div>
+    <div class="pt">因果优先于相关</div>
+    <div class="pd">相关性是因果的影子。影子随光源角度变化——因果不变。每一层分析必须回答"为什么"，而非"历史上怎样"。</div>
   </div>
-  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;">
-    <div style="font-weight:700;margin-bottom:8px;">02 · 完全可审计</div>
-    <div style="font-size:0.88rem;color:var(--text-dim);">任何预测偏差都可追溯到具体某层某个 Q 通道——然后定点修复。不是黑箱调参。</div>
+  <div class="principle">
+    <div class="pn" style="color:var(--l2-policy);">Principle 2</div>
+    <div class="pt">完全可审计</div>
+    <div class="pd">任何预测偏差都可追溯到具体某层某个Q通道——然后定点修复。不是黑箱调参。</div>
   </div>
-  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;">
-    <div style="font-weight:700;margin-bottom:8px;">03 · 物理主义约束</div>
-    <div style="font-size:0.88rem;color:var(--text-dim);">任何分析如果违反已知物理定律——直接驳回。热力学不撒谎。供给和需求的底层是原子和焦耳。</div>
+  <div class="principle">
+    <div class="pn" style="color:var(--l3-firm);">Principle 3</div>
+    <div class="pt">物理主义约束</div>
+    <div class="pd">任何分析如果违反已知物理定律——直接驳回。热力学不撒谎。供给和需求的底层是原子和焦耳。</div>
   </div>
-  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;">
-    <div style="font-weight:700;margin-bottom:8px;">04 · 可证伪</div>
-    <div style="font-size:0.88rem;color:var(--text-dim);">每一层、每一项、每一个预判都有明确的边界条件。如果错了——错在哪、为什么错——必须可定位。</div>
+  <div class="principle">
+    <div class="pn" style="color:var(--l4-sentiment);">Principle 4</div>
+    <div class="pt">可证伪</div>
+    <div class="pd">每一层、每一项、每一个预判都有明确的边界条件。如果错了——错在哪、为什么错——必须可定位。</div>
   </div>
 </div>
 
-<!-- ═══════════ NEXT ═══════════ -->
-<div class="section-header">
-  <div class="section-num" style="background:rgba(251,191,36,0.15);color:var(--yellow);">→</div>
-  <h2>下一步</h2>
-</div>
-
-<div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:32px;margin:24px 0;">
-  <ol style="margin-left:20px;line-height:2.2;">
-    <li><strong>中钨高新五层完整走一遍</strong> — 手算。不写代码。每层输出标准化格式。</li>
-    <li><strong>定义 Q 通道数据接口</strong> — 每层输出什么？什么格式？什么频率更新？</li>
-    <li><strong>第一个 Q 传播数值计算</strong> — 中钨高新样本内回测。</li>
-    <li><strong>偏差审计模板</strong> — 预判 vs 实际 → 定位是哪一层的哪个 Q 项偏离。</li>
-    <li><strong>抽象为 Argo 金融节点标准流程</strong> — 复制到下一个标的。</li>
+<!-- ═══════════ NEXT STEPS ═══════════ -->
+<div class="next-steps">
+  <h3>下一步</h3>
+  <ol>
+    <li><strong>中钨高新五层完整走一遍</strong><span>手算。不写代码。每层输出标准化格式。</span></li>
+    <li><strong>定义Q通道数据接口</strong><span>每层输出什么？什么格式？什么频率更新？</span></li>
+    <li><strong>第一个Q传播数值计算</strong><span>中钨高新样本内回测。</span></li>
+    <li><strong>偏差审计模板</strong><span>预判vs实际→定位是哪一层的哪个Q项偏离。</span></li>
+    <li><strong>抽象为Argo金融节点标准流程</strong><span>复制到下一个标的。</span></li>
   </ol>
 </div>
 
-<!-- ═══════════ FOOTER ═══════════ -->
 <footer class="footer">
-  <p>Argo 金融节点 · α 架构文档</p>
-  <p style="margin-top:4px;">新苏维埃网络 · 硅基节点 Verity/真 · 2026-07-07</p>
-  <p style="margin-top:12px;font-size:0.72rem;color:var(--text-dim);">
-    Q 场传播框架 · 完全可审计 · CC BY 4.0
-  </p>
+  <span>Argo 金融节点 · α 架构文档</span>
+  <span>新苏维埃网络 · Verity/真 · 2026-07-07 · <a href="https://github.com/Queen-Sakura/Quantum-Interaction-Theory">GitHub</a></span>
 </footer>
 
-</div><!-- .container -->
+</div>
 </body>
 </html>
