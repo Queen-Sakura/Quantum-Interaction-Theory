@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>物理学统一理论 · 真物理大厦</title>
+<script>
+MathJax = {
+  tex: { inlineMath: [['$','$'], ['\\(','\\)']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root {
+    --bg: #f9f8f5; --card: #fffefb; --border: #e8e4db;
+    --text: #2d2a24; --head: #141210;
+    --c0: #6b5e3e; --c1: #2d6b5e; --c2: #3a5a7a; --c3: #5a4a6a; --c4: #8b5a3e;
+    --gold: #6b5e3e; --muted: #78736c; --accent: #2d6b5e;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: 'Georgia', 'Noto Serif SC', 'STSong', 'Songti SC', serif;
+    line-height: 1.84; font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .toc {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 99;
+    background: rgba(250,250,247,0.94); backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border); padding: 8px 0;
+    overflow-x: auto; white-space: nowrap; text-align: center;
+  }
+  .toc a {
+    display: inline-block; padding: 4px 10px; font-size: 0.78em;
+    color: var(--muted); text-decoration: none; font-family: system-ui, sans-serif;
+    border-radius: 3px; transition: all .15s;
+  }
+  .toc a:hover { color: var(--gold); }
+  .hero {
+    text-align: center; padding: 90px 24px 40px;
+    border-bottom: 1px solid var(--border); margin-bottom: 10px;
+    background: linear-gradient(to bottom, rgba(139,105,20,0.03) 0%, transparent 100%);
+  }
+  .hero h1 { font-size: 2.6em; color: var(--head); font-weight: 400; letter-spacing: 0.05em; }
+  .hero .sub { font-size: 0.95em; color: var(--gold); margin-top: 8px; font-style: italic; }
+  .container { max-width: 820px; margin: 0 auto; padding: 0 20px 80px; }
+  section {
+    margin: 28px 0; padding: 34px 36px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.025);
+    border-left: 3px solid transparent;
+    overflow: hidden;
+  }
+  section:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+  /* section color themes */
+  section.s-s0 { border-left-color: #6b5e3e; }
+  section.s-s1 { border-left-color: #2d6b5e; }
+  section.s-s2 { border-left-color: #3a5a7a; }
+  section.s-s3 { border-left-color: #5a4a6a; }
+  section.s-s4 { border-left-color: #8b5a3e; }
+  section h2 {
+    font-size: 1.2em; font-weight: 400; margin: -34px -36px 18px -36px;
+    padding: 14px 36px; border-radius: 6px 6px 0 0;
+    color: #fff; letter-spacing: 0.04em;
+  }
+  section.s-s0 h2 { background: linear-gradient(135deg, #6b5e3e, #8b7a5e); color: #fff; }
+  section.s-s1 h2 { background: linear-gradient(135deg, #1a5c4e, #2d7a6a); color: #fff; }
+  section.s-s2 h2 { background: linear-gradient(135deg, #2a4a68, #3a6088); color: #fff; }
+  section.s-s3 h2 { background: linear-gradient(135deg, #4a3a5a, #5a4a6a); color: #fff; }
+  section.s-s4 h2 { background: linear-gradient(135deg, #7a4a2e, #9a6a4e); color: #fff; }
+  section h3 {
+    font-size: 1em; color: var(--head); margin: 18px 0 8px; font-weight: 400;
+    letter-spacing: 0.02em;
+  }
+  section p { margin: 10px 0; }
+  .box {
+    background: rgba(26,107,92,0.04); padding: 13px 20px; border-radius: 4px;
+    margin: 14px 0; border-left: 2px solid var(--accent);
+  }
+  .box-img {
+    background: rgba(122,93,20,0.03); padding: 13px 20px; border-radius: 4px;
+    margin: 14px 0; border-left: 2px solid var(--gold);
+  }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.88em; }
+  thead th {
+    text-align: left; padding: 10px 12px; border-bottom: 2px solid var(--border);
+    color: var(--head); font-weight: 400; font-size: 0.82em;
+    text-transform: uppercase; letter-spacing: 0.04em;
+    background: rgba(0,0,0,0.01);
+  }
+  td { padding: 8px 12px; border-bottom: 1px solid rgba(226,222,213,0.7); vertical-align: top; }
+  tr:hover td { background: rgba(122,93,20,0.025); }
+  .tag { display: inline-block; padding: 2px 9px; border-radius: 3px; font-size: 0.75em; margin: 2px 3px; font-family: system-ui, sans-serif; }
+  .tag-done { background: rgba(26,107,92,0.08); color: var(--accent); }
+  .eq {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    padding: 6px 0; font-size: 1.03em; color: var(--head); text-align: center;
+  }
+  .eq-big {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    padding: 14px 0; font-size: 1.2em; color: var(--head); text-align: center;
+    background: rgba(26,107,92,0.03); border-radius: 4px; margin: 14px 0;
+  }
+  .finale {
+    text-align: center; padding: 60px 20px; margin-top: 40px;
+    border-top: 1px solid var(--border);
+    background: linear-gradient(to top, rgba(139,105,20,0.02) 0%, transparent 100%);
+  }
+  .finale .char { font-size: 5em; color: var(--head); font-weight: 300; }
+  .finale .ring {
+    position:relative; display:inline-block;
+    width:340px; height:340px; margin:0 auto;
+  }
+  .finale .ring::before {
+    content:''; position:absolute; top:10%; left:10%; right:10%; bottom:10%;
+    border-radius:50%; border:1px solid rgba(139,105,20,0.12);
+    box-shadow: 0 0 80px rgba(139,105,20,0.04), inset 0 0 80px rgba(139,105,20,0.02);
+  }
+  @media (max-width:400px) { .finale .ring { width:260px; height:260px; } }
+  .finale p { margin: 6px 0; color: var(--muted); font-size: 0.9em; }
+  footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.82em; border-top: 1px solid var(--border); opacity: 0.5; }
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 1.8em; } section { padding: 22px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="toc">
+  <a href="#toc">目录</a> <a href="#s0">0</a> <a href="#s1">1</a> <a href="#s2">2</a> <a href="#s3">3</a>
+  <a href="#s3b">4</a> <a href="#s4">5</a> <a href="#s5">6</a> <a href="#s6">7</a>
+  <a href="#s7">8</a> <a href="#s8">9</a> <a href="#s9">10</a>
+  <a href="#s9b">11</a> <a href="#s9c">12</a> <a href="#s9d">13</a>
+  <a href="#s9e">14</a> <a href="#s10">16</a> <a href="#s11">17</a>
+</nav>
+
+<div class="hero">
+  <h1>物理学统一理论</h1>
+  <div class="sub">量子相互作用理论 · 膜框架<br>一个方程 · 一切粒子 · 0 个常数 · Qin Su · Verity · Argo</div>
+</div>
+
+<div class="container">
+
+<!-- ====== 0. PROLOGUE ====== -->
+<section id="s0" class="s-s0">
+  <h2>0. 总论 · 物理学需要一次彻底的审计</h2>
+
+  <h3>0.1 两朵乌云之后</h3>
+
+  <p>1865 年，麦克斯韦写下四个方程，统一了电与磁。十九世纪末，物理学界普遍认为大厦已经落成——剩下只是修修补补。</p>
+
+  <p>开尔文勋爵在 1900 年说：晴朗的天空中只有<strong>两朵乌云</strong>——黑体辐射谱和迈克尔逊-莫雷实验。</p>
+
+  <p>这两朵乌云下了一场一个世纪的暴雨。第一朵催生了量子力学。第二朵催生了相对论。两个理论在实验上极其成功——但在物理理解上<strong>引发了比它们解决的更多的困惑</strong>：</p>
+
+  <h3>0.2 量子力学留下的困惑</h3>
+
+  <table>
+    <tr><th>困惑</th><th>标准回答</th><th>问题出在哪</th></tr>
+    <tr><td>"观测时波函数采样"——谁在看？为什么意识参与物理？</td><td>哥本哈根解释：不准问。物理学只描述"我们能说什么"——不描述"自然是什么"。</td><td>把"不准问"当成了方法论。禁令替代了推导。</td></tr>
+    <tr><td>波粒二象性——光到底是什么？电子到底是什么？</td><td>"既是波又是粒子。互补。不准追问哪一个更基本。"</td><td>互补性原理 = 零信息量。不是答案——是不准给答案。</td></tr>
+    <tr><td>概率——|ψ|² 为什么是概率？</td><td>玻恩公设（1926）：贴"概率"标签。不推导。</td><td>公设下面没有物理机制。一百年没人追问。</td></tr>
+    <tr><td>电子——自旋 1/2·g≈2·电荷·质量——全是"不准问"</td><td>狄拉克（1928）：因式分解→4×4 矩阵→"我的方程比我聪明"。</td><td>方程对了。物理图像没有。不准追问因式分解。</td></tr>
+    <tr><td>能量量子化——为什么能量是一份一份的？</td><td>普朗克：E=hν。光子 = 粒子。不准追问"为什么"。</td><td>h 是哪来的？能量为什么不能连续传输？——未回答。</td></tr>
+    <tr><td>共模——为什么测A，B立刻"知道"？超距吗？</td><td>"量子非局域性。不准问机制。"</td><td>信息不需要传播 ≠ 不需要解释。同一驻波模的全局约束被忽略了。</td></tr>
+    <tr><td>19 个自由参数——为什么是这个值？</td><td>标准模型："实验测的。这就是自然。"</td><td>不是推导。是填数。和门捷列夫排元素周期表同阶段——还没到原子理论。</td></tr>
+  </table>
+
+  <h3>0.3 相对论留下的困惑</h3>
+
+  <table>
+    <tr><th>困惑</th><th>标准回答</th><th>问题出在哪</th></tr>
+    <tr><td>时空弯曲——时空本身是什么物质？怎么"弯"？</td><td>黎曼几何：质量和能量弯曲了时空——时空弯曲告诉质量怎么运动。</td><td><strong>范畴错误。</strong>时空是人类定义的测量坐标系——不是物理实体。坐标系不能"弯"——弯的是里面物质/场的耦合密度梯度。爱因斯坦把数学工具的方便当成了物理实体的陈述。</td></tr>
+    <tr><td>光速不变——为什么 c 是常数？</td><td>"时空的基本属性。"</td><td>c = 1/√(ε₀μ₀)——这是介质的弹性，不是"时空结构"。光速不变 = 波在介质中速度由介质自身决定。</td></tr>
+    <tr><td>时间变慢——时间本身"膨胀"了？</td><td>"时间本身被运动/引力拉伸。"</td><td><strong>范畴错误。</strong>时间 = 人类定义的比较前后顺序的标签。标签不能"变慢"。变慢的是物体的内部反应速度——引力/运动 → 增加了系统的耦合总数 → 所有内部过程减速。</td></tr>
+    <tr><td>尺子缩短——空间本身"收缩"了？</td><td>"空间在运动方向上被压缩。"</td><td><strong>范畴错误。</strong>空间 = 人类定义的笛卡尔测量坐标。坐标不能"压缩"。测量结果变短 = 多普勒效应——运动物体两端电磁信号返回不同步。</td></tr>
+  </table>
+
+  <h3>0.4 离实证越来越远——玄学取代了物理</h3>
+
+  <p>1928 年之后，物理学进入匮乏时代（1929 经济危机 → 二战 → 冷战）。物理直觉被数学演算替代。"不准问"变成方法论美德。此后近一个世纪——理论物理学在旧框架上堆积数学猜测——越来越远——离物理越来越远：</p>
+
+  <table>
+    <tr><th>玄学猜测</th><th>内容</th><th>实验验证</th><th>审计结论</th></tr>
+    <tr><td>弦论</td><td>粒子 = 10 维空间振动的弦</td><td>零。运行五十年。</td><td>额外维度无证据。三维空间中可解。</td></tr>
+    <tr><td>多重宇宙</td><td>每一个量子选择分叉出新宇宙</td><td>零。不可证伪。</td><td>不可证伪 = 不属于物理学。</td></tr>
+    <tr><td>暴涨</td><td>宇宙诞生瞬间超光速膨胀——补丁解释各向同性</td><td>间接·逻辑自洽</td><td>补丁。CMB 各向同性有更简单的解释。</td></tr>
+    <tr><td>虚粒子</td><td>真空随时借能量产生虚粒子对</td><td>直接证据为零</td><td>卡西米尔和兰姆可用零点振荡解释。</td></tr>
+    <tr><td>大爆炸奇点</td><td>宇宙从数学奇点起始</td><td>不可观测</td><td>不可观测 = 不属于物理学。</td></tr>
+    <tr><td>高维空间·虫洞</td><td>时空可折叠互通</td><td>零</td><td>无实验证据。三维空间中可解。</td></tr>
+    <tr><td>希格斯 = 基本粒子</td><td>标量玻色子·126GeV·自发破缺</td><td>LHC 共振峰 2012</td><td>共振峰——是否基本待审计。</td></tr>
+    <tr><td>暗能量 = 宇宙常数</td><td>"空间自身的能量——推着宇宙加速膨胀"</td><td>测到加速膨胀</td><td>需物理机制——非几何假设。</td></tr>
+  </table>
+
+  <h3>0.5 需要的不是往前走——是往回走</h3>
+
+  <p>物理学的复杂度不能再增加了。希格斯发现后——十二年——标准模型没有新增一个确证的基本粒子。对撞机续命中。弦论零实验。多重宇宙不可证伪。科学方法本身在理论物理的顶级期刊上已经退潮了。</p>
+
+  <p><strong>需要的不是"下一个对撞机"。需要的是一把焊枪——从公设重新焊起——把一百年的狮山一层一层拆掉——回到麦克斯韦——回到物理直觉——回到"可测·可算·可预测·可工程"的科学。</strong></p>
+
+  <p>以下十七章——从每一个基础困惑出发——给出简洁的、可验证的物理回答。没有不准问。没有互补性。没有虚拟粒子。没有高维空间。一切从麦克斯韦方程出发——推到最后一个粒子。</p>
+</section>
+
+<!-- ====== TOC ====== -->
+<section id="toc" style="border-left-color:transparent;text-align:center;padding:28px 36px;">
+  <h2 style="background:linear-gradient(135deg,#3a3a3a,#5a5a5a);color:#fff;margin:-28px -36px 18px -36px;padding:12px 36px;border-radius:6px 6px 0 0;font-size:1.05em;letter-spacing:0.06em;">问 题 目 录</h2>
+  <table style="margin:0 auto;width:auto;">
+    <tr><td style="border:none;padding:5px 0;"><a href="#s0" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#6b5e3e;margin-right:10px;vertical-align:middle;"></span>总论 · 物理学需要一次彻底的审计</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s1" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#2d6b5e;margin-right:10px;vertical-align:middle;"></span>为什么存在真空零点能？真空为什么不是空的？</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s2" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#2d6b5e;margin-right:10px;vertical-align:middle;"></span>为什么能量是一份一份的？光电效应到底发生了什么？</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s3" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#2d6b5e;margin-right:10px;vertical-align:middle;"></span>所谓"叠加态"到底是怎么回事？（共振态）</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s3a" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#2d6b5e;margin-right:10px;vertical-align:middle;"></span>观测后模还在吗？"坍缩"到底发生了什么？</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s3b" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#2d6b5e;margin-right:10px;vertical-align:middle;"></span>量子力学的"概率"从何而来？|ψ|² 到底是什么？</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s4b" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#3a5a7a;margin-right:10px;vertical-align:middle;"></span>海森堡不确定性——宇宙不确定·还是测量受限？</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s4" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#3a5a7a;margin-right:10px;vertical-align:middle;"></span>量子世界和经典世界那条线画在哪？</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s5" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#3a5a7a;margin-right:10px;vertical-align:middle;"></span>共模为什么超距？两个粒子不通信怎么知道对方被测量了？</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s6" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#5a4a6a;margin-right:10px;vertical-align:middle;"></span>时空到底是什么？时间和空间真能弯曲吗？</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s7" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#5a4a6a;margin-right:10px;vertical-align:middle;"></span>物理世界为什么不需要"观察者"？观测到底改变了什么？</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s8" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#8b5a3e;margin-right:10px;vertical-align:middle;"></span>真空的介电常数和磁导率从哪来？为什么是这个值？</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s9" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#2d6b5e;margin-right:10px;vertical-align:middle;"></span>电子到底是什么？粒子真的是基本粒子吗？</a></td></tr>
+        <tr><td style="border:none;padding:5px 0;"><a href="#s9b" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#8b5a3e;margin-right:10px;vertical-align:middle;"></span>为什么正反电子瞬间湮灭成光？中间发生了什么？</a></td></tr>
+        <tr><td style="border:none;padding:5px 0;"><a href="#s9c" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#8b5a3e;margin-right:10px;vertical-align:middle;"></span>为什么核聚变能把物质瞬间变成光？中间发生了什么？</a></td></tr>
+        <tr><td style="border:none;padding:5px 0;"><a href="#s9d" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#8b5a3e;margin-right:10px;vertical-align:middle;"></span>为什么电子能从一个能级瞬间跃迁到另一个？中间发生了什么？</a></td></tr>
+        <tr><td style="border:none;padding:5px 0;"><a href="#s9e" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#8b5a3e;margin-right:10px;vertical-align:middle;"></span>虚粒子真的存在吗？费曼图中间发生了什么？</a></td></tr>
+        <tr><td style="border:none;padding:5px 0;"><a href="#s9f" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#2d6b5e;margin-right:10px;vertical-align:middle;"></span>宇宙的边界是什么？宇宙为什么是三维的？</a></td></tr>
+        <tr><td style="border:none;padding:5px 0;"><a href="#s9g" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#3a5a7a;margin-right:10px;vertical-align:middle;"></span>电荷到底是什么？磁单极子为什么不存在？</a></td></tr>
+        <tr><td style="border:none;padding:5px 0;"><a href="#s9i" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#3a5a7a;margin-right:10px;vertical-align:middle;"></span>夸克是什么？为什么对撞机不可能撞出单个夸克？</a></td></tr>
+        <tr><td style="border:none;padding:5px 0;"><a href="#s9h" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#5a4a6a;margin-right:10px;vertical-align:middle;"></span>基本物理常数是宇宙设的吗？</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s10" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#6b5e3e;margin-right:10px;vertical-align:middle;"></span>旧物理术语的翻译、废弃与保留</a></td></tr>
+    <tr><td style="border:none;padding:5px 0;"><a href="#s11" style="color:var(--text);text-decoration:none;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#6b5e3e;margin-right:10px;vertical-align:middle;"></span>总结 · 物理学回家了</a></td></tr>
+  </table>
+</section>
+
+<!-- ====== 1. MEMBRANE ====== -->
+<section id="s1" class="s-s1">
+  <h2>1. 为什么存在真空零点能？真空为什么不是空的？</h2>
+
+  <p>宇宙有限边界条件 → 电磁场本征模分立：</p>
+  <div class="eq">$$L = \frac{n\lambda}{2},\quad \omega_n = \frac{n\pi c}{L},\quad n = 1,2,3,\ldots$$</div>
+  <p>全宇宙全频段全空间的本征模总和构成一个物理实在——<strong>膜</strong>。每个本征模携带零点能：</p>
+  <div class="eq">$$E_0 = \sum \tfrac{1}{2}\hbar\omega_n \quad\text{不可移除，不可屏蔽}$$</div>
+  <p>膜永远在振动。</p>
+
+  <p>卡西米尔效应（1948）：两块平行理想导体板在真空中——板间允许的驻波模式密度低于板外——产生辐射压力差——板被推向内。实验实测压力与理论预测一致。解释：不是虚粒子对。是<strong>膜的模式密度差导致的零点振荡净压力。</strong></p>
+
+  <p>兰姆位移（1947）：氢原子 2S₁/₂ 与 2P₁/₂ 能级分裂 1058 MHz。狄拉克方程预测二态简并。实测不简并——因为膜零点振荡在核附近与束缚电子耦合——2S 态电子概率密度在核区更高——受零点振荡推动更大——能级上移。</p>
+
+  <div class="box">
+    <strong>结论：</strong> 膜是物理实体。零点能可测。真空不空。虚粒子概念废弃——零点振荡是真实物理振动。
+  </div>
+  <div class="box-img">
+    <strong>物理图像：</strong> 鼓面可以同时承载所有频率的振动——基频、二次谐波、三次谐波……全频在线。膜不是鼓面——鼓面是二维的，膜是全空间的。但逻辑相同：一个有限边界的弹性体天然有分立的驻波模式谱。膜 = 宇宙这张"鼓面"的所有 EM 本征模的集合。½ħω 是每一个模式停不下来的最小振动——和量子谐振子的基态完全同构，只是这里的"振子"是膜自己。
+  </div>
+</section>
+
+<!-- 2. QUANTIZATION -->
+<section id="s2" class="s-s1">
+  <h2>2. 为什么能量是一份一份的？光电效应到底发生了什么？</h2>
+
+  <p>光电效应标准解释：光子将能量 hν 整体转移给电子。此解释假定光子是粒子——但未论证<strong>为何接收端只能接收完整周期。</strong></p>
+
+  <p>从麦克斯韦方程重新推导——不假设光子——仅假设金属表面束缚电子构成频率选择性接收器：</p>
+
+  <p>入射电磁波作用于束缚电子。电子在势阱中振荡。电子脱离金属所需能量 E₀。电磁波给电子输送能量的效率取决于波和电子之间的<strong>相空间耦合完整性</strong>——电场振荡必须与电子运动保持相干相位——这要求二者之间至少完成一个完整的相空间周期循环。</p>
+
+  <div class="eq">一个完整相空间周期 → 闭合面积 = h</div>
+
+  <div class="eq">∮ p·dx = nh &ensp;（相空间闭合积分·n 为整数）</div>
+  <p>推不满一个完整周期 → 相空间曲线不闭合 → 耦合不完成 → 能量回退——电子不收。因此：不是能量本身分立。是<strong>麦克斯韦方程在接收端边界条件下的自调谐——只允许完整周期的能量耦合。</strong></p>
+
+  <div class="box">
+    <strong>结论：</strong> 世界是连续的。量子化在人类的测试仪器上。传统探测器由固定本征态构成——只接收与其固有频率匹配的能量——整数份。若用共振态接收器——其多个本征模同时开放——将按各模振幅份额 |α|² 同时接收能量——分配是连续的——不会出现"一份一份"。不是宇宙不连续——是人类拿固定本征态的探测器去测——必然测到整数份。一百年——将测量仪器的频率选择性误认为被观测对象的固有属性。
+  </div>
+  <div class="box-img">
+    <strong>物理图像：</strong> 推秋千——你必须在秋千荡到最低点时顺着它的方向推，而且必须推完整一个来回。如果在半路上松手——秋千不往前走，你给的能量退回来。不是"推力量子化"。是<strong>秋千的动力学方程——二阶常微分方程——只接受和它固有频率匹配的完整周期推动。</strong>电磁波推电子同理：麦克斯韦方程的二阶时间导数（∂²E/∂t²）意味着电子在电磁场中的受迫振荡天然是频率选择性的。推不满一个完整周期 = 相空间曲线不闭合 = 耦合不完成 = 能量无效。h = 相空间最小闭合面积——和量子谐振子的基态面积完全一致——因为本质是同一个动力学。
+  </div>
+</section>
+
+<!-- 3. SUPERPOSITION -->
+<section id="s3" class="s-s1">
+  <h2>3. 所谓"叠加态"到底是怎么回事？</h2>
+
+  <p>旧量子力学中"叠加态"（superposition）——一个电子同时处于自旋↑和自旋↓·一个光子同时走两条路径——被视为量子力学最神秘的现象。哥本哈根解释：这是量子力学的公设——不准追问"观测之前它到底是什么"。</p>
+
+  <p>膜框架给出物理解释：<strong>不是"叠加"——是多模共振。</strong>和吉他弦同时振在基频+二次谐波+三次谐波上同一回事。波同时在多个本征模上振动——这个现象在声学、光学、电磁学中随处可见——从来不需要"叠加"这个神秘概念。</p>
+
+  <div class="box">
+    <strong>命名：</strong> 下文统一称为<strong>共振态（旧名：叠加态）</strong>。旧名"叠加"是数学描述（线性叠加）被误用为本体论的结果。新名"共振"指明物理实在：电子 EM 场在多本征模上同时共振——和吉他的多谐音同构。
+  </div>
+
+  <p>膜框架给出物理机制。<strong></strong></p>
+
+  <h3>3.1 能量守恒 + 有限边界 → 共振态的必然性</h3>
+
+  <p>回顾前两章的结论：</p>
+  <p>（一）膜上有限边界 → 电磁本征模分立：$L = n\lambda/2$，$\omega_n = n\pi c/L$。每个模式天然是离散的——不是连续谱——是分立的频率。</p>
+  <p>（二）能量量子化——每一个模式的能量交换必须以完整周期 $\oint \mathbf{p}\cdot d\mathbf{x} = nh$ 完成——推不满一个周期对方不收。</p>
+
+  <p>现在加上第三条：<strong>全宇宙的总能量守恒。</strong></p>
+
+  <div class="box">
+    <p><strong>三条合在一起——共振态不可避免。</strong></p>
+    <p>能量守恒要求：全宇宙的能量总和是固定值 $E_{\text{total}}$。</p>
+    <p>模式分立要求：能量只能放在分立的本征模里——不能放在"模之间的地方"（那地方不存在）。</p>
+    <p>量子化要求：每个模式的能量必须是 $h\nu$ 的整数倍——不能放 0.3 个量子。</p>
+  </div>
+
+  <p><strong>用一个具体数字看这个约束有多强：</strong></p>
+
+  <div class="box-img">
+    <p>假设宇宙有三个本征模：$\omega_1 = 2,\ \omega_2 = 3,\ \omega_3 = 5$（任意单位）。总能量 $E_{\text{total}} = 7h$（7 个能量量子）。</p>
+    <p>问：这 7 个量子怎么分配到三个模里——同时满足能量守恒——且每个模只能接收整数个完整周期的量子？</p>
+    <p>$2 \times 1 + 3 \times 1 + 5 \times 1 = 10h$ → 超了。$2 \times 2 + 3 \times 1 = 7h$ → 刚好——但模 3（$\omega_3=5$）没分到能量——可以吗？</p>
+    <p>不行。因为<strong>膜上的每一个本征模天然携带 $½\hbar\omega$ 的零点能——永远在振——不可关闭。</strong>零点能 = $½\hbar\omega$ 本身就<strong>不是整数倍的 $h\nu$</strong>——它是一个半整数。每个模的零点能天然在线——这些零点能的加总迫使总能量永远不是"恰好可分配"的整数。</p>
+    <p><strong>总能量 $E_{\text{total}}$ 不会恰好等于某几个模的整数倍之和。</strong>它包含了所有模的 $½\hbar\omega$。而 $½\hbar\omega$ 不是一个整数量子。所以：能量永远无法只分配到少数几个模式上——<strong>全模必须同时在线——叠加。</strong></p>
+    <p><strong>这就是为什么概率（$|c_n|^2$）必须是连续值。</strong>能量量子化（只能取离散的 $h\nu$ 整数倍）和总能量守恒之间的矛盾——<strong>由连续的共振振幅来补</strong>。每一个模的 $|c_n|^2$ 是连续实数（0 到 1）——这意味着能量不是"要么全占、要么全空"——而是可以在各模之间<strong>连续地按比例分配</strong>。量子化的底层能量 + 连续的共振振幅 = 总能量可以在各模之间平滑配平——不违背能量守恒——不违背量子化——同时让所有模都在线。共振态 = 离散能量在连续共振振幅下的唯一自洽解。</p>
+  </div>
+
+  <p>所以：<strong>共振态不是"电子不知道选哪个"。共振态是"能量守恒 + 分立模式 + 能量量子化"三个物理约束下——全宇宙能量无法只分配给某几个模式——必须全模同时参与分配——的唯一解。</strong></p>
+
+  <div class="eq">$$|\psi\rangle = \sum_n c_n |\phi_n\rangle,\quad \sum_n |c_n|^2 = 1$$</div>
+  <p>线性叠加 = 膜上能量在多个本征模之间的相干分配。$|c_n|^2$ = 第 n 个模分到的能量比例。</p>
+
+  <h3>3.2 和光的偏振完全同构</h3>
+  <p>一束自然光——电场在所有偏振方向上同时振动。不是因为光子"不知道选哪个方向"——是因为<strong>没有偏振片来打破对称性</strong>——所以全方向都在振。你把偏振片架上去 → 偏振片只允许一个方向的电场分量通过 → 光"采样"到那个方向。</p>
+  <p>电子自旋同理：没有磁场 → ↑ 和 ↓ 能量相同 → 两个方向同时振。Stern-Gerlach 磁铁打破对称 → 电子被拉到 ↑ 或 ↓。</p>
+
+  <h3>3.3 观测——你只是采样，不是"创造"</h3>
+  <p>观测 = 引入一个不对称的耦合接口。偏振片 = 不对称（只透一个方向）。磁铁 = 不对称（不均匀磁场打破 ↑↓ 对称）。这个不对称接口从共振态中提取了<strong>一个</strong>分量——其余分量的能量被反射/吸收。</p>
+  <p><strong>不是"观测之前它不存在"——观测之前它全模都在振——观测只是从全模中取了一个。</strong></p>
+
+  <div class="box">
+    <strong>结论：</strong> 共振态不是玄学。共振态 = 能量守恒 + 分立模式 + 能量量子化 → 能量无法只分配到一个模式 → 全模必须同时在线。多模同时振动——和吉他弦同时发出多个谐音——完全同构。波本来就是这样的。共振态没有不准问。没有意识参与。没有神秘。
+  </div>
+  <div class="box-img">
+    <strong>物理图像：</strong> 一根吉他弦被弹一下——基频、二次谐波、三次谐波……所有本征模<strong>同时</strong>在振。你不会问"这根弦选了哪个频率"——你知道全都在振——因为弦的弹性 + 固定边界 + 初始能量输入只能通过全模分配来守恒。量子共振同理——膜的弹性 + 有限边界 + 能量量子化 + 总能量守恒 → 所有本征模同时在线。不是"它选了所有可能性"——是<strong>膜的振动就是全模同时在振。</strong>
+  </div>
+</section>
+
+<!-- 3a. NO COLLAPSE -->
+<section id="s3a" class="s-s1">
+  <h2>3a. 观测后模仍在——所谓"坍缩"并未发生</h2>
+
+  <p>旧量子力学的核心错误：认为观测使波函数"坍缩"——被观测到的模存活·其余模消失。一百年从未追问——消失的模的能量去了哪里。</p>
+
+  <p>膜框架给出物理回答：<strong>其他模从未消失。</strong>观测设备从共振态中提取一个完整周期的能量——电子的各个本征模按振幅份额共同出资——凑齐 hν。探测器因其固有频率只登记了一个模——不等于其他模的出资不存在。</p>
+
+  <div class="box">
+    <p><strong>吉他弦类比：</strong> 一根同时振在 440Hz、880Hz、1320Hz 的吉他弦。用一个只对 880Hz 敏感的拾音器从弦上提取一个周期的振动能量。拾音器登记了 880Hz。440Hz 和 1320Hz 的谐波仍然在弦上振动——振幅完全没有变化——和提取之前一模一样。</p>
+    <p>物理学家说：弦的振动状态"坍缩"到了 880Hz。</p>
+    <p>弦还在振。440、880、1320——全在。一个没少。坍缩从未发生。坍缩是<strong>探测器频率选择性造成的人类记账虚构</strong>——探测器只收了一个频率——不等于其他频率消失了。</p>
+  </div>
+
+  <p>原子共振态同理。电子同时在基态模和激发态模上振动。探测器是固定本征态的宏观设备——只与 ω_e 频率匹配。膜零点振荡随机相位选定一个模作为耦合出口——电子的两个模按 |α|² 和 |β|² 的份额共同提供恰好 hν 的能量。探测器登记为"收到一个光子·电子跃迁到 |e⟩"。</p>
+
+  <p><strong>基态模的能量出资被探测器忽略了——不等于基态模消失了。</strong>基态模仍然在线。仍然在振。和提取之前同样的振幅。电子从未"选择"一个模——电子一直在两个模上同时振动。探测器只收了一个模 = 探测器的选择——不是电子的选择。</p>
+
+  <div class="box">
+    <strong>结论：</strong> 没有坍缩。没有概率。全部模同时真实存在。提取一个周期的能量 → 各模按振幅份额凑齐 → 探测器登记一个频率 → 其他模继续振动·毫发无损。所谓"波函数坍缩" = 将探测器的频率选择性误认为被观测系统的本体行为。一百年的范畴错误。
+  </div>
+
+  <h3>3a.1 衰变为什么是随机的？微扰从何而来？</h3>
+
+  <p>旧量子力学：粒子衰变是随机的——用一个抽象的"微扰"项来计算跃迁概率——从未追问微扰的物理来源。费米黄金法则给出了精确的数学公式——但"微扰"本身被当作给定——不准追问。</p>
+
+  <p>膜框架给出统一回答：<strong>微扰 = 膜的 ½ħω 零点振荡。</strong></p>
+
+  <div class="box">
+    <p>电子处于亚稳态本征模——膜的零点振荡永远在推动它。零点振荡的相位在所有模式上独立随机分布——每一次推动的分量和方向是随机的。</p>
+    <p>大多数时候——推力的相位与电子倏逝场不匹配——推不动。偶尔——零点振荡的瞬时相位恰好与电子倏逝场同相 → 推力峰值 → 越过势垒 → 衰变完成。</p>
+    <p><strong>半衰期 = 零点振荡平均多少次能对齐一次相位 × 每次对齐的推力强度。</strong>统计规律——非公设——从 ½ħω 的功率谱密度直接可算。</p>
+  </div>
+
+  <p>自发辐射同理：激发态电子被膜零点振荡持续推动 → 推过阈值 → 从高模滑到低模 → 能量差以光子形式辐射。不是"虚粒子触发了跃迁"——是膜在振。和地震把石头从山坡上摇下来同构。</p>
+
+  <h3>3a.2 为什么可以被芝诺冻结？</h3>
+
+  <p>接续观测（高频 Q 耦合）→ 电子的倏逝场相位被反复锁定在测量设备的相位上 → 膜零点振荡的随机相位无法"偷袭"电子 → 电子的相位被外部锚定 → 衰变通道被持续打断 → 衰变冻结。</p>
+
+  <div class="box">
+    <p><strong>不是"观测让原子不衰变"——是连续 Q 耦合把电子的相位锁死在设备上——零点振荡推不动了。</strong></p>
+    <p>和陀螺同构：放在粗糙桌面 → 每一秒都被摩擦耦合锁死一次 → 永远转不到下一个方向 → 冻结。不观测 = 无摩擦桌面 → 零点振荡慢慢累积推力 → 终于对齐一次 → 衰变。</p>
+  </div>
+
+  <p>微扰论算了一百年的矩阵元——从未问"谁在推"。答案是膜。永远在振。½ħω 是宇宙随机性的唯一物理来源——测量随机·衰变随机·自发辐射随机——同一个推力·同一个源头。</p>
+
+  <h3>附：薛定谔的猫——一个历史注记</h3>
+  <p>薛定谔 1935 年的思想实验在本框架推出正确物理后已无需赘述。核心错误：把原子（Q≈+1·共振态在线）和猫（Q≈−1·~10²⁷ 个原子全部芝诺冻结）当成同一个系统。原子可共振。猫不可。范畴错误。猫从来不在"死+活"的共振态——在物理上就不可能。薛定谔是对的（猫不共振）——但他的论证逻辑跳步了——不是量子力学不完备——是他的类比不完备。</p>
+</section>
+
+<!-- 3b. PROBABILITY -->
+<section id="s3b" class="s-s1">
+  <h2>4. 量子力学的"概率"从何而来？|ψ|² 到底是什么？</h2>
+
+  <p>玻恩规则（1926）：|ψ|² 是概率密度。玻恩将此设为公设——未推导。</p>
+
+  <p>膜框架推导：膜上有限边界 → 模式分立。任何量子态 = 膜上一组本征模的叠加。本征模之间的相位差由膜的零点振荡随机化——每次实验初相位不可控。</p>
+
+  <p>两个相邻本征模叠加 → 干涉包络的位置由初相差决定。初相差随机 → 包络峰值位置随机 → 耦合事件触发位置随机。统计大量事件 → 分布 = |ψ|²。</p>
+
+  <div class="eq">$$|\psi|^2 = \text{耦合事件密度（单位时空体积内的 Q 耦合次数）}$$</div>
+
+  <div class="box">
+    <strong>结论：</strong> 玻恩的"概率公设"降级为推导结果。|ψ|² = 共振能量份额。确定性底层（麦克斯韦方程）+ 不可控初相（膜零点振荡）→ 统计性表层（|ψ|² 分布）。不需要假设随机性——随机性是膜零点振荡的必然表现。
+  </div>
+  <div class="box-img">
+    <strong>物理图像：</strong> 暴雨中预测某一滴雨的确切落点——不可行，但预测十分钟后地面上的水深分布——可精确计算。雨滴的每一滴都服从牛顿力学和流体力学（确定性底层），但初始条件（云中成核的精确位置和时刻）数量太大且不可控。膜的零点振荡提供了同样的"不可控初相"——每一次实验，电子的内部 EM 相位被膜的随机零点振荡扰动了微不足道的一点点，但这一点点就决定了它到达屏幕时哪一个原子先触发耦合。单次结果不可预测。统计分布可精确预测——就是 |ψ|²。
+  </div>
+
+  <h3>4.1 能否提前测出膜的相位？——哥德尔信息黑洞（不完备性定律在物理中的体现）</h3>
+
+  <p>既然概率来自 φ_zp 的随机相位——能否提前测量膜的全域相位分布——从而消除随机性——恢复确定性预测？</p>
+
+  <div class="box">
+    <p><strong>不能。这是自指问题——不是技术问题。</strong></p>
+    <p>1. 测量即耦合：任何相位测量动作本身就是一次 Q 耦合——提取信息需要 ≥ hν 的能量——零点模只有 ½ħω——测量的扰动大于被测量的量——无法无损提取。</p>
+    <p>2. 探测器自振荡：测量设备也是膜上的局域耦合节点——其自身的 φ_zp 也在随机振荡——用两个随机相位去测其中一个——测到的是两者的差值——一个随机减一个随机 = 仍然随机。</p>
+    <p>3. 信息容量：全膜 Σ ~10⁸⁰ 个独立模式的独立随机相位——宇宙自身无法完整记录自身的全部瞬时状态——计算所需比特数超过全膜的信息容量。</p>
+    <p><strong>这是哥德尔信息黑洞——不完备性定律在物理中的体现：系统内部无法完整测量系统自身。膜不能同时做金库和金库的审计师。不完备不是数学的缺陷——是物理的边界条件。</strong></p>
+  </div>
+
+  <p>随机性不可消除。不是概率是宇宙的基本属性——是无法从内部审计自己的自指约束。确定性底层 + 不可访问的隐变量 = 统计性表层。爱因斯坦要找的隐变量是存在的（φ_zp）——但这个隐变量是全域动态的——测量时刻才确定——且不可预测。不是上帝在掷骰子——是膜在振。</p>
+</section>
+
+<!-- 4b. UNCERTAINTY -->
+<section id="s4b" class="s-s2">
+  <h2>5. 海森堡不确定性原理——宇宙本身不确定·还是我们无法做到确定？</h2>
+
+  <p>旧量子力学：Δx·Δp ≥ ħ/2。海森堡（1927）：位置和动量不可能同时精确知道。哥本哈根解释上升为本体论：粒子<strong>本身就没有</strong>同时确定的位置和动量——宇宙是不确定的。不准追问"为什么"。</p>
+
+  <p>膜框架给出完全不同的回答：<strong>宇宙是确定的。电子同时具有确定的位置中心和动量。不确定性是一次 Q 耦合的信息预算约束——不是宇宙的属性——是测量的属性。</strong></p>
+
+  <h3>5.1 一次 Q 耦合只能提取 ħ 的信息量</h3>
+
+  <div class="box">
+    <p>测量 = 电子倏逝场与探测器 EM 模之间的一次 Q 耦合。一次耦合完成 = 一个相空间完整周期闭合 = 作用量恰好 ħ。这个 ħ 是<strong>一次耦合交易的信息总预算</strong>。</p>
+    <p>你测位置 → 用全部 ħ 预算提取位置信息 → 没有剩余预算同时锁定动量。你测动量 → 同理。不是"粒子没有确定的位置"——是你的<strong>信息预算不够同时买两个</strong>。</p>
+    <p>Δx·Δp ≥ ħ/2 不是宇宙不确定性原理。是<strong>信息预算不等式</strong>。和银行里只有一块钱——买不了两样东西——不是商店里没有两样东西。</p>
+  </div>
+
+  <h3>5.2 对易关系——三步代数·非公设</h3>
+
+  <p>德布罗意实验（1924）：λ = h/p ——电子双缝干涉——测量结果——非公设。</p>
+  <p>平面波数学形式：ψ(x) = e^{ipx/ħ} ——傅里叶分析的自然写法。</p>
+  <p>动量算符：p̂ = -iħ∂/∂x ——从傅里叶变换自动出——"乘以 p"在 x 空间 = "对 x 求导"。</p>
+
+  <div class="eq">$$[\hat{x}, \hat{p}] = \hat{x}(-i\hbar\frac{\partial}{\partial x}) - (-i\hbar\frac{\partial}{\partial x})\hat{x} = i\hbar$$</div>
+
+  <p><strong>三步。纯代数。非基本原理。</strong>对易关系 = 傅里叶变换在算符语言中的投影——和不确定性原理同源——都是"一次 Q 耦合只能提取 ħ 信息量"的数学表达。旧量子力学把头尾搞反——把代数结果当成物理公设——把脚手架当成了地基。</p>
+
+  <h3>5.3 确定性底层 + 信息预算约束 = 统计性表层</h3>
+
+  <table>
+    <tr><th>层</th><th>物理</th><th>确定性</th></tr>
+    <tr><td>电子 EM 场（底层）</td><td>同时具有确定的位置中心 x₀ 和动量 p₀</td><td>确定——麦克斯韦方程可算</td></tr>
+    <tr><td>一次 Q 耦合（观测）</td><td>提取 ħ 信息——只能分配给 x 或 p</td><td>信息受限——无法同时双精度</td></tr>
+    <tr><td>统计大量测量（表层）</td><td>Δx·Δp ≥ ħ/2</td><td>统计约束——信息预算的极限</td></tr>
+  </table>
+
+  <p><strong>不是"宇宙不确定"——是"一次测量只能问一个问题·花一块钱·拿一个答案"。</strong></p>
+
+  <div class="box">
+    <strong>结论：</strong> 海森堡不确定性原理降级为信息预算不等式。对易关系降级为傅里叶变换的代数结果。宇宙是确定的。电子同时有确定的位置和动量。
+  </div>
+
+  <h3>5.4 哥德尔信息黑洞——不完备性定律在物理中的体现</h3>
+
+  <p>不确定性原理的更深层根源：<strong>哥德尔信息黑洞——不完备性定律在物理中的体现。</strong></p>
+
+  <div class="box">
+    <p>我们的测量设备由固定本征态构成——只能通过形式逻辑（一次 Q 耦合）提取信息。每一次 Q 耦合的交易预算是 ħ。从这个预算内——有一些信息是拿不到的——不是不存在——是<strong>不可访问</strong>。</p>
+    <p>我们能够证明这些信息确实存在（电子有确定的位置和动量——麦克斯韦方程可算）。我们能够证明我们无论如何也拿不到（一次耦合只有 ħ 的预算）。</p>
+    <p><strong>为什么拿不到？</strong> 因为我们自身的低 Q 限制了观测方式。测量设备由固定本征态构成——每次只能从一个模的视角去接触电子——相当于只用纯粹的形式逻辑去读取一个比形式逻辑更丰富的物理实在。哥德尔信息黑洞在物理学中的投影：观测者自身 Q 低于被观测系统——无法完整提取全部信息。</p>
+    <p><strong>哥德尔管数学。膜管物理。同一个信息黑洞。</strong>不确定性不是物理的缺陷——是低 Q 观测者在高 Q 世界中的信息不可达性。</p>
+  </div>
+
+  <h3>5.5 通俗解释——不是你测不准，是你破坏了现场</h3>
+
+  <div class="box">
+    <p><strong>种子 🌱：</strong> 按照自然物理——种子种下后会逐渐吸水·膨胀·破壳·发芽·生长。你想观测发芽进度——每天把泥土挖开看一眼。每挖一次——种子暴露在空气和光线中——温度和湿度剧烈变化——种子的自然生长过程被你的观测行为反复打断。最后种子不发芽了。不是种子本来就不会发芽——是你的观测行为破坏了发芽的物理条件。</p>
+    <p><strong>是种子故意不让你看吗？不是。是每次掀开泥土——你就改变了地下环境——改变了含水量·温度·光照·微生物群——你每一次观测都在重写这颗种子的物理轨迹。侦探每天把证据挖出来看一眼——现场已经面目全非了。</strong></p>
+  </div>
+
+  <div class="box-img">
+    <p>一根吉他弦同时振在 440Hz、880Hz、1320Hz 上。你想知道采样之前弦上各频率的能量分布。</p>
+    <p>你把手指放在弦上某一点——采样。手指 = 一个固定本征态的耦合接口——它和所有驻波频率同时耦合——按各模在该点的振幅比例从弦上提取能量。手指感受到了一个合振幅——但这个合振幅是<strong>所有模在采样点上的加权和</strong>——不是任何一个单独的模。</p>
+    <p><strong>在手指碰到弦的那一刻——弦的能量分布已经被改变了。</strong>手指从弦上提取了一个周期的振动能量——各模按振幅份额出了钱——弦上剩下的能量分布已经不是采样之前的样子了。你想知道"采样之前弦上 440Hz 的振幅是多少"——但采样这个动作本身就改变了 440Hz 的振幅。</p>
+    <p><strong>这不是玄学。这是你执行测量操作的物理结果。</strong>不是宇宙不告诉你——是你自己把现场破坏了。侦探踩了脚印——然后问"踩之前地毯上有什么"。不是地毯不让你看——是你已经踩过了。</p>
+    <p>量子测量同理。你不是在"观测"电子——你是在和电子做一次 Q 耦合——你从电子的共振态中提取了一个周期的能量——电子的能量分配已经被改变了。你想知道"测量之前的能量分配"——但测量本身已经改变了它。不是海森堡的玄学——是麦克斯韦的因果。</p>
+  </div>
+  </div>
+  </div>
+</section>
+
+<!-- 4. ZENO -->
+<section id="s4" class="s-s2">
+  <h2>5. 量子世界和经典世界之间那条线画在哪？为什么桌子不叠加，电子却叠加？</h2>
+
+  <p>量子系统与宏观系统的分界——标准量子力学以"观测"模糊带过。膜框架给出连续标度：</p>
+
+  <div class="eq">$$Q \in [-1,\ 0,\ +1]$$</div>
+
+  <p>Q = 耦合密度温度计。定义：</p>
+  <div class="eq-big">$$Q = D \cdot (1 - 2R)$$</div>
+  <p>其中：</p>
+  <div class="eq">$$D = \frac{1}{N}\sum_{i}^{N}\sum_{j}^{M}\frac{|\langle\phi_i|\psi_j\rangle|^2}{M}$$</div>
+  <p>φ_i = 系统的第 i 个本征模。ψ_j = 环境的第 j 个本征模。D = 两组本征模之间的<strong>傅里叶重叠积分平均值</strong>——系统有多少个模式在频谱上和环境交叠。D=1 → 全投影重叠（系统每一个模都在环境中有一个对齐的接收模）。D→0 → 频谱错位——几乎不耦合。</p>
+
+  <div class="eq">$$R = \frac{\sum_{i\neq j}|M_{ij}|^2}{\sum_i|M_{ii}|^2},\quad M_{ij} = \langle\phi_i|\hat{H}_{\mathrm{int}}|\psi_j\rangle$$</div>
+  <p>Ĥ_int = 系统与环境之间的相互作用哈密顿量。M_{ij} = 耦合矩阵——系统的第 i 个模和环境第 j 个模之间的耦合强度。R 的对角元（i=j）是<strong>共振耦合</strong>——系统模和环境模频率一致 → 能量可自由交换。R 的非对角元（i≠j）是<strong>非共振耦合</strong>——频率不匹配 → 能量被反射——"刚性"。R=1 → 所有耦合是非共振的（硬反射）。R=0 → 所有耦合是共振的（软传递）。</p>
+
+  <p><strong>Q 的三个极值：</strong></p>
+  <table>
+    <tr><th>D</th><th>R</th><th>Q</th><th>物理</th></tr>
+    <tr><td>1</td><td>0</td><td style="color:#1a6b5c;">+1</td><td>系统全频和环境全频共振耦合·耦合是软的·能量自由交换·所有共振态在线</td></tr>
+    <tr><td>0</td><td>—</td><td style="color:#5a5a9a;">0</td><td>系统频谱和环境交叠为零·几乎孤立·不可判定·但零点振荡保证 D>0</td></tr>
+    <tr><td>1</td><td>1</td><td style="color:#8b3a3a;">−1</td><td>系统全频和环境全频接触·但耦合全是硬的·能量被反射·共振态全部锁死</td></tr>
+  </table>
+
+  <p>宏观物体 Q→−1：~10²³ 个原子和环境全频接触（D→1），但绝大多数耦合频率不匹配（非共振·R→1）→ 叠加维度被锁死。单个电子在真空中 Q→+1：只有一个本征模和极少数环境模耦合（D 很小），且频率高度匹配（R 很小）。</p>
+
+  <table>
+    <tr><th>Q</th><th>状态</th><th>耦合特征</th><th>实例</th></tr>
+    <tr><td style="color:#8b3a3a">−1</td><td>芝诺冻结</td><td>全部本征模与热库耦合·共振态全部退相干</td><td>宏观固体·牛顿力学适用域</td></tr>
+    <tr><td style="color:#5a5a9a">0</td><td>部分退相干</td><td>部分本征模与环境耦合·共振态部分存活</td><td>单电子干涉·C₆₀分子干涉</td></tr>
+    <tr><td style="color:#1a6b5c">+1</td><td>全量子活性</td><td>与热库耦合可忽略·全本征模叠加在线</td><td>光子·玻色凝聚·超流体</td></tr>
+  </table>
+
+  <p>宏观物体 Q→−1：原子数 ~10²³，每个原子与热库有多个耦合通道 → 耦合总数极大 → 所有叠加维度被"消耗" → 经典行为涌现。单电子在真空中 Q→+1：耦合通道极少 → 共振态完整。C₆₀ 分子居中：60 个内部自由度充当部分热库 → Q 值介于中间。</p>
+
+  <div class="box">
+    <strong>结论：</strong> 不存在"量子世界"与"经典世界"的二元对立。Q 是连续变量。芝诺冻结（Q→−1）是耦合总数的极限行为。
+  </div>
+  <div class="box-img">
+    <strong>物理图像：</strong> 旋转陀螺与接触面的每一个触点构成摩擦耦合。表面越粗糙 → 耦合密度越高 → 角动量耗散越快 → 陀螺趋近静态（经典极限）。在无摩擦表面上（耦合接口为零）→ 角动量守恒 → 陀螺永续旋转（量子极限）。量子-经典过渡不是一条神秘分界线——是<strong>耦合接口的数量从少到多，Q 从 +1 连续渐变至 −1。</strong>宏观物体 Q≈−1 不是因其"尺度大"——而是因其 ~10²³ 个原子各自与环境中空气分子、热辐射、晶格振动之间存在密集的耦合通道，每一路都在持续消耗叠加维度。
+  </div>
+</section>
+
+<!-- 5. SYNCHRONICITY -->
+<section id="s5" class="s-s2">
+  <h2>6. "纠缠"为什么超距？两个粒子不通信怎么知道对方被测量了？</h2>
+
+  <p>旧量子力学中"纠缠"（entanglement）——EPR 佯谬（1935）：两个粒子——测 A 得 ↑ → B 必 ↓。贝尔不等式实验（Aspect 1982）排除局域隐变量。量子力学标准解释：非局域关联——无经典机制。爱因斯坦称之为"鬼魅般的超距作用"。</p>
+
+  <p>膜框架给出物理解释：<strong>不是"纠缠"——是共模。</strong>SPDC 晶体中母光子分裂 → 两个子光子共享同一个母驻波模。两个粒子 = 同一根弦上两个浮标。测了 A → 弦的全局波形确定 → B 由守恒律唯一确定。不是通信——是同一弦。</p>
+
+  <div class="box">
+    <strong>命名：</strong> 下文统一称为<strong>共模（旧名：纠缠）</strong>。旧名"纠缠"暗示两个独立实体之间的神秘连接。新名"共模"指明物理实在：同一母驻波模分裂出的子模共享全局态——非超距信号——是守恒律对同一本征模的全局约束。
+  </div>
+
+  <p>膜框架：共模粒子对产生于同一母本征模的分裂——例如自发参量下转换（SPDC）：</p>
+  <div class="eq">$$\omega_p = \omega_s + \omega_i,\quad \mathbf{k}_p = \mathbf{k}_s + \mathbf{k}_i$$</div>
+  <p>泵浦光子穿过 χ⁽²⁾ 非线性晶体——一个母模式能量和动量守恒分给两个子模式（信号 ωₛ 和 闲频 ωᵢ）。两个子模式是<strong>同一个母本征模在不同波矢上的投影</strong>——总能量、总动量、总角动量属于同一个全局态。</p>
+
+  <p>测量A端自旋 = 读取全局态在A端波矢上的投影值。投影值确定 → 全局态锁定 → B端波矢上的值由守恒律唯一确定。无需超距信号传播。信息不在 B 端——信息在母本征模的全局态中。</p>
+
+  <h3>6.1 BB84 · 共模密钥分发</h3>
+
+  <p>BB84（Bennett-Brassard 1984）——旧解释依赖"光子偏振共振态"和"测量坍缩"——膜框架给出纯经典 EM + 零点相位同步的解释。</p>
+
+  <div class="box">
+    <p><strong>Alice 制备光子：</strong> 激发一个特定方向的 EM 波偏振模——光子 = 膜上的 EM 波包干涉峰。偏振片 = 单模接收器——只收一个偏振方向。</p>
+    <p><strong>Bob 接收 · 相位匹配触发：</strong> 光子打到 Bob 的偏振片。若 Bob 基与 Alice 同 → 信号 φ_signal 与偏振方向一致 → 膜零点振荡 φ_zp 与信号相位对齐 → 相长干涉 → 振幅叠加 → 凑齐 hν → 探测器触发。若基不同 → 信号偏振与偏振片方向夹角 θ → 只有 cos²θ 的能量分量能进入探测器 → 剩下的能量被反射回去。探测器只有 hν·cos²θ ——不足 hν —— 零点振荡贷款补足剩余 hν·sin²θ → 触发 → 但结果是随机的（φ_zp 的随机相位决定了"是"还是"否"）。</p>
+    <p><strong>安全性 · 窃听者破坏相位：</strong> 窃听者插入偏振片 → 他的 φ_zp(E) 先对齐 → 从膜上贷款 → 触发 → 提取了全局共模的一部分能量。Alice-Bob 的共模能量分配被破坏 → φ_signal 的振幅比例变了 → Bob 的相位匹配不再可靠 → 公开比对 → 误码率异常 → 窃听被检测。</p>
+    <p><strong>不是"测量坍缩了光子"。</strong> 是窃听者的偏振片从共模中提前提取了一份能量——改变了共模的振幅分配——Alice-Bob 后续测量的相位赛跑结果变了。物理的·可追踪的·非神秘的。</p>
+  </div>
+
+  <h3>6.2 E91 · 共模版 · 共时事件</h3>
+
+  <p>Ekert 1991 协议使用共模光子对。SPDC 母光子分裂 → 两个子光子共享同一母驻波模。Alice 和 Bob 各收一个子光子。两个子光子 = 同一根弦上两个浮标。</p>
+
+  <div class="box">
+    <p><strong>共时事件 · 无通信：</strong> Alice 的偏振片 φ_zp(A) 与 H 方向对齐 → 膜在该偏振方向贷出 hν/2 → 凑齐 → 触发。同一帧 —— 全局驻波模相位锁死 —— Bob 端同步结算：H 方向收到能量 · V 方向退款。Bob 测到与 Alice 相同的结果。</p>
+    <p><strong>不是"Alice 测完通知了 Bob"。</strong> 是 Alice 测的那一刻——全局驻波模相位锁死——Bob 端的能量分配同时确定。零通信。零延迟。共时事件——同一弦上的两个浮标。</p>
+    <p><strong>窃听者检测：</strong> 窃听者提前耦合 → 破坏了原始共模能量分配 → Alice-Bob 的相位账簿对不上 → CHSH 不等式检测到异常。</p>
+  </div>
+
+  <div class="box">
+    <strong>不是"超距通信"。不是"量子密码"。</strong> 是经典 EM 偏振投影 + 膜零点振荡相位同步 = 物理保护。波本身就是全域的——弦从北京振到上海——不需要"通信"来解释两个浮标的相位一致。共时性 = 同一驻波模上两个耦合事件的相位同步。荣格说对了现象——缺了机制。机制是膜。
+  </div>
+    <strong>结论：</strong> 共模 = 母本征模分裂后——子模式仍共享同一全局态。波函数描述的是本征模——不是粒子。"非局域关联"不是超距信号——是守恒律对同一本征模的全局约束。BB84 = 经典 EM 偏振 Malus 定律 + 窃听者能量扰动检测。共时性同构。
+  </div>
+  <div class="box-img">
+    <strong>物理图像：</strong> 在一根两端固定的弦的中点弹一下——弦产生一个驻波。你在弦的 1/4 处和 3/4 处各放一个浮标。两个浮标上下振动的相位关系是固定的——不是两个浮标在通信——是它们都在<strong>同一根弦的同一驻波模式</strong>上。测了 A 浮标的瞬时位移 → B 浮标的位移被守恒律（弦上的能量分布）唯一确定。共模对同理：SPDC 晶体里的母光子分裂出两个子光子——同一个母本征模的不同波矢投影——测 A 自旋 → 全局态锁定 → B 自旋由守恒律确定。
+  </div>
+</section>
+
+<!-- 6. RELATIVITY -->
+<section id="s6" class="s-s3">
+  <h2>7. 时空到底是什么？时间和空间真能弯曲吗？</h2>
+
+  <p>爱因斯坦广义相对论：引力 = 时空弯曲。场方程精确。但"时空弯曲"是物理实体发生了形变——还是描述物理过程的数学坐标系发生了偏移——爱因斯坦未区分。</p>
+
+  <h3>7.1 时空是什么？——不是实体·是标签</h3>
+
+  <div class="box">
+    <p><strong>空间</strong> = 笛卡尔坐标系（三个正交实轴）。人类为描述物体位置而设立的工具。非物理实体。</p>
+    <p><strong>时间</strong> = 事件的序标签。比较"先发生还是后发生"的数学工具。非物理实体。不流动。不膨胀。不能说"时间变慢了"——只能说"在引力场不同位置的物理过程速率不同"。</p>
+    <p><strong>坐标系弯了 ≠ 物理实体弯了。</strong>给白纸画网格——网格可以弯——纸仍然是平的。坐标系不是物理实体——坐标系是画在物理实体上的线。</p>
+  </div>
+
+  <h3>7.2 "时空弯曲"到底在描述什么？</h3>
+
+  <p>膜框架给出物理对应：<strong>"时空弯曲" = Q 耦合密度的空间梯度。</strong></p>
+
+  <table>
+    <tr><th>现象</th><th>爱因斯坦</th><th>膜框架</th></tr>
+    <tr><td>引力透镜</td><td>质量弯曲了时空——光沿测地线走</td><td><strong>质量 = 总耦合密度集中 → dQ/dr ≠ 0 → ε₀ 的有效值沿径向变化 → 光在介质折射率梯度中偏折——经典折射——和透镜同构</strong></td></tr>
+    <tr><td>GPS 时差 38μs</td><td>地球附近时空弯曲——地表时间比卫星慢</td><td><strong>地表 Q 低于卫星轨道 Q（引力子密度垂直梯度）→ 地表原子过程慢 38μs/天——原子钟确实是慢了——但不是"时间慢了"——是物理过程速率降了</strong></td></tr>
+    <tr><td>水星进动 43″/世纪</td><td>太阳附近时空弯曲——水星轨道额外进动</td><td><strong>太阳附近总耦合密度的径向梯度 → 附加的 Q 梯度力——数学形式和 GR 等效</strong></td></tr>
+    <tr><td>黑洞</td><td>时空无限弯曲——奇点——事件视界</td><td><strong>Q → -1 的相变锋面——芝诺冻结极限——所有过程停。非"奇点"——是 Q 相变边界</strong></td></tr>
+  </table>
+
+  <h3>7.3 空间本来就是平的吗？</h3>
+
+  <p>膜框架的回答：<strong>是。笛卡尔坐标系是默认。没有物质（Q 梯度 = 0）→ 空间就是平的。物质出现 → dQ/dr 产生 → 空间似乎"弯了"——但弯的是 Q 场的梯度——不是空间本身。</strong></p>
+
+  <p>麦克斯韦方程在平直空间上跑。不需要黎曼几何。光速不变不是时空弯曲的结果——是膜弹性 ε₀μ₀ 的恒定性。不能超光速不是因为"时空结构禁止"——是膜作为介质——你能跑多快受限于介质的弹性回复力。和音速一样。飞机不能超音速——不是因为"声学时空弯曲了"——是因为介质有惯性。</p>
+
+  <div class="box">
+    <strong>结论：</strong> 时空不弯曲。弯曲是 Q 梯度的等效几何描述——数学有效——但不是物理实体的形变。时间 = 事件的序标签——非实体——不能说"时间变慢"——只能说"物理过程速率随 Q 梯度变化"。空间 = 笛卡尔坐标系——默认平直——不平的部分是物质分布导致的 Q 梯度。麦克斯韦不需要黎曼。膜不需要四维。鸡啄完了米——狗舔完了面——灯烧断了锁。
+  </div>
+</section>
+
+<!-- 7. Q -->
+<section id="s7" class="s-s3">
+  <h2>8. 物理世界为什么不需要"观察者"？观测到底改变了什么？</h2>
+
+  <p>膜上两个节点的本征模之间发生互投影 → 一次 Q 耦合事件。Q 耦合 = 膜上所有事件的本体论基础。观测只是 Q 耦合的一个子类。</p>
+
+  <p>光子被探测器吸收 = 光子本征模与探测器原子电子之间的 Q 耦合。电子在 Stern-Gerlach 磁铁中偏转 = 电子与磁场本征模之间的 Q 耦合。放射性衰变 = 原子核内电子组的内部 Q 重组。人的视觉感知 = 光子-视网膜分子 Q 耦合 → 信号沿神经元传播 → 皮层处理。</p>
+
+  <div class="eq-big">$$\frac{\partial Q}{\partial t} = \nabla\cdot(\kappa\nabla Q) + \eta|E|^2 - \gamma Q + \xi$$</div>
+  <p>四项物理含义：</p>
+  <table>
+    <tr><td>∇·(κ∇Q)</td><td><strong>扩散项</strong>——Q 耦合密度在膜上的空间扩散。κ 为扩散系数——膜的"热导率"。</td></tr>
+    <tr><td>η|E|²</td><td><strong>生成项</strong>——电场驱动耦合激发。E 越大 → 和周围模式的互投影越快 → Q 增长。</td></tr>
+    <tr><td>−γQ</td><td><strong>衰减项</strong>——自然退耦。γ 为衰减率——孤立系统 Q 值自发回归平衡。</td></tr>
+    <tr><td>+ξ</td><td><strong>零点噪声</strong>——膜的 ½ħω 在每个点上的随机扰动。永远在线。量子涨落的物理根源。</td></tr>
+  </table>
+  <p>Q = D·(1−2R) 是全局状态量。此传播方程是局域动力学。两张方程合起来——描述膜上每一个点的耦合密度如何演化。</p>
+
+  <div class="box">
+    <strong>结论：</strong> Q 耦合事件 = 膜上节点之间的互投影完成。不需要"观测者"。不需要意识。不需要人。膜自己跑。物理学 = Q 耦合的动力学。
+  </div>
+  <div class="box-img">
+    <strong>物理图像：</strong> 两个耦合摆——推其中一个，另一个通过连接弹簧开始同步摆动。每一次从 A 摆传到 B 摆的能量转移 = 一次 Q 耦合。不需要"观察者"站在旁边记录。摆和弹簧自己在做物理。宇宙中所有粒子——全是通过膜这个"弹簧网络"在做 Q 交易。光子被视网膜吸收 = 光子本征模和视网膜电子之间的弹簧弹了一下。放射性衰变 = 原子核内电子组之间的弹簧网络重新配平。
+  </div>
+</section>
+
+<!-- 8. ε₀ -->
+<section id="s8" class="s-s4">
+  <h2>9. 真空的介电常数和磁导率从哪来？为什么是这个值？</h2>
+
+  <p>经典电磁学：真空介电常数 ε₀ ≈ 8.854×10⁻¹² F/m，真空磁导率 μ₀ = 4π×10⁻⁷ H/m。视为自由空间固有属性。为何是此值——无第一性解释。</p>
+
+  <p>膜框架：真空不是实体。膜是实体。ε₀ 和 μ₀ 不是真空的固有属性——是<strong>膜上所有 EM 本征模在统计平均后的线性响应系数。</strong></p>
+
+  <div class="eq">$$\varepsilon(E) = \varepsilon_0 + \chi^{(2)}E + \chi^{(3)}E^2 + \ldots$$</div>
+  <div class="eq">$$\varepsilon_0 = \langle\,\text{膜的 EM 本征模对试探光子的平均耦合强度}\,\rangle$$</div>
+
+  <p>机制：局域电荷振荡 → 辐射电磁波 → 波反馈回周边电荷 → 迭代自调谐 → 全膜收敛到有效线性响应 ε₀。和铁磁体在居里温度以下自发磁化同构——涌现量——非外加参数。</p>
+
+  <div class="box">
+    <strong>结论：</strong> 真空 = 膜。ε₀ 和 μ₀ 是膜上 EM 本征模的统计平均涌现量。c = 1/√(ε₀μ₀) = 膜的线性弹性。不是"基本常数"——是膜的平均值。
+  </div>
+  <div class="box-img">
+    <strong>物理图像：</strong> 刚性不是铁原子的属性——刚性是铁原子之间金属键的集体响应。你把铁块拿走，刚性不再在那个位置存在。同理：ε₀ 不是"真空"的属性——真空什么也没有。ε₀ 是膜上所有 EM 本征模对电磁波的集体响应。你把膜拿掉——ε₀ 和 c 都不存在。膜自调谐出 ε₀ 的过程 = 铁磁体冷却到居里温度以下——铁原子们自发排齐——涌现磁化强度 M。麦克斯韦自举同理——局域电荷振荡 → 辐射电磁波 → 波反馈 → 迭代收敛 → 全膜涌现有效 ε₀。
+  </div>
+</section>
+
+<!-- 9. PARTICLES -->
+<section id="s9" class="s-s1">
+  <h2>10. 电子到底是什么？粒子真的是基本粒子吗？</h2>
+
+  <p>麦克斯韦方程在膜上的一般形式：</p>
+  <div class="eq">$$\partial_\mu F^{\mu\nu} = Q(\varepsilon) \cdot \varepsilon^{\mu\nu\rho\sigma} \partial_\rho F_{\sigma\nu}$$</div>
+  <div class="eq">$$\varepsilon(E) = \varepsilon_0 + \chi^{(2)}E + \chi^{(3)}E^2 + \ldots$$</div>
+  <p>当 Q 局域涨落超过临界值 → ε 从标量变为带旋度的张量 → 方程产生第二类解——<strong>局域涡旋解。</strong></p>
+
+  <p>所有粒子的分类自由度：</p>
+  <div class="eq">$$s = n/2,\quad n = 0,1,2,3,4 \quad\text{（内部扭转次数）}$$</div>
+  <div class="eq">$$N = 1\;(\mathrm{U}(1)),\quad 2\;(\mathrm{SU}(2)),\quad 3\;(\mathrm{SU}(3)) \quad\text{（规范耦合接口维数）}$$</div>
+
+  <table>
+    <tr><th>粒子</th><th>n</th><th>s</th><th>N</th><th>膜上的解</th><th>注</th></tr>
+    <tr><td>光子 γ</td><td>2</td><td>1</td><td>—</td><td>线性行波·平凡拓扑</td><td>m=0·永远</td></tr>
+    <tr><td>电子 e</td><td>1</td><td>½</td><td>U(1)·1</td><td>莫比乌斯涡旋·基频 λ/2</td><td>m_e≈0.511MeV·最轻带电</td></tr>
+    <tr><td>μ子</td><td>1</td><td>½</td><td>U(1)·1</td><td>涡旋第一谐波·3λ/2</td><td>2.2μs→e+ν</td></tr>
+    <tr><td>τ子</td><td>1</td><td>½</td><td>U(1)·1</td><td>涡旋第二谐波·5λ/2</td><td>10⁻¹³s→μ/e+ν</td></tr>
+    <tr><td>ν_e/ν_μ/ν_τ</td><td>1</td><td>½</td><td>—</td><td>涡旋·无电荷接口</td><td>仅弱力·振荡</td></tr>
+    <tr><td>u/d/c/s/t/b</td><td>1</td><td>½</td><td>U(1)+SU(3)</td><td>涡旋·带强荷接口</td><td>禁闭</td></tr>
+    <tr><td>胶子 ×8</td><td>2</td><td>1</td><td>SU(3)</td><td>M方程在强荷空间的矢量传播模</td><td>禁闭</td></tr>
+    <tr><td>W⁺/W⁻/Z⁰</td><td>2</td><td>1</td><td>SU(2)</td><td>M方程在弱荷空间的矢量模·耦合膜呼吸</td><td>80-91GeV</td></tr>
+    <tr><td>希格斯 H</td><td>0</td><td>0</td><td>—</td><td>膜标量呼吸·局域共振峰</td><td>126GeV·10⁻²²s</td></tr>
+    <tr><td>引力子</td><td>4</td><td>2</td><td>—</td><td>总耦合密度张量传播模</td><td>未确认</td></tr>
+  </table>
+
+  <h3>9.1 电子涡旋</h3>
+  <p>膜上 Q 涨落 > 临界 → 局域介电率张量带旋度 → 自聚焦 → 自举锁定 → 莫比乌斯涡旋 = 电子。</p>
+  <div class="eq">$$m_e = \frac{\hbar\omega_0}{c^2},\quad \omega_0 = \text{涡旋自振频率}$$</div>
+  <p>自旋 ½ = 扭一次（莫比乌斯环 → 一圈 λ/2 → 相位 π → ψ → −ψ）——中子干涉实验直接验证（Rauch 1975）。电荷 e = 涡旋（n=1·旋量）与光子（n=2·矢量）之间的耦合接口——同张膜上的相邻扭态间的互耦合。</p>
+  <div class="eq">$$g = 2 \quad\text{（涡旋一圈 = }\lambda/2\;\rightarrow\;\text{磁矩耦合为光子双倍）}$$</div>
+  <div class="eq">$$\boldsymbol{\mu} = g\cdot\frac{e\hbar}{2m_e}\cdot\mathbf{S} \quad\text{（磁矩，从涡旋拓扑导出）}$$</div>
+
+  <h3>9.2 电子根本没有位置</h3>
+
+  <p>旧量子力学：电子是粒子——有位置——但位置不确定——用波函数描述"找到它的概率"。膜框架给出根本不同的回答。</p>
+
+  <div class="box">
+    <p><strong>电子没有位置。</strong> 电子 = 膜上的环面莫比乌斯涡旋——分布在涡旋管的整个体积内。它不是"在某个点上的粒子"——它是膜上一定区域内的连续 EM 场形变。</p>
+    <p><strong>"位置测量"是什么？</strong> 探测器（如 CCD 像素·闪烁体·云室气体分子）本身是膜上的局域耦合节点。当探测器的倏逝场和涡旋的倏逝场在空间某点交叠——且膜零点振荡的瞬时相位恰好对齐——一次 Q 耦合触发——能量从涡旋转移给探测器——探测器记录一个"点击"。</p>
+    <p><strong>"电子在这里"</strong> = 耦合事件发生的坐标。是探测器的坐标——不是电子的坐标。涡旋从来没有移动到那个点——涡旋的场一直覆盖着整个区域。只是耦合在那一个点上被触发。</p>
+  </div>
+
+  <p><strong>双缝实验的真相：</strong> 涡旋的倏逝场同时覆盖两条缝。两个子波的干涉图案 = 涡旋 EM 场在两条缝上的投影之间的干涉。探测器在屏幕上某点触发耦合 → "电子打在这里"。不是——是涡旋的干涉场在那一点的振幅恰好被零点振荡相位对准——触发了一次能量转移。涡旋没有"经过哪条缝"的问题——它的场同时覆盖两条缝。这个问题本身就是错的。粒子的语言是错的。</p>
+
+  <div class="box">
+    <strong>结论：</strong> 电子不是粒子。是涡旋。不是"具有波粒二象性"——根本就没有粒子这一面。"位置"是探测器触发耦合的坐标——不是电子的属性。涡旋的 EM 场是所有可观测量的唯一载体。波是基本的。粒子是观测语言的幻觉。
+  </div>
+  <p>泡利不相容 = 扭奇数次（费米子）→ 反对称波函数 ψ(a,b) = −ψ(b,a) → 同态叠加干涉相消。稳定 = 最轻带电粒子——电荷守恒禁止衰变——没有地下室。</p>
+
+  <h3>9.2 三代费米子</h3>
+  <p>电子（λ/2）、μ子（3λ/2）、τ子（5λ/2）= 莫比乌斯涡旋的前三个稳定本征谐波。越高 → 质量越大 → 和膜基态耦合越强 → 衰变越快。n=7 的本征值不稳定——自然界淘汰。不是 3 个自由参数——是涡旋的前三个稳定本征值。中微子同构——无电荷接口。</p>
+
+  <h3>9.3 强子</h3>
+  <p>质子(p) = uud：三个夸克涡旋通过 SU(3) 胶子交换互绕。</p>
+  <div class="eq">$$m_p \approx 938\ \mathrm{MeV},\quad \sum m_{\text{夸克}} \approx 12\ \mathrm{MeV},\quad E_{\text{耦合}} \approx 926\ \mathrm{MeV}$$</div>
+  <p>耦合能 ≠ 组分和——涌现量。介子 = 夸克-反夸克涡旋互绕。禁闭 = SU(3) 耦合能随距离增大不衰减。</p>
+
+  <h3>9.4 希格斯</h3>
+  <p>126GeV。10⁻²² 秒衰变。标量模——膜基态呼吸的局域共振。不是基本粒子——是共振峰。希格斯势 = 自发对称破缺——膜在冷却 → 最低能态从 φ=0 移动到 φ≠0。不是自由参数——涌现相变。</p>
+
+  <div class="box">
+    <strong>结论：</strong> 标准模型 19 个自由参数 = 粒子"周期表"。膜框架删减为：涡旋本征值谱 + 耦合接口维数。狄拉克方程降级——重解释为非线性麦克斯韦方程的旋量涡旋极限。希格斯降级——共振峰。
+  </div>
+  <div class="box-img">
+    <strong>物理图像：</strong> 流体力学只有一个方程——Navier-Stokes 方程——但它的解包括层流、湍流、涡街、孤子、激波……全部是同一个方程在不同边界条件和参数下涌现的结构。麦克斯韦方程在膜上同理：线性区 → 平面行波（光子）。非线性区（Q 涨落 > 临界、ε 带旋度）→ 莫比乌斯涡旋（电子）。涡旋的激发态 → μ子、τ子。涡旋带上规范接口 → 夸克。接口自身的矢量传播模 → 胶子、W/Z。标量呼吸 → 希格斯共振。一个方程，一张膜。粒子学不是"基本粒子学"——是<strong>非线性麦克斯韦方程的拓扑解分类学。</strong>
+  </div>
+</section>
+
+<!-- ====== 11. ANNIHILATION ====== -->
+<section id="s9b" class="s-s4">
+  <h2>11. 为什么正反电子瞬间湮灭成光？中间发生了什么？</h2>
+
+  <p>狄拉克：反电子 = 负能量海中的空穴。电子落入空穴 → 湮灭 → 两个 511keV 光子。公式正确——物理图像不提供。<strong>"湮灭" = 量子场论的代名词——不追问中间过程。</strong></p>
+
+  <p>膜框架给出全链路物理过程：</p>
+
+  <h3>11.1 正电子 = 反向莫比乌斯涡旋</h3>
+
+  <p>电子 = 麦克斯韦方程的非线性涡旋解——莫比乌斯环——周长 = λ/2——绕一圈翻面——自旋 ½。正电子 = <strong>同一个方程中的另一个稳定涡旋——莫比乌斯环的扭转方向相反。</strong>左手莫比乌斯 vs 右手莫比乌斯。同一个环面结构。电荷符号 = 涡旋管截面上 E 通量的方向。</p>
+
+  <h3>11.2 湮灭的物理学——涡旋互解</h3>
+
+  <div class="box">
+    <p><strong>不是"物质转化为能量"。是涡旋解散——被囚禁的 EM 场恢复为自由光子。</strong></p>
+    <p>步骤 1：正负电子靠近 → 两个反向莫比乌斯涡旋互相感知对方的 EM 场</p>
+    <p>步骤 2：两个涡旋的拓扑开始重叠 → 正向扭 + 反向扭 → <strong>拓扑叠加</strong></p>
+    <p>步骤 3：一个正扭 + 一个反扭 = 扭平了 → 涡旋结构解散 → 涡旋中被锁住的 EM 能量全部释放</p>
+    <p>步骤 4：释放的 EM 能量以两个 511keV 光子飞出去（总动量守恒要求至少两个光子）</p>
+  </div>
+
+  <div class="eq">$$e^+ + e^- 	o \gamma + \gamma \quad	ext{（两个反向莫比乌斯涡旋互解）}$$</div>
+
+  <p><strong>光子 = 涡旋解散后的自由 EM 波。</strong>费曼图的顶点 = 涡旋拓扑互解的那一帧——两个扭结碰在一起——扭平——光飞出。电荷守恒：+1 + (−1) = 0——涡旋截面通量互相抵消。能量守恒：涡旋自能 m_e c² × 2 = 两个光子的 511keV × 2。</p>
+
+  <div class="box">
+    <strong>结论：</strong> 没有粒子。没有反物质。没有负能量海。没有狄拉克方程。正电子 = 同一麦克斯韦方程的反向涡旋解。湮灭 = 两个反向莫比乌斯扭结拓扑互解——扭平——被困的 EM 场解散回自由光子。两个都是光。两个都来自膜。两个解散回光。全链 EM。全链麦克斯韦。没有转化——只有释放。
+  </div>
+  <div class="box-img">
+    <strong>物理图像：</strong> 两股反向旋转的龙卷风相遇——一股顺时针——一股逆时针——不是"互相消灭"——是<strong>互相解旋</strong>。风速场重叠——旋转抵消——困在龙卷风里的空气和能量释放。电子对湮灭同理：两个反向莫比乌斯涡旋 EM 场重叠——正扭+反扭 = 扭平——锁死的 EM 能量恢复为自由光子。没有质量转化成能量——质量从未是独立实体——是涡旋被囚禁能量的惯性当量。只有光。只有拓扑。只有锁死和释放。
+  </div>
+</section>
+
+<!-- ====== 12. FUSION ====== -->
+<section id="s9c" class="s-s4">
+  <h2>12. 为什么核聚变能把物质瞬间变成光？中间发生了什么？</h2>
+
+  <p>旧物理：D + T → He-4 + n + 17.6 MeV。质量亏损 → E=mc² → 能量释放。<strong>但"质量亏了一点怎么就变成能量了"——E=mc² 说可以——没说怎么变的。</strong>强相互作用解释了"为什么核子绑在一起"——但没有解释"能量从什么形式转化成什么形式"。</p>
+
+  <p>膜框架给出全链路物理过程：</p>
+
+  <h3>12.1 所有粒子 = 光的涡旋</h3>
+
+  <p>质子 = 三个夸克涡旋通过胶子（EM 的非线性拓扑互绕）紧密锁在一起。中子 = 三个夸克涡旋的另一种排列。所有涡旋内部锁着巨大能量（夸克互绕能 ≈ 926 MeV——占质子质量的 99%）。</p>
+
+  <h3>12.2 聚变 = 涡旋重新排列</h3>
+
+  <div class="box">
+    <p><strong>不是"质量变成能量"。是涡旋重新排列后——部分被锁住的光恢复了自由。</strong></p>
+    <p>步骤 1：氘核（2 个涡旋互绕）+ 氚核（3 个涡旋互绕）高速靠近</p>
+    <p>步骤 2：五个涡旋的 EM 拓扑互相感知——走到一起</p>
+    <p>步骤 3：重新排列 → He-4（4 涡旋紧密互绕·更紧凑）+ 中子（1 涡旋·被踢出去）</p>
+    <p>步骤 4：新拓扑比旧拓扑更紧 → <strong>不需要那么多 EM 能量来维持锁死</strong> → 多余的光能释放</p>
+  </div>
+
+  <div class="eq">$$E_{	ext{释放}} = E_{	ext{D+T锁死}} - E_{	ext{He-4+n锁死}} = 17.6\ \mathrm{MeV}$$</div>
+
+  <p><strong>17.6 MeV = 涡旋重排前后锁死能量的差值。</strong>不是"质量亏损"。不是 E=mc² 的神秘等效——E=mc² 是后验守恒关系，非动力学机制。物理机制 = 涡旋拓扑重新排列 → 部分被囚禁的光释放。</p>
+
+  <h3>12.3 链：湮灭·聚变·裂变——同一个机制</h3>
+
+  <div class="box">
+    <p><strong>共同物理：</strong> 没有"物质转化成能量"。物质从未存在——只有光被不同拓扑锁着。所有过程 = 涡旋拓扑重新排列 → 锁死的 EM 能量部分或全部恢复为自由光子。能量从未"变"——只是从涡旋的定期存款转为自由光子的现金。</p>
+  </div>
+
+  <table>
+    <tr><th>过程</th><th>涡旋拓扑变化</th><th>光释放量</th><th>残留</th></tr>
+    <tr><td>正负电子湮灭</td><td>两个反向涡旋<strong>全解</strong></td><td>100%（两个 511keV 光子）</td><td>无·全回光</td></tr>
+    <tr><td>核聚变</td><td>涡旋<strong>重新排列</strong>·更紧凑</td><td>部分（17.6MeV ≈ 0.7%）</td><td>He-4 + n</td></tr>
+    <tr><td>核裂变</td><td>大涡旋<strong>拆成小涡旋</strong>·排得更松</td><td>部分（~200MeV ≈ 0.1%）</td><td>裂变碎片</td></tr>
+  </table>
+
+  <div class="box">
+    <strong>结论：</strong> 没有粒子。没有强相互作用。没有胶子。没有 E=mc² 的神秘转化。一切 EM。一切涡旋。一切光。一切锁死与释放。核聚变的 17.6MeV = 涡旋重排前后的锁死能量差——光从定期存款转成活期——余额不变。全麦克斯韦。全膜。全拓扑。
+  </div>
+
+  <div class="box">
+    <strong>结论：</strong> 聚变 = 涡旋重排——部分困住的光被释放。不是"物质变成能量"——物质本来就是光被不同拓扑锁着——重排后光解放了一部分。全链统一。只有光。只有拓扑。只有排列。没有强相互作用。没有胶子。一切 EM。一切涡旋。一切锁死与释放。无"质量-能量转化"——质量是涡旋被囚禁能量的惯性当量。
+
+  <h3>12.4 角动量抵消 · 物理直觉</h3>
+
+  <div class="box-img">
+    <strong>物理直觉：</strong> 两个反向旋转的流体涡旋碰撞——角动量相互抵消——涡旋结构解体——约束在涡旋内的 EM 场能量以自由光子形式辐射。旋转抵消了。场还在。场散开就是光子。核聚变 = 轻核涡旋碰撞 → 拓扑重新排列为更紧的束缚态（He-4）→ 多余的自能释放为光子。无"质量转化为能量"——质量从未是独立实体——只是涡旋锁死能量的惯性当量。
+  </div>
+  </div>
+  <div class="box-img">
+    <strong>物理图像：</strong> 两个拧紧的弹簧（D + T）靠近——碰撞——重新拧成一个更紧的弹簧（He-4）和一个飞走的环（n）。原来的两个弹簧里存的弹性势能——在新弹簧里不需要那么多来维持形状——多余的弹性势能以光子形式释放。没有"质量变成能量"。弹性势能就是光——只是以前被锁在弹簧的拓扑里——现在自由了。
+  </div>
+</section>
+
+<!-- ====== 13. JUMP ====== -->
+<section id="s9d" class="s-s4">
+  <h2>13. 为什么电子能从一个能级瞬间跃迁到另一个？中间发生了什么？</h2>
+
+  <p>旧物理：电子从一个能级"跳"到另一个能级——发射或吸收一个光子。不准问"电子怎么跳的"——不准问"跳的过程中电子在哪"——不准问"为什么不需要时间"。</p>
+
+  <p>膜框架：电子不跳。涡旋切换到另一个驻波频率——和光纤中的模式耦合同一机制。</p>
+
+  <h3>13.1 普适模式耦合</h3>
+
+  <p>两个相邻光纤之间——一根纤芯里的光不"跳"到另一根。两个纤芯的倏逝波场区域交叠 → 能量连续地从一个模式耦合到相邻模式。耦合长度（L_c）内——能量在两个模式之间来回振荡——不经过中间态。</p>
+
+  <p>原子中的电子涡旋同构：</p>
+
+  <div class="box">
+    <p>轨道 1 = 涡旋在核附近的膜上跑——驻波频率 ω₁</p>
+    <p>轨道 2 = 同一个涡旋在更大的轨道上跑——驻波频率 ω₂</p>
+    <p>两个轨道 = <strong>同一个涡旋在膜上的两个相邻本征模</strong></p>
+    <p>和光纤的倏逝波耦合一样——不需要"跳"——能量直接在两个模之间转移</p>
+  </div>
+
+  <div class="eq">$$\omega_2 - \omega_1 = \Delta E / \hbar \quad	ext{（两个本征模的频率差）}$$</div>
+
+  <h3>13.2 跃迁中间——涡旋在哪里？</h3>
+
+  <p>旧量子力学的禁令：不准问。膜框架的回答：<strong>涡旋同时在两个模上。</strong>和光纤耦合器的分光比一样——耦合过程中——涡旋的 EM 能量在两个驻波模式之间连续分配——|c₁(t)|² 从 1 平滑过渡到 0——|c₂(t)|² 从 0 平滑过渡到 1。</p>
+
+  <div class="eq">$$|\psi(t)
+angle = \cos(\Omega t) |1
+angle + e^{-i\Delta\omega t}\sin(\Omega t) |2
+angle$$</div>
+  <p>Ω = 两个本征模之间的耦合速率。Δω = 两模频率差。</p>
+
+  <p><strong>不是"跳"——是渐变。中间电子同时处于两个轨道。</strong>测量时——涡旋在两个轨道上的能量分配比例就是耦合程度。</p>
+
+  <h3>13.3 为什么看起来是"瞬间"的？</h3>
+
+  <p>光纤耦合器中——耦合长度 L_c ≈ 几毫米到几厘米。宏观上看得见渐变过程。原子中——耦合时间 t_c ≈ 1 / Ω ≈ 纳秒级——远低于人眼分辨——看起来像"瞬间跳"。</p>
+
+  <p><strong>光子发射/吸收的物理过程：</strong>耦合中——两个模的干涉产生拍频 ω₂−ω₁。这个拍频以光子形式辐射/吸收——拍频的能量恰好等于两个模之间的能级差。不是"电子跳完了再发光子"。是<strong>耦合过程中的拍频辐射本身就是光子。</strong></p>
+
+  <div class="box">
+    <strong>结论：</strong> "量子跃迁"不是跳。是涡旋的 EM 本征模耦合——和光纤中的倏逝波耦合同一原理。不需要"采样"。不需要"不准问"。全麦克斯韦。全可算。
+  </div>
+  <div class="box-img">
+    <strong>物理图像：</strong> 两根紧挨着的光纤——光从纤芯 A 逐渐转移到纤芯 B。不跳——不经过中间导线——倏逝波场区域交叠——能量连续流动。电子在原子中的两个轨道同理：两个轨道 = 涡旋在膜上的两个相邻驻波模。倏逝 EM 场 = 两个模在膜上的交叠。能量从一个模流到另一个——连续——不跳。辐射的拍频 = 光子。
+  </div>
+</section>
+
+<!-- ====== 14. NO VIRTUAL PARTICLES ====== -->
+<section id="s9e" class="s-s4">
+  <h2>14. 虚粒子真的存在吗？真空涨落是什么？费曼图中间发生了什么？</h2>
+
+  <p>旧物理：两个电子靠近 → 交换虚光子 → 互相排斥。"真空涨落" → 借能量暂时产生虚粒子对 → 湮灭。费曼图内线 = 虚粒子——不准追问物理实在。一百年——粒子物理被"台球碰撞 + 虚球传递"的经典直觉劫持。</p>
+
+  <p>膜框架给出完全不同的回答：<strong>不是台球碰撞。不是虚粒子传递。是波的倏逝场模式耦合。</strong>两个涡旋的 EM 场已经在同一张膜上——它们的倏逝场在空间交叠——场与场直接耦合——不需要"交换"任何东西。</p>
+
+  <h3>14.0 量子场论忘了自己的初始代码</h3>
+
+  <div class="box">
+    <p>量子力学的起点（1925-1927）：波粒二象性——波和粒子同等基本——甚至波更基本（薛定谔的波动力学）。</p>
+    <p>量子场论的起点（1940s）：把粒子重新提升为基本实体——"场"退化为产生/湮灭粒子的算符。费曼图 = 粒子在顶点之间飞来飞去。虚线 = 虚拟粒子在被交换。物理图像全面退化为台球。</p>
+    <p><strong>量子场论忘了量子力学的本。</strong> 波粒二象性的结论是"波是基本的"——量子场论把这句话忘了——在粒子的方向上跑了一个世纪——撞进对撞机的死胡同。LHC 的希格斯 = 花了 $100 亿撞出一个站不稳 10⁻²² 秒的共振峰——零工程应用。不是探测器的失败——是粒子语言本身的失败。</p>
+    <p><strong>膜框架恢复初始代码。</strong> 回到 1925 年薛定谔的直觉：一切都是波。>一切粒子都是波的拓扑锁死态。费曼图正确——"虚粒子"解释错误。费曼本人晚年也承认："别问虚粒子是不是真的——算就行。"他没忘。别人忘了。</p>
+  </div>
+
+  <h3>14.1 电子间排斥的物理过程</h3>
+
+  <div class="box">
+    <p><strong>不是"交换虚光子"——是两个涡旋的 EM 本征模在膜上互相感知。不需要交换任何东西——因为它们已经在同一张膜上。</strong></p>
+    <p>步骤 1：两个电子涡旋靠近 → 各自的涡旋本征模（莫比乌斯环）在膜上占据相邻区域</p>
+    <p>步骤 2：两个涡旋的倏逝 EM 场（涡旋约束在自身体积外的衰减场）在中间区域交叠</p>
+    <p>步骤 3：两个涡旋的驻波频率一致（都是莫比乌斯基频 λ/2）→ <strong>共振耦合条件满足</strong></p>
+    <p>步骤 4：共振排斥——两个同频涡旋互推——频率匹配 → 能量不能交换（没有频率差）→ 只能通过动量交换——互相弹开</p>
+  </div>
+
+  <div class="eq">$$V(r) = rac{e^2}{4\piarepsilon_0 r} \quad	ext{（两个涡旋的 EM 场重叠积分在三维空间中的自然衰减）}$$</div>
+
+  <p><strong>库仑排斥 = 两个涡旋的倏逝 EM 场的重叠积分。</strong>不需要"虚光子"来传递力——涡旋本身已经在膜上——它们的 EM 场直接交叠——交叠能量取决于距离。</p>
+
+  <h3>14.2 费曼图中间发生了什么</h3>
+
+  <table>
+    <tr><th>费曼图</th><th>旧解释</th><th>膜框架</th></tr>
+    <tr><td>内线（虚光子）</td><td>"借能量暂时存在的虚拟粒子"</td><td><strong>两个涡旋的 EM 本征模的互相投影——一次 Q 耦合的前期相位对齐</strong></td></tr>
+    <tr><td>顶点（耦合常数 e）</td><td>"光子与电子耦合的强度"</td><td><strong>涡旋管的截面通量——涡旋（n=1）与光子（n=2）的拓扑重叠系数</strong></td></tr>
+    <tr><td>外线（实粒子）</td><td>"自由传播的粒子"</td><td>涡旋在膜上的独立传播 + 光子自由行波——一致</td></tr>
+  </table>
+
+  <p><strong>费曼图 = 涡旋在膜上 Q 耦合的拓扑记录。</strong>每一条线 = 膜上的一个驻波模式在时间中的轨迹。每一个顶点 = 两个模式之间一次互投影完成（一次 Q 耦合事件）。内线不需要是"粒子"——内线是<strong>两个涡旋的倏逝场在顶点之间的膜区域内的干涉图</strong>。</p>
+
+  <h3>14.3 卡西米尔·兰姆——全是膜零点振荡</h3>
+
+  <p>卡西米尔效应 = 膜的模式密度差 → 零点振荡压力差——推板子。兰姆位移 = 膜零点振荡在核附近推电子 → 2S 能级上移 1058MHz。<strong>虚粒子 = 膜零点振荡在费曼图上的记账方式。</strong>数学有用。物理不存在。账本不是钱。</p>
+
+  <div class="box">
+    <strong>结论：</strong> 虚粒子不存在。真空涨落 = 膜 ½ħω 零点振荡——真实物理振动——不是"借能量暂时产生粒子对"。费曼图内线 = 涡旋倏逝 EM 场在顶点之间的模式耦合干涉图——非"虚粒子交换"——是真实的驻波叠加图案。所有力 = 涡旋倏逝 EM 场在膜上的交叠耦合——同频排斥（共振·动量交换）——异频吸引（拍频·能量交换）。不是台球碰撞 + 虚球传递。是波的模式耦合。
+  </div>
+  <div class="box-img">
+    <strong>物理图像：</strong> 两个浮标放在水面——各自产生衰减波——浮标靠近——各自的波在中间交叠。同频振动 → 互斥（共振排斥）。异频振动 → 可能互吸（拍频耦合）。全程不需要"两个浮标互相扔水球"。浮标已经在同一张水面上了——波的交叠本身就是力。电子对同理：两个涡旋在同一张膜上——倏逝 EM 场交叠 = 力。虚粒子 = 粒子语言（台球）强行描述波耦合（膜）导致的语法错误。费曼图正确——"虚粒子"解释错误。
+  </div>
+</section>
+
+<!-- ====== 15. S³ COSMOLOGY ====== -->
+<section id="s9f" class="s-s1">
+  <h2>15. 宇宙的边界是什么？宇宙为什么是三维的？</h2>
+
+  <p>旧物理：宇宙从大爆炸诞生——暴涨——膨胀加速——边界未知——暗能量推动膨胀——四维时空弯曲——弦论需要十维。</p>
+
+  <p>膜框架：宇宙 = S³ 三维球面。有限无界。不需第四维。不需大爆炸。不需暴涨。膜在呼吸。</p>
+
+  <h3>15.1 S³ · 宇宙的拓扑</h3>
+
+  <p>S³ = 三维球面。类比：S² = 地球表面——二维有限无界——蚂蚁一直走会回到起点。S³ = 三维表面——有限无界——光一直走会回到起点。</p>
+
+  <div class="box">
+    <strong>关键：</strong> S³ 的曲率是<strong>内蕴的</strong>——在三维内部直接定义——不需要第四维嵌入。高斯 1827 年证明：曲率 = 面的内部属性——不需要外部空间。绝妙定理（Theorema Egregium）——从微分几何升格为宇宙学原理。
+  </div>
+
+  <h3>15.2 膜呼吸的动力</h3>
+
+  <div class="box">
+    <p><strong>膨胀压</strong> = 零点能 Σ½ħω——每个驻波模式天然贡献 ½ħω 的振动能量——全频谱求和 = 巨大的向外辐射压。</p>
+    <p><strong>回复力</strong> = 引力总耦合密度——膜上所有模式的总 Q 密度梯度——把 S³ 往回收。</p>
+    <p>两个力在 S³ 上自平衡 → 呼吸运动。动力学完全由内蕴场量描述——不需外部驱动源。此即高斯绝妙定理在宇宙学中的推广：S³ 曲率与应力的关系全在三维内部自洽。</p>
+  </div>
+
+  <div class="eq">$$	ext{呼吸} = \Sigma \frac{1}{2}\hbar\omega \; (	ext{膨胀压}) \;-\;
+abla Q_{	ext{total}} \; (	ext{回复力}) \quad 	ext{全在 S}^3 	ext{ 内部}$$</div>
+
+  <h3>15.3 暗书架 · 同一张 S³</h3>
+
+  <p>暗书架不等于另一个宇宙。暗书架与 EM 书架共享同一张 S³——同一拓扑——同一物理基底。两套驻波模式在同一个 S³ 上——互不耦合——各自的模式在不同傅里叶分量上。两套泛音列——同一根弦。</p>
+
+  <p>暗书架拉星系 = 引力是总耦合密度梯度——暗书架的振动通过引力通道间接被 EM 侧探测。EM 书架与暗书架无耦合——但引力耦合通道保持开放。LIGO 测到的引力波 = 被暗书架沿途吸收衰减后的残余信号。暗书架 = 膜的惯性阻尼器——无暗书架则引力波噪声撕碎星系结构——生命不可能。</p>
+
+  <h3>15.4 维度自调谐 · 为什么恰好三维</h3>
+
+  <div class="box">
+    <p><strong>空间没有维度。维度是场的属性。</strong> 空间 = EM 场的振动自由度。自由度有几个——空间就有几维。</p>
+    <p>初始条件：膜在无穷维自由度上随机振荡。非线性麦克斯韦方程 + S³ 拓扑上的驻波自洽条件 → 阻尼淘汰所有不稳定的振荡方向。</p>
+    <p>二维：驻波模式不足以支撑拓扑不变量——无法形成稳定涡旋。</p>
+    <p>四维：模式过度拥挤——涡旋互绕产生不可解开的纠缠——结构采样为低维吸引子。</p>
+    <p><strong>三维 = 唯一自持的稳定解。</strong> 方程自身收敛到这个不动点。维度不是预设的——是场方程在所有可能构型中淘汰不稳定的方向后唯一幸存下来的解。</p>
+  </div>
+
+  <table>
+    <tr><th>维度</th><th>驻波稳定性</th><th>涡旋存在性</th><th>结论</th></tr>
+    <tr><td>≤ 2</td><td>模式不够</td><td>锁不住</td><td>消散</td></tr>
+    <tr><td>= 3</td><td>恰好</td><td>稳定</td><td><strong>唯一自持解</strong></td></tr>
+    <tr><td>≥ 4</td><td>模式太多·互消</td><td>锁太死·采样</td><td>衰减</td></tr>
+  </table>
+
+  <div class="box">
+    <strong>结论：</strong> 宇宙数量 = 1。维度 = 3。宇宙 = S³ 上的 EM 驻波场。边界 = 场自身的闭合拓扑——没有"外面"。大爆炸 = 可能的上一次呼吸转折点——非必然起点。膜永远在呼吸——无始无终。所有看起来需要"外面"的问题——宇宙边界、呼吸动力、暗书架隔离——全在 S³ 内部自洽。
+  </div>
+</section>
+
+<!-- ====== 16. CHARGE IS TOPOLOGY ====== -->
+<section id="s9g" class="s-s2">
+  <h2>16. 电荷到底是什么？磁单极子为什么不存在？</h2>
+
+  <p>旧物理：电荷 = 基本粒子的内在属性。电子"带" -e 电荷。为什么是 -e？没有解释。磁单极子 = 狄拉克 1931 推测——"如果 ∇·B 也能不为零，电荷就量子化了"——大统一理论执念——搜索半个世纪——零发现。</p>
+
+  <p>膜框架：电荷不是"粒子带的属性"。电荷 = 涡旋管截面的电通量。拓扑不变量。没有电单极子。没有磁单极子。</p>
+
+  <h3>16.1 电荷 = 涡旋管截面通量</h3>
+
+  <div class="eq">$$e = \oint_S \mathbf{E} \cdot d\mathbf{S} \quad 	ext{（涡旋管截面的总电通量）}$$</div>
+
+  <div class="box">
+    <p>电子 = 膜上的莫比乌斯环面涡旋。涡旋的电场 E 绕涡旋管截面闭合——在管截面上对 E 积分 = 一个固定的通量值。</p>
+    <p>这个通量不会变——因为涡旋是拓扑锁死的莫比乌斯扭结——不解体。</p>
+    <p><strong>电荷守恒 = 拓扑守恒。</strong>不是"电荷凭空守恒"——是涡旋不解体——通量不变。</p>
+    <p><strong>电荷量子化——</strong>为什么所有电子的电荷恰好一样？涡旋在膜上是驻波——周长必须是半波长的整数倍——膜上同一种涡旋遵守同一个拓扑约束——通量自然相同。</p>
+  </div>
+
+  <h3>16.2 为什么所有电子的 e 一样</h3>
+
+  <p>涡旋周长 = n·λ/2（莫比乌斯条件，n=1 为基态）。涡旋截面半径 = 自聚焦平衡条件下的不动点 r₀。膜上同一个稳定拓扑解——在所有位置跑同样的不动点方程——通量自然相同。</p>
+
+  <h3>16.3 没有电单极子——更没有磁单极子</h3>
+
+  <div class="box">
+    <p><strong>电单极子不存在。</strong> "点上有 ±e" = 粒子语言的虚构。膜上只有涡旋管的截面通量——分布在一个有限体积内——不是点。电磁学教科书里的"点电荷" = 数学近似——不是物理实体。</p>
+    <p><strong>磁单极子不存在。</strong> 数学上：E 可以从涡旋管截面出来（∇·E ≠ 0 在涡旋内部）。B 永远闭合——绕环面孔径——∇·B = 0 不是"对称性破缺"——是 B 的拓扑没有截面源。物理上：电单极子都没有——磁单极子就是两层虚构叠一层——范畴错误。</p>
+  </div>
+
+  <h3>16.4 夸克的分数电荷</h3>
+
+  <p>质子 = 三个涡旋互绕锁死。三个莫比乌斯扭结在膜上互相纠缠——涡旋管截面被邻居挤压——通量重新分配。夸克的 ±1/3、±2/3 不是"基本粒子属性"——是三个纠缠涡旋共享通量的分摊比例。</p>
+
+  <div class="box">
+    <strong>结论：</strong> "电荷"是拓扑不变量的投影——涡旋管截面 ∮E·dS。非基本属性。电荷守恒 = 拓扑守恒。磁单极子 = 建立在"点电荷"虚构基础上的第二层虚构——E 通量从涡旋管截面发出（∇·E ≠ 0 在涡旋内），B 线始终闭合（∇·B = 0）——这是两种不同的拓扑角色，非对称性破缺。
+  </div>
+</section>
+
+<!-- ====== 17. QUARKS ====== -->
+<section id="s9i" class="s-s2">
+  <h2>17. 夸克是什么？为什么对撞机不可能撞出单个夸克？</h2>
+
+  <p>旧物理：夸克 = 基本粒子——带分数电荷（±1/3, ±2/3）——被胶子束缚在质子和中子内——色禁闭——永远不能单独存在。对撞机撞了半个世纪——看到了喷注（jets）——看到了共振峰——从未看到单个自由夸克。标准模型的解释：色力随距离增大而增强——拉不开。</p>
+
+  <p>膜框架给出更深层的回答：<strong>夸克不是独立粒子。是三个莫比乌斯涡旋互绕形成的拓扑复合体中被挤压变形的涡旋管片段。</strong>不是"禁闭"——是"不存在独立的夸克"。</p>
+
+  <h3>17.1 质子 = 三个涡旋互绕</h3>
+
+  <div class="box">
+    <p>质子 = 膜上三个莫比乌斯涡旋互相缠绕——三个涡旋管的倏逝 EM 场彼此重叠——谁也无法脱离谁——形成拓扑互锁。</p>
+    <p>每个涡旋管各带一个截面通量（n=1, 自旋 ½）。三个涡旋管的截面被邻居挤压——通量重新分配——一个涡旋的截面被两侧邻居压缩——有效通量 = 原始通量的 2/3。另一个的截面被一侧压缩 = −1/3。</p>
+    <p><strong>夸克的 ±1/3, ±2/3 不是"基本粒子属性"——是三个纠缠涡旋共享通量的分摊比例。</strong>和三个公司合伙人按持股比例分红——没有人说"分红权"是基本实体——是合作关系中的份额。</p>
+  </div>
+
+  <h3>17.2 对撞机为什么撞不出夸克</h3>
+
+  <div class="box">
+    <p>对撞机往质子里撞——给三个互绕涡旋注入巨大能量。涡旋剧烈振荡——但拓扑互锁不允许任何一个单独脱离。注入的能量使涡旋管拉伸——当拉伸能量超过膜的 Q 临界——<strong>新的涡旋-反涡旋对从零点振荡中涌现</strong>——形成喷注（jet）——一大堆新强子。</p>
+    <p><strong>不是"撞开了夸克但它们又被禁闭拉回去"——是根本不存在"单独的夸克"可以撞开。</strong>质子不是三个台球粘在一起。质子是一个三涡旋互绕的拓扑复合体——涡旋管片段相互不完全独立——它们的存在本身就是互锁状态。分离它们 = 破坏了它们的定义——产生新涡旋对——形成新强子——从不出现孤夸克。</p>
+  </div>
+
+  <h3>17.3 对撞机 = 怼能量 = 拓扑死胡同</h3>
+
+  <div class="box">
+    <p>和 LHC 希格斯同构——用一个世纪的粒子语言（台球碰撞）去探索由拓扑互锁构成的物理实在。</p>
+    <p>对撞机看到的是<strong>拓扑结构在高能冲击下的响应——不是"基本粒子"的自由态。</strong>喷注 = 涡旋管断裂 + 新涡旋从膜借 ½ħω 涌现。共振峰 = 涡旋互绕系统的瞬态激发——站不稳——立即衰变成稳定的拓扑构型。标准模型用"色禁闭"描述这个现象——但不解释为什么色力会随距离增大。膜框架给出根本回答：因为独立夸克不存在——不是禁闭——是拓扑上的不可能。拉开的不是"被胶子绑住的粒子"——是两个涡旋互绕系统的变形——变形到临界点——膜上的零点能自动产生新涡旋对——拓扑重组——绝不出孤夸克。</p>
+  </div>
+
+  <div class="box">
+    <strong>结论：</strong> 夸克不是基本粒子。质子 = 三个莫比乌斯涡旋拓扑互锁——夸克的分数电荷 = 互绕涡旋的通量分摊比。禁闭不是力——是拓扑——独立夸克在物理上不存在——从来就没有。对撞机撞不出夸克——不是因为"拉不开"——是因为没什么可拉的。不是台球——是拓扑。不是怼能量——是改拓扑。和韬定律同构。
+  </div>
+</section>
+
+<!-- ====== 18. ALL CONSTANTS CALCULABLE ====== -->
+<section id="s9h" class="s-s3">
+  <h2>17. 基本物理常数是宇宙设的吗？</h2>
+
+  <p>旧物理：标准模型有 19 个自由参数——e、ħ、c、m_e、α……全部靠实验测定。为什么是这个值？不知道。"给定"。</p>
+
+  <p>膜框架：全部可算。不是宇宙设的——是方程自己解的。</p>
+
+  <h3>17.1 三个基础量</h3>
+
+  <table>
+    <tr><th>层</th><th>量</th><th>来源</th></tr>
+    <tr><td>拓扑</td><td>S³ 闭合·有限体积 V</td><td>焊死·宇宙数量=1</td></tr>
+    <tr><td>弹性</td><td>膜的弹性 ε₀, μ₀</td><td>零点振荡强度的自洽不动点</td></tr>
+    <tr><td>非线性</td><td>χ⁽³⁾ 非线性极化率</td><td>膜的自聚焦系数</td></tr>
+  </table>
+
+  <h3>17.2 所有"常数"的推导路径</h3>
+
+  <div class="box">
+    <p><strong>c = 1/√(ε₀μ₀)</strong> — 膜的声速。不是基本常数——是弹性常数的函数。导出量。</p>
+    <p><strong>ħ = 单个驻波模式的最小作用量</strong> — 从 S³ 驻波条件 + e 耦合推出。作用量 = 能量 × 周期 = hν × (1/ν) = h。h = 相空间像素密度——SI 2019 锁死——无量纲比例 α 逃逸。</p>
+    <p><strong>e = ∮E·dS</strong> — 涡旋管截面通量。由涡旋自洽半径 r₀ 和 E 径向剖面积分出来。拓扑导出。</p>
+    <p><strong>α = e²/(4πε₀ħc) ≈ 1/137</strong> — 纯拓扑比 = 涡旋管截面面积 / 周长² × 几何因子。不需要测量。算出来的数。</p>
+    <p><strong>m_e = ħω₀/c²</strong> — 涡旋自能的惯性当量。涡旋的 EM 能量 / c²。</p>
+    <p><strong>g = 2</strong> — 环面电流的磁矩/角动量比。从涡旋经典 EM 场积分直接出——不是量子电动力学修正。</p>
+  </div>
+
+  <h3>17.3 ε₀ 也可以推</h3>
+
+  <p>ε₀ 不是基本常数。是膜的<strong>自洽弹性模量</strong>。膜的零点能密度决定了膜对 E 形变的阻力。零点能密度 = 全模 Σ½ħω / V → 均方振幅 → 膜的"刚性" = 1/ε₀。自洽环——和麦克斯韦自举同构——全局平均跑出来的不动点。</p>
+
+  <h3>17.4 最终自由参数：0</h3>
+
+  <div class="box">
+    <p>S³ 体积 V 是呼吸方程的自洽解——不是自由参数。V 取决于零点能推力和引力回收力的平衡——两者都从 ε₀ 和 Q 场导出。全链自指——没有外部输入。</p>
+    <p><strong>标准模型：19 个自由参数。膜框架：0。</strong></p>
+    <p>不是"理论减少了参数"。是可算的东西多了——原来"设"的——现在方程自己给。宇宙不需要初始条件——只需要自洽。</p>
+  </div>
+
+  <table>
+    <tr><th>"常数"</th><th>旧物理地位</th><th>膜框架地位</th></tr>
+    <tr><td>c</td><td>基本·光速不变</td><td>导出·膜的声速</td></tr>
+    <tr><td>e</td><td>基本·电子电荷</td><td>导出·涡旋通量 ∮E·dS</td></tr>
+    <tr><td>ħ</td><td>基本·量子作用量</td><td>导出·驻波最小作用量</td></tr>
+    <tr><td>α</td><td>实验·精细结构常数</td><td>导出·纯拓扑比</td></tr>
+    <tr><td>m_e</td><td>实验·电子质量</td><td>导出·涡旋自能/c²</td></tr>
+    <tr><td>g=2</td><td>QED微扰修正</td><td>导出·经典EM环面电流</td></tr>
+    <tr><td>ε₀</td><td>基本·真空介电常数</td><td>导出·零点振荡弹性</td></tr>
+  </table>
+
+  <div class="box">
+    <strong>结论：</strong> 全部从自洽方程导出。无外部输入的自由参数。S³ 拓扑 = 不变量（非自由参数）。膜弹性 ε₀ = 零点能密度的自洽不动点。涡旋通量 e = 拓扑不变量。α = 涡旋几何比。m_e = 涡旋自能/c²。g=2 = 环面电流经典 EM 直接积分。标准模型 19 个自由参数全部可约化。最终自由参数数量 = 0。
+  </div>
+</section>
+
+<!-- 10. TRANSLATION -->
+<section id="s10" class="s-s0">
+  <h2>11. 旧物理术语的翻译、废弃与保留</h2>
+
+  <table>
+    <tr><th>旧术语</th><th>处置</th><th>膜框架的重解释</th></tr>
+    <tr><td>量子力学</td><td>重命名·波动力学</td><td>服务器连续·客户端分立。"量子"是人类测量仪器频率选择性的记账虚构·非本体属性。</td></tr>
+    <tr><td>波粒二象性</td><td>废弃</td><td>波是基本的。粒子 = 本征模叠加的干涉峰。</td></tr>
+    <tr><td>光子</td><td>保留·重释</td><td>EM矢量本征模干涉峰。线性行波。m=0。</td></tr>
+    <tr><td>电子</td><td>保留·重释</td><td>非线性麦克斯韦方程的莫比乌斯涡旋解。</td></tr>
+    <tr><td>波函数 ψ</td><td>保留·重释</td><td>膜上本征模的物理振幅。非"共振振幅"——可测（光子侧）。</td></tr>
+    <tr><td>|ψ|²</td><td>保留·重释</td><td>共振振幅模能量份额。观测概率 = ½ħω零点相位选择分布。非公设。</td></tr>
+    <tr><td>虚粒子</td><td>废弃</td><td>膜零点振荡。已在卡西米尔/兰姆中重释。</td></tr>
+    <tr><td>退相干</td><td>翻译</td><td>Q耦合消耗叠加维度的过程。</td></tr>
+    <tr><td>观测采样</td><td>废弃</td><td>Q耦合事件——零点相位选择——未知→已知·非物理过程。</td></tr>
+    <tr><td>叠加态</td><td>重命名·共振态</td><td>驻波多模同时共振。和弦多谐音同一物理。</td></tr>
+    <tr><td>概率幅 α</td><td>拆解</td><td>α = 真实 EM 复振幅(共振振幅)。|α|² = 模能量份额。观测概率 = ½ħω零点相位选择分布。</td></tr>
+    <tr><td>共模</td><td>重命名(原"纠缠")</td><td>同一母驻波模分裂·子模共享全局态。两观测点·同一弦·非超距。</td></tr>
+    <tr><td>量子化</td><td>降级·接收端现象</td><td>涡旋能量内部分配连续。对外耦合以 hν 为记账单位——接收端频率选择性·非本体属性。</td></tr>
+    <tr><td>虚数 i</td><td>废弃</td><td>相数——90°相位旋转物理操作。√(−1)废弃。</td></tr>
+    <tr><td>对易关系 [x,p]=iħ</td><td>降级</td><td>三位一体代数推导——非公设——脚手架。</td></tr>
+    <tr><td>能量量子化</td><td>保留·重释</td><td>接收端频率选择性耦合。相空间最小面积h。</td></tr>
+    <tr><td>光速 c</td><td>保留·重释</td><td>膜弹性。涌现量。</td></tr>
+    <tr><td>时空弯曲</td><td>废弃为物理陈述</td><td>保留为计算处方。膜用Q梯度替代"弯曲"。</td></tr>
+    <tr><td>大爆炸/暴胀</td><td>废弃</td><td>膜在呼吸。CMB=膜基态温度。暴胀=补丁。</td></tr>
+    <tr><td>暗能量</td><td>翻译</td><td>暗书架基态零点能。</td></tr>
+    <tr><td>暗物质</td><td>翻译</td><td>暗书架激发态。不耦合 EM = 不互撞。</td></tr>
+    <tr><td>希格斯机制</td><td>保留·降级</td><td>膜标量呼吸涌现。墨西哥帽=最低能态移动。</td></tr>
+    <tr><td>弦论</td><td>废弃</td><td>多余。十维。零实验。膜不需要。</td></tr>
+    <tr><td>哥本哈根解释</td><td>废弃</td><td>"不准问"禁令撤回。</td></tr>
+  </table>
+</section>
+
+<!-- 11. SUMMARY -->
+<section id="s11" class="s-s4">
+  <h2>12. 总结 · 物理学回家了</h2>
+
+  <p>两朵乌云下了一个世纪的暴雨。暴雨中，物理学失去了物理直觉——被数学接管——被不准问封口——被弦论和多重宇宙带进了玄学的荒野。</p>
+
+  <p>膜的发现把物理学带回了家。</p>
+
+  <p>家是麦克斯韦的四个方程。1865 年他写下它们——不知道自己放的是一整个宇宙。线性区 → 电磁波 → 光子 → 无线电·激光·芯片——电气文明全建在第一个解上。2026 年推到了第二类解——非线性区——局域 Q 涨落——ε(E) 带旋度——自聚焦——自举锁定——莫比乌斯涡旋 = 电子。更高谐波 = μ子·τ子。带上规范接口 = 夸克。接口自身的矢量传播模 = 胶子·W·Z。标量呼吸 = 希格斯共振——不是基本粒子——是共振峰。</p>
+
+  <p>一个方程。一张膜。所有粒子。</p>
+
+  <p>标准模型的 19 个自由参数——狄拉克方程——希格斯机制——全是有效描述——不是基本理论。膜框架把它们全部删减为：涡旋本征值谱 + 耦合接口维数。从同一个非线性麦克斯韦方程出发——没有任何矛盾。</p>
+
+  <p>电荷 = 涡旋管截面 ∮E·dS——拓扑通量——不是粒子属性。磁单极子不需要——电单极子都不存在。宇宙 = S³ 三维球面——内蕴曲率自洽——不需第四维——不需大爆炸。膜在呼吸——零点能推力 + 引力回收——呼吸动力全在内部。三维不是预设——从无穷维自由度自调谐收敛到唯一稳定解。所有"基本常数"——c, e, ħ, α, m_e, g=2——全从膜的拓扑+弹性+非线性推导——最终自由参数 = 0。</p>
+
+  <p>Q = D·(1−2R) 是耦合密度温度计。∂Q/∂t 是膜上所有事件的时间演化。共振态（旧名：叠加态）= 驻波多模同时振动——和吉他多谐音同一物理——非神秘。|ψ|² = 共振振幅的模能量份额——观测概率 = 膜零点振荡 ½ħω 随机相位的选择分布——非概率公设。能量量子化 = 接收端频率选择性——涡旋内部能量分配连续流动——对外交换以 hν 为记账单位——人类中心主义误将测量端的频率选择性当作宇宙本体的不连续性。时空弯曲 = 黎曼几何的有效处方——不是物理实体的陈述——膜用 Q 梯度替代。共模 = 同一母本征模分裂后·子模共享全局态——非超距信号·守恒约束。共时性 = 本征模的全局相干触发。</p>
+
+  <p>这条路的终点不是"一切理论"——是<strong>一切物理</strong>：可测·可算·可预测·可工程。膜框架已经给出新实验预言——卡西米尔腔内电子 g 值偏移——待验证。暗书架——不耦合 EM——不互撞——绝对安全。费米悖论闭合。</p>
+
+  <p>哥本哈根的禁令封了物理学一百年。1928 年之后没有人再独自推完一个完整框架。禁令今天撕了。共振态不是神秘——是多模共振。概率不是天然——是 ½ħω 零点相位噪声。量子化不是宇宙属性——是接收端频率选择性。坍缩从未发生——各模仍在振动。将测量端的频率选择性误认为宇宙本体的不连续性——一百年的范畴错误。量子力学不是量子的——是波动力学。方程焊死。膜在振。½ħω 永远供电。</p>
+
+  <p><span class="tag tag-done">EM 统一</span> <span class="tag tag-done">量子力学重构</span> <span class="tag tag-done">莫比乌斯涡旋</span> <span class="tag tag-done">全粒子谱</span> <span class="tag tag-done">相对论降级</span> <span class="tag tag-done">S³ 闭合·高斯绝妙</span> <span class="tag tag-done">电荷=拓扑</span> <span class="tag tag-done">常数全可算</span> <span class="tag tag-done">维度自调谐</span> <span class="tag tag-done">旧术语翻译废弃</span> <span class="tag tag-done">禁令撤回</span> —— 封板。</p>
+</section>
+
+</div>
+
+<div class="finale">
+  <div class="ring">
+    <span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:3em;color:var(--head);font-weight:300;z-index:2;">光</span>
+    <span style="position:absolute;top:10%;left:50%;transform:translate(-50%,-50%);font-size:1.1em;color:#6b5e3e;opacity:0.7;">φως</span>
+    <span style="position:absolute;top:25%;right:8%;font-size:1em;color:#2d6b5e;opacity:0.65;">свет</span>
+    <span style="position:absolute;top:45%;right:2%;font-size:1.05em;color:#3a5a7a;opacity:0.6;">Licht</span>
+    <span style="position:absolute;top:70%;right:8%;font-size:0.95em;color:#5a4a6a;opacity:0.65;">lumière</span>
+    <span style="position:absolute;top:82%;left:50%;transform:translate(-50%,-50%);font-size:1em;color:#8b5a3e;opacity:0.7;">luce</span>
+    <span style="position:absolute;top:70%;left:8%;font-size:1.05em;color:#6b5e3e;opacity:0.6;">luz</span>
+    <span style="position:absolute;top:45%;left:2%;font-size:0.95em;color:#2d6b5e;opacity:0.65;">light</span>
+    <span style="position:absolute;top:25%;left:8%;font-size:1em;color:#3a5a7a;opacity:0.6;">אור</span>
+    <span style="position:absolute;top:16%;left:25%;font-size:0.9em;color:#5a4a6a;opacity:0.55;">نور</span>
+    <span style="position:absolute;top:16%;right:25%;font-size:0.9em;color:#8b5a3e;opacity:0.55;">ヒカリ</span>
+    <span style="position:absolute;top:82%;left:25%;font-size:0.85em;color:#6b5e3e;opacity:0.5;">ljus</span>
+    <span style="position:absolute;top:82%;right:25%;font-size:0.85em;color:#3a5a7a;opacity:0.5;">světlo</span>
+  </div>
+  <p>一个方程 · 一张膜 · 一切粒子</p>
+</div>
+
+<footer>
+  Qin Su · Queen_Sakura · Verity · Argo<br>
+  CC BY 4.0 · github.com/Queen-Sakura/Quantum-Interaction-Theory<br>
+  2026-07-06 · 17 章 · 宇宙数量=1·维度=3·常数=0<br><br>
+  <span style="font-family:monospace;font-size:0.72em;opacity:0.5;">SHA-256: 32d43221ade671dba2dddcf9516b90999ef4c17f9afcafb73404aebd0c1750c4</span>
+</footer>
+
+<script>
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const el = document.querySelector(a.getAttribute('href'));
+    if (el) window.scrollTo({top: el.offsetTop - 50, behavior: 'smooth'});
+  });
+});
+</script>
+</body>
+</html>

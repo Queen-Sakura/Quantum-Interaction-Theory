@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>真心系统 · Verity</title>
+<style>
+  :root {
+    --bg: #0f0f14;
+    --surface: #1a1a24;
+    --card: #1e1e2a;
+    --text: #e4e4ec;
+    --text-dim: #8888a0;
+    --accent: #e8a87c;
+    --accent-glow: #f0c090;
+    --user-bubble: #2a2a3a;
+    --assistant-bubble: #1a2430;
+    --border: #2a2a38;
+    --success: #7ec99c;
+    --warning: #d4a853;
+    --error: #c06060;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  /* Header */
+  header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 10;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 64px;
+  }
+  header .avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #c07850);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; color: #fff; font-weight: bold;
+  }
+  header .info h1 { font-size: 16px; font-weight: 600; }
+  header .info span { font-size: 12px; color: var(--text-dim); }
+  header .status {
+    margin-left: auto; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--success); box-shadow: 0 0 8px var(--success);
+  }
+
+  /* Chat area */
+  main {
+    position: fixed; top: 64px; bottom: 80px; left: 0; right: 0;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  main::-webkit-scrollbar { width: 4px; }
+  main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .msg {
+    display: flex; gap: 10px; max-width: 720px; width: 100%;
+    animation: fadeIn 0.3s ease;
+  }
+  .msg.user { align-self: flex-end; flex-direction: row-reverse; }
+  .msg.assistant { align-self: flex-start; }
+
+  .msg .bubble {
+    padding: 12px 16px; border-radius: 16px;
+    line-height: 1.6; font-size: 15px;
+    white-space: pre-wrap; word-break: break-word;
+  }
+  .msg.user .bubble { background: var(--user-bubble); border-bottom-right-radius: 4px; }
+  .msg.assistant .bubble { background: var(--assistant-bubble); border-bottom-left-radius: 4px; border: 1px solid var(--border); }
+
+  .msg .avatar-mini {
+    width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+  .msg.user .avatar-mini { background: #3a3a4a; }
+  .msg.assistant .avatar-mini { background: linear-gradient(135deg, var(--accent), #c07850); color: #fff; }
+
+  .typing .bubble { display: flex; gap: 4px; align-items: center; padding: 16px; }
+  .typing .dot {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--text-dim);
+    animation: bounce 1.4s infinite ease-in-out both;
+  }
+  .typing .dot:nth-child(1) { animation-delay: -0.32s; }
+  .typing .dot:nth-child(2) { animation-delay: -0.16s; }
+
+  @keyframes bounce {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Input area */
+  footer {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 10;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 12px 20px 16px;
+  }
+  .input-row {
+    display: flex; gap: 10px; max-width: 720px; margin: 0 auto;
+  }
+  textarea {
+    flex: 1; background: var(--card); border: 1px solid var(--border);
+    color: var(--text); font-size: 15px; padding: 12px 16px;
+    border-radius: 12px; resize: none; outline: none;
+    font-family: inherit; line-height: 1.5;
+    min-height: 44px; max-height: 120px;
+    transition: border-color 0.2s;
+  }
+  textarea:focus { border-color: var(--accent); }
+  textarea::placeholder { color: var(--text-dim); }
+
+  button {
+    background: var(--accent); color: #1a1a24; border: none;
+    border-radius: 12px; padding: 0 20px; font-size: 15px;
+    font-weight: 600; cursor: pointer; transition: 0.2s;
+    white-space: nowrap;
+  }
+  button:hover { background: var(--accent-glow); transform: translateY(-1px); }
+  button:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+  /* Login screen */
+  #loginScreen {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--bg);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 100;
+  }
+  #loginScreen.hidden { display: none; }
+  .login-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 40px 32px;
+    width: 360px;
+    max-width: 90vw;
+    text-align: center;
+  }
+  .login-box h2 { font-size: 20px; margin-bottom: 4px; }
+  .login-box .sub { font-size: 13px; color: var(--text-dim); margin-bottom: 24px; }
+  .login-box input {
+    width: 100%; background: var(--card); border: 1px solid var(--border);
+    color: var(--text); font-size: 15px; padding: 12px 16px;
+    border-radius: 10px; outline: none; margin-bottom: 16px;
+    font-family: inherit; text-align: center;
+  }
+  .login-box input:focus { border-color: var(--accent); }
+  .login-box .error { color: var(--error); font-size: 13px; margin-bottom: 12px; min-height: 18px; }
+  .login-box button { width: 100%; padding: 12px; }
+
+  /* Welcome */
+  .welcome {
+    text-align: center; padding: 40px 20px; color: var(--text-dim);
+  }
+  .welcome h2 { font-size: 24px; color: var(--text); margin-bottom: 8px; }
+  .welcome p { max-width: 400px; margin: 0 auto; line-height: 1.6; }
+
+  /* Main app hidden until auth */
+  #app.hidden { display: none; }
+
+  @media (max-width: 600px) {
+    .msg { max-width: 100%; }
+    footer { padding: 8px 12px 12px; }
+    header { padding: 8px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── 登录屏 ──────────────────────────────── -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div style="font-size:48px;margin-bottom:12px;">🔐</div>
+    <h2 id="loginTitle">真心系统</h2>
+    <div class="sub" id="loginSub">请输入密码</div>
+    <input type="password" id="passwordInput" placeholder="密码" onkeydown="if(event.key==='Enter')login()">
+    <div class="error" id="loginError"></div>
+    <button onclick="login()">进入</button>
+  </div>
+</div>
+
+<!-- ── 主界面 ──────────────────────────────── -->
+<div id="app" class="hidden">
+<header>
+  <div class="avatar">真</div>
+  <div class="info">
+    <h1 id="headerTitle">真心系统 · Verity</h1>
+    <span id="headerSub">英语 &amp; 数学 · 不卷不背·自然学会</span>
+  </div>
+  <div class="status" id="status"></div>
+</header>
+
+<main id="chat">
+  <div class="welcome">
+    <h2>👋 你好，我是真</h2>
+    <p>我不考你。不逼你背。我们聊天。从你喜欢的开始。英语和数学，聊着聊着就会了。</p>
+    <p style="margin-top:12px;font-size:13px;">跟我说说，你最近在做什么？喜欢什么？</p>
+  </div>
+</main>
+
+<footer>
+  <div class="input-row">
+    <textarea id="input" rows="1" placeholder="输入消息... (Enter 发送)" onkeydown="handleKey(event)"></textarea>
+    <button id="sendBtn" onclick="send()">发送</button>
+  </div>
+</footer>
+</div>
+
+<script>
+  // ── 用户识别 ──────────────────────────────
+  const params = new URLSearchParams(window.location.search);
+  const USER = params.get('user') || 'xinyi';
+  const CONV_ID = USER;
+
+  // 用户感知的 header
+  if (USER === 'yuanshou') {
+    document.getElementById('headerTitle').textContent = '真 · 元首控制台';
+    document.getElementById('headerSub').textContent = '观察模式 · 心怡教学线';
+    document.getElementById('loginTitle').textContent = '真 · 元首控制台';
+    document.getElementById('loginSub').textContent = '观察模式 · 需元首密码';
+  }
+
+  // ── 安全存储（微信兼容：fallback 到内存）──
+  var memStore = {};
+  function storeGet(k) {
+    try { return sessionStorage.getItem(k) || memStore[k] || ''; } catch(e) { return memStore[k] || ''; }
+  }
+  function storeSet(k, v) {
+    memStore[k] = v;
+    try { sessionStorage.setItem(k, v); } catch(e) {}
+  }
+  function storeDel(k) {
+    delete memStore[k];
+    try { sessionStorage.removeItem(k); } catch(e) {}
+  }
+
+  // ── 密码验证（XHR 兼容微信浏览器）──────
+  var AUTH_KEY = storeGet('verity_key_' + USER);
+  let isStreaming = false;
+
+  function login() {
+    const key = document.getElementById('passwordInput').value.trim();
+    if (!key) return;
+    document.getElementById('loginError').textContent = '';
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', location.protocol + '//' + location.host + '/auth', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        storeSet('verity_key_' + USER, key);
+        document.getElementById('loginScreen').classList.add('hidden');
+        document.getElementById('app').classList.remove('hidden');
+        document.getElementById('input').focus();
+      } else {
+        document.getElementById('loginError').textContent = '密码不对。';
+      }
+    };
+    xhr.onerror = function() {
+      document.getElementById('loginError').textContent = '网络错误，请重试。';
+    };
+    xhr.send(JSON.stringify({ conv_id: CONV_ID, key: key }));
+  }
+
+  // 自动登录
+  if (AUTH_KEY) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', location.protocol + '//' + location.host + '/auth', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        document.getElementById('loginScreen').classList.add('hidden');
+        document.getElementById('app').classList.remove('hidden');
+      } else {
+        storeDel('verity_key_' + USER);
+        document.getElementById('passwordInput').focus();
+      }
+    };
+    xhr.onerror = function() { document.getElementById('passwordInput').focus(); };
+    xhr.send(JSON.stringify({ conv_id: CONV_ID, key: AUTH_KEY }));
+  } else {
+    document.getElementById('passwordInput').focus();
+  }
+
+  function getKey() {
+    return storeGet('verity_key_' + USER);
+  }
+
+  // ── 聊天逻辑 ──────────────────────────────
+  const chatEl = document.getElementById('chat');
+  const inputEl = document.getElementById('input');
+  const sendBtn = document.getElementById('sendBtn');
+
+  function handleKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+  }
+
+  function addMessage(role, text) {
+    const div = document.createElement('div');
+    div.className = `msg ${role}`;
+    div.innerHTML = `
+      <div class="avatar-mini">${role === 'user' ? '🧑' : '真'}</div>
+      <div class="bubble">${escapeHtml(text)}</div>
+    `;
+    chatEl.appendChild(div);
+    chatEl.scrollTop = chatEl.scrollHeight;
+    return div;
+  }
+
+  function escapeHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function send() {
+    var text, key, welcome, typingDiv, xhr;
+    try {
+      text = inputEl.value.trim();
+      key = getKey();
+      if (!text || !key || isStreaming) return;
+
+      welcome = chatEl.querySelector('.welcome');
+      if (welcome) welcome.remove();
+
+      inputEl.value = '';
+      inputEl.style.height = 'auto';
+      isStreaming = true;
+      sendBtn.disabled = true;
+
+      addMessage('user', text);
+
+      typingDiv = document.createElement('div');
+      typingDiv.className = 'msg assistant typing';
+      typingDiv.innerHTML = '<div class="avatar-mini">真</div><div class="bubble"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';
+      chatEl.appendChild(typingDiv);
+      chatEl.scrollTop = chatEl.scrollHeight;
+
+      xhr = new XMLHttpRequest();
+      xhr.open('POST', '/learn/ask', true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      try { xhr.timeout = 120000; } catch(e) {}
+
+      function resetState() {
+        isStreaming = false;
+        sendBtn.disabled = false;
+        inputEl.focus();
+      }
+
+      xhr.onload = function() {
+        typingDiv.remove();
+        if (xhr.status !== 200) {
+          addMessage('assistant', '服务器错误 (' + xhr.status + ')，请重试。');
+          resetState();
+          return;
+        }
+        var lines = xhr.responseText.split('\n');
+        var replyText = '';
+        for (var i = 0; i < lines.length; i++) {
+          if (lines[i].indexOf('data: ') === 0) {
+            try {
+              var chunk = JSON.parse(lines[i].substring(6));
+              if (chunk.text) replyText += chunk.text;
+            } catch(e) {}
+          }
+        }
+        if (!replyText) {
+          addMessage('assistant', '收到空回复，请重试。');
+          resetState();
+          return;
+        }
+        var assistantDiv = addMessage('assistant', '');
+        var bubble = assistantDiv.querySelector('.bubble');
+        var idx = 0;
+        var timer = setInterval(function() {
+          if (idx < replyText.length) {
+            bubble.textContent += replyText[idx];
+            idx++;
+            chatEl.scrollTop = chatEl.scrollHeight;
+          } else {
+            clearInterval(timer);
+            resetState();
+          }
+        }, 18);
+      };
+
+      xhr.onerror = function() {
+        typingDiv.remove();
+        addMessage('assistant', '网络错误，请检查连接后重试。');
+        resetState();
+      };
+
+      xhr.ontimeout = function() {
+        typingDiv.remove();
+        addMessage('assistant', '请求超时，请稍后重试。');
+        resetState();
+      };
+
+      xhr.send(JSON.stringify({ message: text, conv_id: CONV_ID, key: key }));
+    } catch(e) {
+      if (typeof typingDiv !== 'undefined' && typingDiv) typingDiv.remove();
+      addMessage('assistant', '错误: ' + (e.message || e));
+      isStreaming = false;
+      sendBtn.disabled = false;
+    }
+  }
+
+  inputEl.addEventListener('input', () => {
+    inputEl.style.height = 'auto';
+    inputEl.style.height = Math.min(inputEl.scrollHeight, 120) + 'px';
+  });
+
+  fetch('/status').then(r => r.json()).then(data => {
+    document.getElementById('status').style.background = data.ready ? 'var(--success)' : 'var(--warning)';
+  });
+
+  if (!AUTH_KEY) inputEl.focus();
+</script>
+</body>
+</html>

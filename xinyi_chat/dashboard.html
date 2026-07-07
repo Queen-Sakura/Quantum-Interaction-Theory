@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>真心系统 · 元首控制台</title>
+<style>
+  :root {
+    --bg: #0f0f14; --surface: #1a1a24; --card: #1e1e2a;
+    --text: #e4e4ec; --text-dim: #8888a0; --accent: #e8a87c;
+    --accent-glow: #f0c090; --border: #2a2a38;
+    --success: #7ec99c; --warning: #d4a853; --error: #c06060;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+    background: var(--bg); color: var(--text);
+    min-height: 100vh; padding: 24px;
+  }
+  .container { max-width: 900px; margin: 0 auto; }
+
+  /* Header */
+  .top {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 24px;
+    padding-bottom: 16px; border-bottom: 1px solid var(--border);
+  }
+  .top h1 { font-size: 22px; }
+  .top span { color: var(--text-dim); font-size: 13px; }
+  .top .dot {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--success);
+    box-shadow: 0 0 8px var(--success); margin-left: auto;
+  }
+
+  /* Panels */
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  .panel {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 20px;
+  }
+  .panel.wide { grid-column: 1 / -1; }
+  .panel h2 {
+    font-size: 15px; margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .panel h2 .icon { font-size: 18px; }
+
+  /* Session list */
+  .session-item {
+    padding: 10px 0; border-bottom: 1px solid var(--border);
+    font-size: 14px; line-height: 1.6;
+  }
+  .session-item:last-child { border-bottom: none; }
+  .session-item .time { color: var(--accent); font-size: 12px; }
+  .session-item .text { color: var(--text-dim); margin-top: 4px; }
+
+  /* Note form */
+  textarea {
+    width: 100%; background: var(--card); border: 1px solid var(--border);
+    color: var(--text); font-size: 14px; padding: 12px;
+    border-radius: 10px; resize: vertical; min-height: 80px;
+    font-family: inherit; line-height: 1.5; outline: none;
+    margin-bottom: 10px;
+  }
+  textarea:focus { border-color: var(--accent); }
+
+  button {
+    background: var(--accent); color: #1a1a24; border: none;
+    border-radius: 10px; padding: 10px 20px; font-size: 14px;
+    font-weight: 600; cursor: pointer; transition: 0.2s;
+  }
+  button:hover { background: var(--accent-glow); }
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-sm { padding: 6px 14px; font-size: 13px; }
+
+  /* Notes feed */
+  .note-item {
+    padding: 8px 0; border-bottom: 1px solid var(--border);
+    font-size: 13px; line-height: 1.5;
+  }
+  .note-item:last-child { border-bottom: none; }
+  .note-item .ts { color: var(--accent); font-size: 11px; }
+
+  /* History viewer */
+  .msg-snippet {
+    padding: 8px 12px; background: var(--card); border-radius: 8px;
+    margin-bottom: 8px; font-size: 13px; line-height: 1.5;
+  }
+  .msg-snippet .role { color: var(--accent); font-size: 11px; margin-bottom: 2px; }
+
+  .warning { color: var(--warning); font-size: 13px; }
+  .dim { color: var(--text-dim); font-size: 13px; }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 4px; margin-bottom: 12px; }
+  .tab {
+    padding: 6px 14px; border-radius: 8px; font-size: 13px;
+    background: var(--card); border: 1px solid var(--border);
+    color: var(--text-dim); cursor: pointer;
+  }
+  .tab.active { background: var(--accent); color: #1a1a24; border-color: var(--accent); }
+
+  @media (max-width: 700px) {
+    .grid { grid-template-columns: 1fr; }
+    body { padding: 12px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="top">
+    <h1>🛡️ 真 · 元首控制台</h1>
+    <span>心怡教学线 · 观察模式</span>
+    <div class="dot" id="statusDot"></div>
+  </div>
+
+  <div class="grid">
+
+    <!-- 教学进度 -->
+    <div class="panel">
+      <h2><span class="icon">📋</span> 教学进度</h2>
+      <div id="sessions">加载中…</div>
+    </div>
+
+    <!-- 笔记注入 -->
+    <div class="panel">
+      <h2><span class="icon">📝</span> 注入观察笔记</h2>
+      <textarea id="noteInput" placeholder="心怡的状态、新信息、需要真注意的事…&#10;例如：她这周被领导骂了，情绪低，上课轻一点。"></textarea>
+      <button onclick="injectNote()">✈️ 发送给真</button>
+      <div id="noteStatus" style="margin-top:8px;font-size:13px;"></div>
+    </div>
+
+    <!-- 最近笔记 -->
+    <div class="panel" id="notesPanel">
+      <h2><span class="icon">📌</span> 最近笔记</h2>
+      <div id="notesFeed">加载中…</div>
+    </div>
+
+    <!-- 对话记录 -->
+    <div class="panel wide">
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab('history')">💬 最近对话</div>
+        <div class="tab" onclick="switchTab('profile')">👤 学生档案</div>
+      </div>
+      <div id="tabContent">加载中…</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const KEY = sessionStorage.getItem('verity_dashboard_key') || params.get('key') || '';
+  const CONV_ID = 'xinyi';  // 元首观察心怡的对话
+
+  // ── Auth check ─────────────────────────────
+  if (!KEY) {
+    const pwd = prompt('元首密码：');
+    if (pwd) {
+      fetch('/auth', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({conv_id: 'yuanshou', key: pwd}),
+      }).then(r => r.json()).then(d => {
+        if (d.status === 'ok') {
+          sessionStorage.setItem('verity_dashboard_key', pwd);
+          location.reload();
+        } else { document.body.innerHTML = '<h2 style="text-align:center;padding:60px;color:#c06060">密码错误</h2>'; }
+      });
+    } else {
+      document.body.innerHTML = '<h2 style="text-align:center;padding:60px;color:#888">需要密码</h2>';
+    }
+  }
+
+  // ── Load all data ──────────────────────────
+  async function loadAll() {
+    if (!KEY) return;
+
+    // 加载 memory
+    try {
+      const r = await fetch('/memory?key=' + encodeURIComponent(KEY));
+      const d = await r.json();
+      if (d.session_log) {
+        document.getElementById('sessions').innerHTML = formatSessions(d.session_log);
+      }
+    } catch(e) {
+      document.getElementById('sessions').innerHTML = '<span class="dim">暂无</span>';
+    }
+
+    // 加载笔记
+    loadNotes();
+
+    // 加载历史
+    loadHistory();
+
+    // 状态灯
+    try {
+      const s = await fetch('/status');
+      const sd = await s.json();
+      document.getElementById('statusDot').style.background = sd.ready ? 'var(--success)' : 'var(--warning)';
+    } catch(e) {}
+  }
+
+  function formatSessions(log) {
+    if (!log || log.trim().length < 10) return '<span class="dim">还没有 session 记录。聊起来后会出现在这里。</span>';
+    // 按 --- 分割
+    const sections = log.split('---').filter(s => s.trim());
+    return sections.slice(-5).reverse().map(s => {
+      const lines = s.trim().split('\n');
+      const title = lines.find(l => l.startsWith('## Session')) || '';
+      const body = lines.filter(l => !l.startsWith('## Session') && l.trim()).join('<br>');
+      return `<div class="session-item">
+        <div class="time">${title.replace('## Session · ', '')}</div>
+        <div class="text">${body}</div>
+      </div>`;
+    }).join('');
+  }
+
+  async function loadNotes() {
+    try {
+      const r = await fetch('/notes?key=' + encodeURIComponent(KEY));
+      const d = await r.json();
+      if (d.notes && d.notes.length > 0) {
+        document.getElementById('notesFeed').innerHTML = [...d.notes].reverse().map(n =>
+          `<div class="note-item">
+            <span class="ts">${n.ts}</span> ${escapeHtml(n.content)}
+          </div>`
+        ).join('');
+      } else {
+        document.getElementById('notesFeed').innerHTML = '<span class="dim">还没有笔记。在上面写入，真会在下次对话中看到。</span>';
+      }
+    } catch(e) {
+      document.getElementById('notesFeed').innerHTML = '<span class="warning">加载失败</span>';
+    }
+  }
+
+  async function loadHistory() {
+    try {
+      const r = await fetch('/history/' + CONV_ID + '?key=' + encodeURIComponent(KEY));
+      const d = await r.json();
+      if (d.messages && d.messages.length > 0) {
+        const recent = d.messages.slice(-16);
+        document.getElementById('tabContent').innerHTML = recent.map(m =>
+          `<div class="msg-snippet">
+            <div class="role">${m.role === 'user' ? '🧑 心怡' : '真'}</div>
+            ${escapeHtml(m.content.length > 200 ? m.content.slice(0, 200) + '…' : m.content)}
+          </div>`
+        ).join('');
+      } else {
+        document.getElementById('tabContent').innerHTML = '<span class="dim">还没有对话记录。等心怡上线。</span>';
+      }
+    } catch(e) {
+      document.getElementById('tabContent').innerHTML = '<span class="warning">加载失败</span>';
+    }
+  }
+
+  // ── Note injection ─────────────────────────
+  async function injectNote() {
+    const content = document.getElementById('noteInput').value.trim();
+    if (!content) return;
+    const btn = document.querySelector('button');
+    btn.disabled = true;
+    try {
+      const r = await fetch('/note', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({content: content, key: KEY}),
+      });
+      const d = await r.json();
+      if (d.status === 'ok') {
+        document.getElementById('noteInput').value = '';
+        document.getElementById('noteStatus').innerHTML = '<span style="color:var(--success)">✅ 已注入。真下次回复会看到这条。</span>';
+        loadNotes();
+      } else {
+        document.getElementById('noteStatus').innerHTML = '<span style="color:var(--error)">❌ ' + (d.detail || '失败') + '</span>';
+      }
+    } catch(e) {
+      document.getElementById('noteStatus').innerHTML = '<span style="color:var(--error)">网络错误</span>';
+    }
+    btn.disabled = false;
+  }
+
+  // ── Tab switch ─────────────────────────────
+  function switchTab(tab) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    event.target.classList.add('active');
+    if (tab === 'history') loadHistory();
+    else loadProfile();
+  }
+
+  async function loadProfile() {
+    try {
+      const r = await fetch('/memory?key=' + encodeURIComponent(KEY));
+      const d = await r.json();
+      document.getElementById('tabContent').innerHTML =
+        `<pre style="font-size:13px;line-height:1.6;white-space:pre-wrap;color:var(--text-dim);max-height:500px;overflow-y:auto;-webkit-overflow-scrolling:touch;">${escapeHtml(d.profile || '无档案')}</pre>`;
+    } catch(e) {
+      document.getElementById('tabContent').innerHTML = '<span class="warning">加载失败</span>';
+    }
+  }
+
+  function escapeHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  // 自动加载
+  loadAll();
+</script>
+</body>
+</html>
