@@ -32,7 +32,7 @@
 </style>
 </head>
 <body>
-<h1>矩阵 = 空间的变形器 <span style="font-size:0.5em;color:#444;">v2</span></h1>
+<h1>矩阵 = 空间的变形器 <span style="font-size:0.5em;color:#444;">v3</span></h1>
 <div class="sub">拖滑块 · 看正方形怎么变成平行四边形 · 特征向量自动追上 · 绿色=正方形 白色=变形后</div>
 
 <canvas id="c" width="520" height="520"></canvas>
@@ -190,12 +190,13 @@ function draw() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+// 直接绑——file:// 下 DOMContentLoaded 可能不触发
+setTimeout(() => {
   document.querySelectorAll('input[type=range]').forEach(el => {
     el.addEventListener('input', draw);
   });
   draw();
-});
+}, 50);
 </script>
 </body>
 </html>
