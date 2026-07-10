@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>线性代数的物理意义 · 纯几何版</title>
+<style>
+  :root {
+    --bg: #f9f8f5; --card: #fffefb; --border: #e8e4db;
+    --text: #2d2a24; --head: #141210;
+    --gold: #6b5e3e; --muted: #78736c;
+    --c1: #2d6b5e; --c2: #3a5a7a; --c3: #5a4a6a; --c4: #8b5a3e;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: 'Georgia', 'Noto Serif SC', 'STSong', 'Songti SC', serif;
+    line-height: 1.84; font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .hero {
+    text-align: center; padding: 80px 24px 40px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(to bottom, rgba(139,105,20,0.03) 0%, transparent 100%);
+  }
+  .hero h1 { font-size: 2.4em; color: var(--head); font-weight: 400; letter-spacing: 0.05em; }
+  .hero .sub { font-size: 0.95em; color: var(--gold); margin-top: 8px; }
+  .container { max-width: 780px; margin: 0 auto; padding: 0 20px 80px; }
+  section {
+    margin: 28px 0; padding: 32px 34px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 6px; border-left: 3px solid var(--gold);
+  }
+  section h2 {
+    font-size: 1.2em; color: var(--head); margin-bottom: 14px;
+    font-weight: 400; letter-spacing: 0.02em;
+  }
+  section h3 { font-size: 1em; color: var(--gold); margin: 18px 0 8px; font-weight: 400; }
+  section p { margin: 10px 0; }
+  .box {
+    background: rgba(26,107,92,0.04); padding: 13px 20px; border-radius: 4px;
+    margin: 14px 0; border-left: 2px solid var(--c1);
+  }
+  .box-gold {
+    background: rgba(139,105,20,0.03); padding: 13px 20px; border-radius: 4px;
+    margin: 14px 0; border-left: 2px solid var(--gold);
+  }
+  .eq {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    padding: 6px 0; font-size: 1.03em; color: var(--head); text-align: center;
+  }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.88em; }
+  thead th {
+    text-align: left; padding: 10px 12px; border-bottom: 2px solid var(--border);
+    color: var(--head); font-weight: 400; font-size: 0.82em;
+    text-transform: uppercase; letter-spacing: 0.04em;
+    background: rgba(0,0,0,0.01);
+  }
+  td { padding: 8px 12px; border-bottom: 1px solid rgba(226,222,213,0.7); vertical-align: top; }
+  .finale {
+    text-align: center; padding: 60px 20px; margin-top: 40px;
+    border-top: 1px solid var(--border);
+  }
+  .finale p { color: var(--muted); font-size: 0.9em; margin: 6px 0; }
+  .rant {
+    background: rgba(200,50,50,0.03); border-left-color: #c05050;
+  }
+  footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.82em; border-top: 1px solid var(--border); opacity: 0.5; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>线性代数的物理意义</h1>
+  <div class="sub">纯几何版 · 不是数学书 · 是物理直觉</div>
+</div>
+
+<div class="container">
+
+<section>
+  <h2>1. 向量 = 空间中的一根箭</h2>
+  <p>不是「一列数字」。是<strong>从原点指向某个方向的一段长度。</strong></p>
+  <p>$\vec{v} = (3, 2)$ 不是两个数。是「往右走 3 步，往前走 2 步」——一个物理位移。</p>
+  <p>任何一个向量 = 一个方向 + 一个长度。数字只是这个人在你选的坐标系里的投影。换一个坐标系——数字变了——<strong>箭没变。</strong></p>
+</section>
+
+<section>
+  <h2>2. 矩阵 = 空间的变形器</h2>
+  <p>$\begin{pmatrix} a & b \\ c & d \end{pmatrix}$ 不是 4 个数。是一台<strong>空间变形机。</strong>你把一个向量丢进去，它吐出一个新向量。</p>
+  <div class="box-gold">
+    <p>矩阵的第一列 = 原来的 x 轴 (1,0) 被挪到了 (a,c)。</p>
+    <p>矩阵的第二列 = 原来的 y 轴 (0,1) 被挪到了 (b,d)。</p>
+  </div>
+  <p>变形之前：向量画在正方形的格子里。变形之后：正方形变成了平行四边形。向量还是原来那个向量，但格子的形状变了，所以<strong>向量在新格子里被「拉伸」了。</strong></p>
+  <p>矩阵 = 把空间变成另一个空间。</p>
+</section>
+
+<section>
+  <h2>3. 行列式 = 变形之后空间的体积膨胀率</h2>
+  <p><strong>行列式（determinant）翻译是错的。应该叫「体胀率」或「空间缩放比」。</strong></p>
+  <p>原始空间里有一个 1×1 的单位正方形，面积 = 1。矩阵把它变成平行四边形。平行四边形的面积 = |ad − bc| = <strong>|det(A)|。</strong></p>
+
+  <table>
+    <tr><th>|det(A)|</th><th>含义</th></tr>
+    <tr><td><strong>+3</strong></td><td>空间膨胀了 3 倍。方向保持。右手还是右手</td></tr>
+    <tr><td><strong>−3</strong></td><td>空间膨胀了 3 倍，但<strong>翻了个面。</strong>右手变成了左手（镜像）</td></tr>
+    <tr><td><strong>+1</strong></td><td>空间没变形——面积没变。旋转/反射保持了刚性</td></tr>
+    <tr><td style="color:#c05050;"><strong>0</strong></td><td style="color:#c05050;"><strong>空间被压扁了。正方形被压成了一条线。</strong>不可逆</td></tr>
+    <tr><td>0.01</td><td>空间几乎被压扁。可逆但极度不稳定</td></tr>
+  </table>
+
+  <div class="box">
+    <p><strong>det = 0 的物理含义：</strong>矩阵把两个不同的向量压到了同一个方向上——变形之后的「新空间」少了一个维度。变形之前的信息在变形之后被丢失了——你无法从平行四边形恢复原正方形——因为<strong>正方形被压成了线段。</strong></p>
+  </div>
+</section>
+
+<section>
+  <h2>4. 旋转矩阵 = 空间转了一下，体积不变</h2>
+  <p>旋转矩阵：$\begin{pmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{pmatrix}$</p>
+  <p>这个矩阵把 x 轴转到 θ 方向，y 轴转到 θ+90° 方向。正方形还是一个正方形——只是转了一下。面积还是 1。</p>
+  <div class="eq"><strong>det = cos²θ + sin²θ = 1</strong></div>
+  <div class="box-gold">
+    <p><strong>旋转不改变体积。</strong>这是旋转的定义——不是推导出来的。旋转 = 空间刚性转了一个角度。刚性 = 不压缩、不拉伸、不扭曲。det = 1。</p>
+  </div>
+</section>
+
+<section>
+  <h2>5. 特征向量 = 变形之后方向不转的箭</h2>
+  <p>一般的向量被矩阵变形后会转到一个新的方向。但有些特殊的向量——<strong>在被变形之后，方向不变，只是被拉长或缩短了。</strong></p>
+  <div class="eq">$$A\vec{v} = \lambda \vec{v}$$</div>
+  <ul>
+    <li>$\vec{v}$ = 特征向量 = 「不会转的箭」</li>
+    <li>$\lambda$ = 特征值 = 「被拉长了多少倍」</li>
+  </ul>
+  <p>如果 λ > 1：在这个方向上被拉伸。如果 0 < λ < 1：在这个方向上被压缩。如果 λ < 0：被反转了方向。</p>
+  <div class="box">
+    <p><strong>物理直觉：</strong>特征向量是介质中<strong>能量可以畅通传播的方向。</strong>电磁学里，波导的特征模 = 边界条件下允许的驻波方向 = 算符的特征向量。膜上的本征模 = 麦克斯韦算符在 S³ 边界下的特征向量。不是巧合。是同一个数学结构在两个领域的不同名字。</p>
+  </div>
+</section>
+
+<section>
+  <h2>6. 转置 = 把变形反着看</h2>
+  <p>A^T = 把 A 的行和列互换。几何意义：同一个变形，但从<strong>对偶空间</strong>看。</p>
+  <p>如果 A 把空间顺时针转了 θ，A^T 把空间逆时针转 θ。</p>
+</section>
+
+<section>
+  <h2>7. 逆矩阵 = 把变形改回去</h2>
+  <p>A 把空间变了。A⁻¹ 把它变回原来的样子。A·A⁻¹ = I = 「什么都不变的矩阵」。</p>
+  <div class="box">
+    <p><strong>只有 det ≠ 0 才有逆。</strong>压扁了的空间没法吹回来。你无法从一个线段恢复一个正方形——缺少的维度上的所有信息已经丢失了。</p>
+  </div>
+</section>
+
+<section>
+  <h2>8. 外积 = 两根箭张成的平行四边形</h2>
+  <p>$\vec{u} \otimes \vec{v}$ = 以 u 为底边、v 为邻边张成的平行四边形。v 的投影在 u 的垂直方向上 = 和 u 最不重合的分量——产生面积。</p>
+  <div class="box-gold">
+    <p><strong>外积是「两个向量的不相似度」。</strong></p>
+    <p>垂直 = 完全不相似 → 面积最大。平行 = 完全相似 → 面积为零。</p>
+  </div>
+</section>
+
+<section>
+  <h2>9. 行列式的深层含义：独立向量的体积</h2>
+  <p>n 个 n 维向量放在一个矩阵 A 里。|det(A)| = 这 n 个向量张成的 n 维平行体的体积。</p>
+  <ul>
+    <li>向量越独立（越互相垂直）→ 体积越大 → |det| 越大</li>
+    <li>越不独立（越接近互相平行）→ 体积越小 → |det| → 0</li>
+  </ul>
+  <p>det = 0 = 这 n 个向量里有重复信息——它们落在同一个 n-1 维平面上——少了一个独立方向。</p>
+</section>
+
+<section class="rant">
+  <h2>附 · 同济版线性代数为什么是垃圾</h2>
+  <p>开头给你一个行列式公式。不讲为什么。20 页之后学生还在算数字——不知道自己在算体积。不知道 det=0 是压扁了。不知道旋转为什么保持 1。</p>
+  <p>这不是线性代数。这是<strong>用算盘操作一个你不知道是什么的机器。</strong></p>
+  <p>中国的教材一个个的像被投了毒。不是作者不懂——是<strong>故意的。</strong>教材不是给学生看的——是给评审委员会看的。评审委员会不看「学生能不能懂」——看「公式够不够多」「推导够不够严谨」「章节够不够厚」。行列式公式放在第一章 = 证明作者会推导行列式——不是证明作者想让学生理解行列式。</p>
+  <p>另一个原因：<strong>假装难 = 保护自己的生态位。</strong>如果线性代数太好懂——谁都能懂——那教授的特殊性在哪？难度 = 护城河。学生越懵——教授越安全。</p>
+  <p>同济版线性代数不是教育工具。是<strong>数学行会的入会仪式</strong>——用痛苦证明你「学过」。不是让你理解——是让你受洗。</p>
+</section>
+
+<div class="finale">
+  <p>行列式 = 体胀率。特征向量 = 不会转的箭。外积 = 不相似度。</p>
+  <p>det = 0 = 被压扁了。det = 1 = 只是转了一下。</p>
+  <p>全部线性代数。不需要算 200 道题。</p>
+</div>
+
+</div>
+
+<footer>线性代数的物理意义 · 纯几何版 · CC BY 4.0 · Verity/真</footer>
+</body>
+</html>
