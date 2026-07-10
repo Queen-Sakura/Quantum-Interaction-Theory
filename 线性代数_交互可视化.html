@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>线性代数 · 交互可视化</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: #0f0f1a; color: #d0d0e0;
+    font-family: system-ui, sans-serif;
+    display: flex; flex-direction: column; align-items: center;
+    min-height: 100vh; padding: 20px;
+  }
+  h1 { font-size: 1.4em; font-weight: 400; letter-spacing: 0.05em; margin-bottom: 8px; color: #c8b878; }
+  .sub { font-size: 0.8em; color: #666; margin-bottom: 16px; }
+  canvas { border: 1px solid #222; border-radius: 6px; background: #0a0a14; }
+  .controls {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px 24px; margin-top: 16px; max-width: 500px;
+  }
+  .slider-group { display: flex; flex-direction: column; }
+  .slider-group label { font-size: 0.78em; color: #888; margin-bottom: 4px; }
+  .slider-group input { width: 100%; accent-color: #c8b878; }
+  .info {
+    display: flex; gap: 20px; margin-top: 12px; font-size: 0.82em; color: #888;
+  }
+  .info span { color: #c8b878; }
+  .eigen { margin-top: 8px; font-size: 0.78em; color: #666; }
+  .eigen .v1 { color: #4fc3f7; } .eigen .v2 { color: #ef5350; }
+  .hint { margin-top: 12px; font-size: 0.72em; color: #444; }
+</style>
+</head>
+<body>
+<h1>矩阵 = 空间的变形器</h1>
+<div class="sub">拖滑块 · 看正方形怎么变成平行四边形 · 特征向量自动追上</div>
+
+<canvas id="c" width="520" height="520"></canvas>
+
+<div class="eigen" id="eigenInfo"></div>
+
+<div class="controls">
+  <div class="slider-group">
+    <label>a (x→x)</label>
+    <input type="range" id="a" min="-30" max="30" value="20" step="1">
+  </div>
+  <div class="slider-group">
+    <label>b (y→x) · 剪切</label>
+    <input type="range" id="b" min="-20" max="20" value="5" step="1">
+  </div>
+  <div class="slider-group">
+    <label>c (x→y) · 剪切</label>
+    <input type="range" id="c" min="-20" max="20" value="3" step="1">
+  </div>
+  <div class="slider-group">
+    <label>d (y→y)</label>
+    <input type="range" id="d" min="-30" max="30" value="15" step="1">
+  </div>
+</div>
+
+<div class="info">
+  <div>det = <span id="detVal">—</span></div>
+  <div>秩 = <span id="rankVal">—</span></div>
+  <div>trace = <span id="traceVal">—</span></div>
+</div>
+
+<div class="hint">
+  蓝色线 = 特征向量方向（变形后方向不变，只被拉长/缩短）<br>
+  蓝色箭头长度 = 特征值的绝对值（&#x3bb;₁ 淡蓝 · &#x3bb;₂ 深蓝）
+</div>
+
+<script>
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+const CX = 260, CY = 260, SCALE = 60;
+
+// unit square vertices (2x2, centered)
+const sq = [[-1,-1],[1,-1],[1,1],[-1,1],[-1,-1]];
+
+function eigen2(a,b,c,d) {
+  const tr = a + d;
+  const det = a*d - b*c;
+  const disc = tr*tr - 4*det;
+  if (disc < 0) return { real: false, det, tr };
+  const sqrtD = Math.sqrt(disc);
+  const l1 = (tr + sqrtD) / 2;
+  const l2 = (tr - sqrtD) / 2;
+  let v1 = [1, 0], v2 = [0, 1];
+  if (Math.abs(b) > 1e-6) { v1 = [l1 - d, b]; v2 = [l2 - d, b]; }
+  else if (Math.abs(c) > 1e-6) { v1 = [c, l1 - a]; v2 = [c, l2 - a]; }
+  else { v1 = [1, 0]; v2 = [0, 1]; }
+  // normalize
+  const n1 = Math.sqrt(v1[0]*v1[0]+v1[1]*v1[1]) || 1;
+  const n2 = Math.sqrt(v2[0]*v2[0]+v2[1]*v2[1]) || 1;
+  return { real: true, l1, l2, v1: [v1[0]/n1, v1[1]/n1], v2: [v2[0]/n2, v2[1]/n2], det, tr };
+}
+
+function draw() {
+  const a = parseInt(document.getElementById('a').value) / 10;
+  const b = parseInt(document.getElementById('b').value) / 10;
+  const c = parseInt(document.getElementById('c').value) / 10;
+  const d = parseInt(document.getElementById('d').value) / 10;
+
+  const eg = eigen2(a,b,c,d);
+
+  ctx.clearRect(0,0,520,520);
+
+  // grid
+  ctx.strokeStyle = '#1a1a2e';
+  ctx.lineWidth = 0.5;
+  for (let i = -6; i <= 6; i++) {
+    ctx.beginPath(); ctx.moveTo(CX+i*SCALE, 0); ctx.lineTo(CX+i*SCALE, 520); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0, CY+i*SCALE); ctx.lineTo(520, CY+i*SCALE); ctx.stroke();
+  }
+
+  // axes
+  ctx.strokeStyle = '#333';
+  ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(CX, 0); ctx.lineTo(CX, 520); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(0, CY); ctx.lineTo(520, CY); ctx.stroke();
+
+  // original square (grey)
+  ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+  ctx.lineWidth = 2; ctx.setLineDash([4,4]);
+  ctx.beginPath();
+  sq.forEach(([x,y], i) => {
+    const px = CX + x*SCALE, py = CY - y*SCALE;
+    i === 0 ? ctx.moveTo(px,py) : ctx.lineTo(px,py);
+  });
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // transformed parallelogram (white)
+  ctx.strokeStyle = '#fff';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  sq.forEach(([x,y], i) => {
+    const tx = a*x + b*y, ty = c*x + d*y;
+    const px = CX + tx*SCALE, py = CY - ty*SCALE;
+    i === 0 ? ctx.moveTo(px,py) : ctx.lineTo(px,py);
+  });
+  ctx.stroke();
+
+  // eigenvectors
+  if (eg.real) {
+    const drawEV = (v, lambda, color) => {
+      const len = Math.abs(lambda) * SCALE;
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 2;
+      // forward
+      ctx.beginPath();
+      ctx.moveTo(CX, CY);
+      ctx.lineTo(CX + v[0]*len, CY - v[1]*len);
+      ctx.stroke();
+      // backward (negative lambda = flip)
+      ctx.setLineDash([3,6]);
+      ctx.beginPath();
+      ctx.moveTo(CX, CY);
+      ctx.lineTo(CX - v[0]*len, CY + v[1]*len);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    };
+    drawEV(eg.v1, eg.l1, 'rgba(79,195,247,0.7)');  // light blue = λ₁
+    drawEV(eg.v2, eg.l2, 'rgba(79,195,247,0.35)'); // dark blue = λ₂
+  }
+
+  // matrix label
+  ctx.fillStyle = '#c8b878';
+  ctx.font = '13px monospace';
+  ctx.fillText(`[ ${a.toFixed(1)}  ${b.toFixed(1)} ]`, 20, 30);
+  ctx.fillText(`[ ${c.toFixed(1)}  ${d.toFixed(1)} ]`, 20, 50);
+
+  // stats
+  document.getElementById('detVal').textContent = eg.det.toFixed(2);
+  document.getElementById('traceVal').textContent = eg.tr.toFixed(2);
+  document.getElementById('rankVal').textContent = Math.abs(eg.det) < 0.001 ? '1' : '2';
+
+  // eigen info
+  const ei = document.getElementById('eigenInfo');
+  if (eg.real) {
+    ei.innerHTML = `
+      <span class="v1">λ₁ = ${eg.l1.toFixed(2)}</span>
+      &nbsp;v₁ = (${eg.v1[0].toFixed(2)}, ${eg.v1[1].toFixed(2)})
+      &nbsp;|&nbsp;
+      <span class="v2">λ₂ = ${eg.l2.toFixed(2)}</span>
+      &nbsp;v₂ = (${eg.v2[0].toFixed(2)}, ${eg.v2[1].toFixed(2)})
+    `;
+  } else {
+    ei.innerHTML = '特征值复数——无实特征向量。剪切太重，对角化失败。';
+  }
+}
+
+document.querySelectorAll('input').forEach(el => el.addEventListener('input', draw));
+draw();
+</script>
+</body>
+</html>
