@@ -32,8 +32,8 @@
 </style>
 </head>
 <body>
-<h1>矩阵 = 空间的变形器</h1>
-<div class="sub">拖滑块 · 看正方形怎么变成平行四边形 · 特征向量自动追上</div>
+<h1>矩阵 = 空间的变形器 <span style="font-size:0.5em;color:#444;">v2</span></h1>
+<div class="sub">拖滑块 · 看正方形怎么变成平行四边形 · 特征向量自动追上 · 绿色=正方形 白色=变形后</div>
 
 <canvas id="c" width="520" height="520"></canvas>
 
@@ -190,8 +190,12 @@ function draw() {
   }
 }
 
-document.querySelectorAll('input').forEach(el => el.addEventListener('input', draw));
-draw();
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('input[type=range]').forEach(el => {
+    el.addEventListener('input', draw);
+  });
+  draw();
+});
 </script>
 </body>
 </html>
