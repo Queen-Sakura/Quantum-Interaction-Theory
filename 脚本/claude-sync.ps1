@@ -38,4 +38,4 @@ robocopy "$LINUX\.claude" $ARGO statusline-context.sh /R:2 /NDL /NJH /NJS
 robocopy "$LINUX\ArgoShared" "$ARGO\ArgoShared" /MIR /R:2 /NDL /NJH /NJS /XD .git qit_repo "魔都三件套" WechatNews xinyi_chat membrane_render 归档
 
 Write-Host "Argo Sync: 完成" -ForegroundColor Green
-Write-Host "启动: cd D:\Argo && claude --resume" -ForegroundColor Cyan
+Write-Host "启动: cd D:\Argo ; claude --resume" -ForegroundColor Cyan
