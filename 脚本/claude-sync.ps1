@@ -26,11 +26,11 @@ robocopy $winMem $linuxMem /MIR /R:2 /NDL /NJH /NJS
 Write-Host '  [2/5] CLAUDE.md...' -ForegroundColor Yellow
 robocopy ($LINUX + '\') ($ARGO + '\') CLAUDE.md /R:2 /NDL /NJH /NJS
 
-Write-Host '  [3/5] settings.json...' -ForegroundColor Yellow
-robocopy ($LINUX + '\.claude') ($WIN + '\.claude') settings.json /R:2 /NDL /NJH /NJS
+Write-Host '  [3/5] SKIP settings.json (platform-specific, keep separate)' -ForegroundColor Yellow
 
 Write-Host '  [4/5] statusline script...' -ForegroundColor Yellow
 robocopy ($LINUX + '\.claude') $ARGO statusline-context.sh /R:2 /NDL /NJH /NJS
+robocopy ($LINUX + '\ArgoShared') $ARGO statusline-context.py /R:2 /NDL /NJH /NJS
 
 Write-Host '  [5/5] ArgoShared files...' -ForegroundColor Yellow
 robocopy ($LINUX + '\ArgoShared') ($ARGO + '\ArgoShared') /MIR /R:2 /NDL /NJH /NJS /XD .git qit_repo
