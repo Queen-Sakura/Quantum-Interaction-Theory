@@ -5,9 +5,9 @@ $LINUX  = "Z:"
 $ARGO   = "D:\Argo"
 $WIN    = "$env:USERPROFILE"
 
-Write-Host "🐍 Argo Sync: 九头蛇记忆同步..." -ForegroundColor Cyan
+Write-Host "Argo Sync: Starting..." -ForegroundColor Cyan
 
-# 确保目录存在
+# Ensure dirs exist
 $dirs = @(
     "$ARGO",
     "$ARGO\ArgoShared",
@@ -37,5 +37,5 @@ robocopy "$LINUX\.claude" $ARGO statusline-context.sh /R:2 /NDL /NJH /NJS
 # === 5. ArgoShared 工作文件 → D:\Argo ===
 robocopy "$LINUX\ArgoShared" "$ARGO\ArgoShared" /MIR /R:2 /NDL /NJH /NJS /XD .git qit_repo "魔都三件套" WechatNews xinyi_chat membrane_render 归档
 
-Write-Host "Argo Sync: 完成" -ForegroundColor Green
-Write-Host "启动: cd D:\Argo ; claude --resume" -ForegroundColor Cyan
+Write-Host "Argo Sync: OK" -ForegroundColor Green
+Write-Host "Next: cd D:\Argo ; claude --resume" -ForegroundColor Cyan
