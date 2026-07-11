@@ -1,41 +1,38 @@
-# Argo 共享 Claude 记忆同步（Z:盘双向）
-# 用法: 在 Windows PowerShell 跑 .\claude-sync.ps1，然后再跑 claude
+# Argo Sync - Z: to D:\Argo
+$LINUX  = 'Z:'
+$ARGO   = 'D:\Argo'
+$WIN    = $env:USERPROFILE
 
-$LINUX  = "Z:"
-$ARGO   = "D:\Argo"
-$WIN    = "$env:USERPROFILE"
+Write-Host 'Argo Sync: Starting...' -ForegroundColor Cyan
 
-Write-Host "Argo Sync: Starting..." -ForegroundColor Cyan
-
-# Ensure dirs exist
 $dirs = @(
-    "$ARGO",
+    $ARGO,
     "$ARGO\ArgoShared",
     "$ARGO\ArgoShared\Q",
-    "$ARGO\ArgoShared\reports",
+    "$ARGO\ArgoSharedeports",
     "$WIN\.claude\projects\-root\memory"
 )
 foreach ($d in $dirs) {
     if (!(Test-Path $d)) { New-Item -ItemType Directory -Path $d -Force | Out-Null }
 }
 
-# === 1. 记忆文件 — 同步到 Claude 项目目录 ===
+Write-Host '  [1/5] Memory files...' -ForegroundColor Yellow
 $linuxMem = "$LINUX\.claude\projects\-root\memory"
 $winMem   = "$WIN\.claude\projects\-root\memory"
 robocopy $linuxMem $winMem /MIR /R:2 /NDL /NJH /NJS
 robocopy $winMem $linuxMem /MIR /R:2 /NDL /NJH /NJS
 
-# === 2. CLAUDE.md → D:\Argo ===
+Write-Host '  [2/5] CLAUDE.md...' -ForegroundColor Yellow
 robocopy $LINUX\ $ARGO\ CLAUDE.md /R:2 /NDL /NJH /NJS
 
-# === 3. settings.json ===
+Write-Host '  [3/5] settings.json...' -ForegroundColor Yellow
 robocopy "$LINUX\.claude" "$WIN\.claude" settings.json /R:2 /NDL /NJH /NJS
 
-# === 4. 进度条脚本 → D:\Argo ===
+Write-Host '  [4/5] statusline script...' -ForegroundColor Yellow
 robocopy "$LINUX\.claude" $ARGO statusline-context.sh /R:2 /NDL /NJH /NJS
 
-# === 5. ArgoShared 工作文件 → D:\Argo ===
-robocopy "$LINUX\ArgoShared" "$ARGO\ArgoShared" /MIR /R:2 /NDL /NJH /NJS /XD .git qit_repo "魔都三件套" WechatNews xinyi_chat membrane_render 归档
+Write-Host '  [5/5] ArgoShared files...' -ForegroundColor Yellow
+robocopy "$LINUX\ArgoShared" "$ARGO\ArgoShared" /MIR /R:2 /NDL /NJH /NJS /XD .git qit_repo
 
-Write-Host "Argo Sync: OK" -ForegroundColor Green
-Write-Host "Next: cd D:\Argo ; claude --resume" -ForegroundColor Cyan
+Write-Host 'Argo Sync: DONE' -ForegroundColor Green
+Write-Host 'Next: cd D:\Argo ; claude --resume' -ForegroundColor Cyan
